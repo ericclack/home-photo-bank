@@ -25,7 +25,7 @@
                  [ring/ring-defaults "0.2.3"]
                  [selmer "1.10.6"]
                  ;; ----
-                 [net.mikera/imagez "0.12.0"]
+                 [environ "1.1.0"]
                  [image-resizer "0.1.9"]]
 
   :min-lein-version "2.0.0"

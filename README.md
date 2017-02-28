@@ -18,7 +18,11 @@ To start a web server for the application, run:
 
 ## To Do
 
+Where to store media?
+
 Resize image to make thumbnail
+
+Exif metadata: http://stackoverflow.com/questions/33050150/using-exiftool-java-library-from-clojure
 
 ## License
 

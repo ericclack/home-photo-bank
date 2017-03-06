@@ -26,6 +26,7 @@
                  [selmer "1.10.6"]
                  ;; ----
                  [environ "1.1.0"]
+                 [clj-time "0.13.0"]
                  [image-resizer "0.1.9"]
                  [io.joshmiller/exif-processor "0.2.0"]
                  [clj-exif "0.2"]]

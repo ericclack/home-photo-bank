@@ -7,9 +7,9 @@
             [environ.core :refer [env]]
             [image-resizer.core :refer :all]
             [image-resizer.format :as format]
-            ;;[exif-processor.core :as exif]
             [clj-exif.core :as exif]
-            ))
+            [clj-time.core :as t]
+            [clj-time.format :as tf]))
 
 (defn media-file
   [& path]
@@ -24,9 +24,13 @@
   (let [metadata (exif/get-metadata file)]
     (if metadata (exif/read metadata))))
 
+(def exif-date-format "yyyy:MM:dd HH:mm:ss")
+
 (defn get-date-time
+  "EXIF time is in format: 2003:12:14 12:01:44"
   [metadata]
-  (get-in metadata ["Root" "DateTime"]))
+  (tf/parse (tf/formatter exif-date-format)
+            (get-in metadata ["Root" "DateTime"])))
 
 (defn get-orientation
   [metadata]
@@ -46,4 +50,4 @@
     (let [file (media-file "test" "flower_exiv2.jpg")
           metadata (get-exif-metadata file)]
       (is (= 1 (get-orientation metadata)))
-      (is (s/starts-with? (get-date-time metadata) "2003:12:14"))))) 
+      (is (= 2003 (t/year (get-date-time metadata)))))))

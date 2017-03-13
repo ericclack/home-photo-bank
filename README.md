@@ -18,7 +18,12 @@ To start a web server for the application, run:
 
 ## To Do
 
-Where to store media?
+Choose between [clj-exif.core :as exif]
+            [exif-processor.core :as exifp]
+
+When importing:
+- No EXIF
+- Duplicate file
 
 Resize image to make thumbnail
 

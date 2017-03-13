@@ -2,6 +2,7 @@
   (:require [environ.core :refer [env]]
             [clojure.java.io    :as io]
             [clojure.string :as s]
+            [clojure.pprint :refer [pprint pp]]
             ;; -------
             [image-resizer.core :refer :all]
             [image-resizer.format :as format]
@@ -67,7 +68,15 @@
 
 (defn import-images
   "Process images and store them away.
-  TODO: what about images that have no EXIF data?"
+  TODO: store metadata somewhere
+  FIX: what about images that have the same name (already imported?)
+  FIX: what about images that have no EXIF data?"
   []
   (map #(move-image-into-store %)
        (images-to-import)))
+
+;; -------------------------------------------------------
+
+(defn get-years []
+  (filter #(.isDirectory %)
+          (file-seq (media-path))))

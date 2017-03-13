@@ -11,7 +11,8 @@
             [image-resizer.format :as format]
             [clj-exif.core :as exif]
             [clj-time.core :as t]
-            [clj-time.format :as tf]))
+            [clj-time.format :as tf]
+            [exif-processor.core :as exifp]))
 
 
 ;; -----------------------------------------------------

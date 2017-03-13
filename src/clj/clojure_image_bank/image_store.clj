@@ -86,3 +86,7 @@
   "Return a list of directory names as strings"
   (filter #(not (s/starts-with? % "_"))
           (get-directories (media-path))))
+
+(defn categories [category]
+  "Return a list of directory names within this category"
+  (get-directories (media-path category)))

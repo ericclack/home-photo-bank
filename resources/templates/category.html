@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+
 <div class="row">
   <div class="col-sm-12">
     <ul>
@@ -8,6 +9,18 @@
         <a href="/photos/{{c}}">{{c}}</a>
       </li>
       {% endfor %}
+    </ul>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <ul>
+    {% for c in categories %}
+      <li>
+        <a href="/photos/{{category}}/{{c}}">{{c}}</a>
+      </li>
+    {% endfor %}
     </ul>
   </div>
 </div>

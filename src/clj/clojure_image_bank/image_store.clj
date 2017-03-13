@@ -10,6 +10,9 @@
             [clj-time.core :as t]
             [clj-time.format :as tf]))
 
+
+(def thumbnail-size 300) ;; bounding box 300x300
+
 ;; -------------------------------------------------------
 
 (defn media-path
@@ -76,7 +79,7 @@
   [image-file]
   (let [destination (thumbnail-file image-file)]
     (.mkdirs (.getParentFile destination))
-    (let [thumbnail (resize image-file 100 100)]
+    (let [thumbnail (resize image-file thumbnail-size thumbnail-size)]
       (format/as-file thumbnail (str destination) :verbatim))))
 
 (defn import-images
@@ -87,6 +90,12 @@
   []
   (map #(make-image-thumbnail (move-image-into-store %))
        (images-to-import)))
+
+(defn regen-thumbnails
+  [path]
+  (map #(make-image-thumbnail %)
+       (filter is-jpeg 
+               (file-seq path))))
 
 ;; -------------------------------------------------------
 

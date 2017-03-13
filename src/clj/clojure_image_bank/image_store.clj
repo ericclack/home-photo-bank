@@ -77,6 +77,12 @@
 
 ;; -------------------------------------------------------
 
-(defn get-years []
-  (filter #(.isDirectory %)
-          (file-seq (media-path))))
+(defn get-directories
+  [path]
+  (map #(.getName %)
+       (filter #(.isDirectory %) (.listFiles path))))
+
+(defn top-level-categories []
+  "Return a list of directory names as strings"
+  (filter #(not (s/starts-with? % "_"))
+          (get-directories (media-path))))

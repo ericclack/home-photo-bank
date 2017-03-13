@@ -2,7 +2,10 @@
 {% block content %}
 <div class="row">
   <div class="col-sm-12">
-    {{docs|markdown}}
+    {% for c in top-level-categories %}
+    {{c}}
+    {% endfor %}
+    
   </div>
 </div>
 {% endblock %}

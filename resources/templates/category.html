@@ -24,4 +24,17 @@
     </ul>
   </div>
 </div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <ul>
+    {% for p in photos %}
+      <li>
+        <img src="/{{p|thumb}}" alt="{{p}}" />{{p}}
+      </li>
+    {% endfor %}
+    </ul>
+  </div>
+</div>
+
 {% endblock %}

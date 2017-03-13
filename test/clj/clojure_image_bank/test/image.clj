@@ -3,6 +3,7 @@
             [ring.mock.request :refer :all]
             [clojure-image-bank.handler :refer :all]
             [clojure-image-bank.image-store :as imgs]
+            [clojure.tools.logging :as log]
             ;;---
             [clojure.java.io    :as io]
             [clojure.string :as s]

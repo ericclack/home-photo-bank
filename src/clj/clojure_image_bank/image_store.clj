@@ -44,11 +44,13 @@
 
 ;; -------------------------------------------------------
 
+(defn is-jpeg [file]
+  (s/ends-with? (s/lower-case file) ".jpg"))
+
 (defn images-to-import
   "JPG image files in the media/import directory"
   []
-  (filter #(s/ends-with? (s/lower-case %) ".jpg")
-          (file-seq (media-path "import"))))
+  (filter is-jpeg (file-seq (media-path "_import"))))
 
 (defn media-path-for-image
   "Image path is Year/Month/Day/Filename based on DateTime in EXIF data"
@@ -82,6 +84,11 @@
   (map #(.getName %)
        (filter #(.isDirectory %) (.listFiles path))))
 
+(defn get-photos
+  "Return a list of JPEGs in this path"
+  [path]
+  (filter is-jpeg (.listFiles path)))
+
 (defn top-level-categories []
   "Return a list of directory names as strings"
   (filter #(not (s/starts-with? % "_"))
@@ -90,3 +97,11 @@
 (defn categories [category]
   "Return a list of directory names within this category"
   (get-directories (media-path category)))
+
+(defn photos [category]
+  "Return a list of photo Files"
+  (get-photos (media-path category)))
+
+(defn thumb-path-string [file]
+  "Return the media path for the thumbnail for this file"
+  (s/replace (str file) "media/" "media/_thumbs/"))

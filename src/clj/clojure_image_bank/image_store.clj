@@ -18,10 +18,12 @@
   [& path]
   (apply io/file (cons (env :media-path) path)))
 
-(defn media-path-string
-  "As media-path, but as a string"
-  [& path]
-  (.getPath (apply media-path path)))
+(defn thumbnail-file
+  "Return the (location of the) thumbnail for this file"
+  [file]
+  (io/file (s/replace (str file)
+                      (env :media-path)
+                      (str (env :media-path) "/_thumbs"))))
 
 ;; -------------------------------------------------------
 
@@ -66,7 +68,16 @@
   [image-file]
   (let [destination (media-path-for-image image-file)]
     (.mkdirs (.getParentFile destination))
-    (.renameTo image-file destination)))
+    (.renameTo image-file destination)
+    destination))
+
+(defn make-image-thumbnail
+  "Make a small version for browsing, call after move-image-into-store"
+  [image-file]
+  (let [destination (thumbnail-file image-file)]
+    (.mkdirs (.getParentFile destination))
+    (let [thumbnail (resize image-file 100 100)]
+      (format/as-file thumbnail (str destination) :verbatim))))
 
 (defn import-images
   "Process images and store them away.
@@ -74,7 +85,7 @@
   FIX: what about images that have the same name (already imported?)
   FIX: what about images that have no EXIF data?"
   []
-  (map #(move-image-into-store %)
+  (map #(make-image-thumbnail (move-image-into-store %))
        (images-to-import)))
 
 ;; -------------------------------------------------------
@@ -102,6 +113,3 @@
   "Return a list of photo Files"
   (get-photos (media-path category)))
 
-(defn thumb-path-string [file]
-  "Return the media path for the thumbnail for this file"
-  (s/replace (str file) "media/" "media/_thumbs/"))

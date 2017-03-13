@@ -13,7 +13,7 @@
 (filters/add-filter! :markdown (fn [content] [:safe (md-to-html-string content)]))
 (filters/add-filter! :thumb
                      (fn [file]
-                       (imgs/thumb-path-string file)))
+                       (imgs/thumbnail-file file)))
 
 (defn render
   "renders the HTML template located relative to resources/templates"

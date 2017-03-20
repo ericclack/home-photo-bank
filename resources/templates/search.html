@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="row">
+  <div class="col-sm-12">
+    <ul>
+      {% for c in top-level-categories %}
+      <li>
+        <a href="/photos/{{c}}">{{c}}</a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <h1>Search results for '{{word}}'</h1>
+  </div>
+</div>
+
+<div class="row">
+  {% for p in photos %}
+  <div class="col-sm-3">
+    <div class="thumbnail">
+      <a href="/{{p}}">
+        <img src="/{{p|thumb}}" alt="{{p}}" class="img-rounded img-thumbnail"/>
+      </a>
+      <div class="caption">
+        {{p}}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

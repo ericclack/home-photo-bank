@@ -1,8 +1,7 @@
 (ns clojure-photo-bank.models.db
   (:require [com.ashafa.clutch :as couch]
             [environ.core :refer [env]]
-            [clojure.string :as s]
-            [clojure-photo-bank.photo-store :as ps]))
+            [clojure.string :as s]))
 
 (defmacro with-db
   [& body]
@@ -17,13 +16,6 @@
 
 ;; -------------------------------------------------
 
-(defn make-photo-metadata [photo]
-  {:_id (str photo)
-   :path (str photo)
-   :filename (.getName photo)
-   :name (first (s/split (.getName photo) #"\."))
-   :category (s/replace (.getParent photo)
-                        (str (env :media-path) "/")
-                        "")
-   })
-
+(defn photos-with-keyword [word]
+  (map #(:id %)
+       (with-db (couch/get-view "photos" "by_keyword" {:key word}))))

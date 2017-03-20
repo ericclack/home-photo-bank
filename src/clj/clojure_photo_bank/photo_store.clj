@@ -157,7 +157,22 @@
                 (top-level-categories)))))  
 
 
+(defn make-photo-metadata [photo]
+  ;; Consider removing media/ from paths -- seems redundant
+  (let [path (str photo)
+        filename (.getName photo)
+        name (first (s/split (.getName photo) #"\."))]
+    {:_id path
+     :path path
+     :filename filename
+     :name name
+     :category (s/replace (.getParent photo)
+                          (str (env :media-path) "/")
+                          "")
+     :keywords (s/split name #"[_ \-,]")
+     }))
+
 (defn create-initial-photo-metadata []
   (map
-   #(db/set-photo-metadata! % (db/make-photo-metadata %))
-   (take 5 (all-photos))))
+   #(db/set-photo-metadata! % (make-photo-metadata %))
+   (reverse (all-photos))))

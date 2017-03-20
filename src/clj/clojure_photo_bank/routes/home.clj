@@ -4,7 +4,8 @@
             [ring.util.http-response :as response]
             [ring.util.response :refer [file-response]]
             [clojure.java.io :as io]
-            [clojure-photo-bank.photo-store :as ps]))
+            [clojure-photo-bank.photo-store :as ps]
+            [clojure-photo-bank.models.db :as db]))
 
 (defn home-page []
   (layout/render
@@ -29,9 +30,19 @@
 (defn about-page []
   (layout/render "about.html"))
 
+(defn photo-search [word]
+  (layout/render
+   "search.html"
+   {:word word
+    :photos (db/photos-with-keyword word)
+    }))
+
+;; ----------------------------------------------------
+
 (defroutes home-routes
   (GET "/" [] (home-page))
-
+  (GET "/photos/_search" [word] (photo-search word))
+  
   (GET "/photos/:year/:month" [year month] (category-page year month))
   (GET "/photos/:year/:month/:day"
        [year month day] (category-page year month day))

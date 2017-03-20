@@ -29,7 +29,8 @@
                  [clj-time "0.13.0"]
                  [image-resizer "0.1.9"]
                  [io.joshmiller/exif-processor "0.2.0"]
-                 [clj-exif "0.2"]]
+                 [clj-exif "0.2"]
+                 [com.ashafa/clutch "0.4.0"]]
 
   :min-lein-version "2.0.0"
 

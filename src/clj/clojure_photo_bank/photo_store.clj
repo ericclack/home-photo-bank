@@ -8,7 +8,9 @@
             [image-resizer.format :as format]
             [clj-exif.core :as exif]
             [clj-time.core :as t]
-            [clj-time.format :as tf]))
+            [clj-time.format :as tf]
+            ;; -------
+            [clojure-photo-bank.models.db :as db]))
 
 
 (def thumbnail-size 300) ;; bounding box 300x300
@@ -118,6 +120,10 @@
   "Return a list of directory names within this category"
   (get-directories (media-path category)))
 
+(defn photos-in-category [category]
+  "Return a list of photo Files"
+  (get-photos (media-path category)))
+
 (defn month-name [month]
   (tf/unparse (tf/formatter "MMMM")
               (t/date-time 2017 month 1)))
@@ -143,7 +149,15 @@
 
 ;; -------------------------------------------------------
 
-(defn photos [category]
-  "Return a list of photo Files"
-  (get-photos (media-path category)))
+(defn all-photos []
+  "Return all photos across all top-level categories"
+  (filter is-jpeg
+          (flatten
+           (map #(file-seq (media-path %))
+                (top-level-categories)))))  
 
+
+(defn create-initial-photo-metadata []
+  (map
+   #(db/set-photo-metadata! % (db/make-photo-metadata %))
+   (take 5 (all-photos))))

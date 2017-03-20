@@ -21,7 +21,7 @@
      :category-name (ps/category-name category)
      :categories (ps/categories category)
      :categories-and-names (ps/categories-and-names category)
-     :photos (ps/photos category)})))
+     :photos (ps/photos-in-category category)})))
 
 (defn serve-file [file-path]
   (file-response (str (ps/media-path file-path))))

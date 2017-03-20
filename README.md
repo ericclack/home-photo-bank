@@ -52,17 +52,8 @@ keyword search.
 
 ## To Do
 
-Choose between [clj-exif.core :as exif]
-            [exif-processor.core :as exifp]
-
-When importing:
-- No EXIF
-- Duplicate file
-
-Resize image to make thumbnail
-
-Exif metadata: http://stackoverflow.com/questions/33050150/using-exiftool-java-library-from-clojure
+Lots!
 
 ## License
 
-Copyright © 2017 FIXME
+Copyright © 2017 Eric Clack

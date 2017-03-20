@@ -136,6 +136,13 @@
       (some? y)   (str (nth y 1))
       )))
 
+(defn categories-and-names [category]
+  "A list of pairs: '(category name)"
+  (map #(list % (category-name (str category "/" %)))
+       (categories category)))
+
+;; -------------------------------------------------------
+
 (defn photos [category]
   "Return a list of photo Files"
   (get-photos (media-path category)))

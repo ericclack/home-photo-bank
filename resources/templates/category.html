@@ -18,9 +18,9 @@
     <h1>{{ category-name }}</h1>
 
     <ul>
-    {% for c in categories %}
+    {% for c,n in categories-and-names %}
       <li>
-        <a href="/photos/{{category}}/{{c}}">{{c}}</a>
+        <a href="/photos/{{category}}/{{c}}">{{n}}</a>
       </li>
     {% endfor %}
     </ul>
@@ -28,8 +28,8 @@
 </div>
 
 <div class="row">
-  <div class="col-sm-12">
-    {% for p in photos %}
+  {% for p in photos %}
+  <div class="col-sm-3">
     <div class="thumbnail">
       <a href="/{{p}}">
         <img src="/{{p|thumb}}" alt="{{p}}" class="img-rounded img-thumbnail"/>
@@ -37,8 +37,9 @@
       <div class="caption">
         {{p}}
       </div>
-    {% endfor %}
+    </div>
   </div>
+  {% endfor %}
 </div>
 
 {% endblock %}

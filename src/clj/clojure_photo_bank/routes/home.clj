@@ -20,6 +20,7 @@
      :category category
      :category-name (ps/category-name category)
      :categories (ps/categories category)
+     :categories-and-names (ps/categories-and-names category)
      :photos (ps/photos category)})))
 
 (defn serve-file [file-path]

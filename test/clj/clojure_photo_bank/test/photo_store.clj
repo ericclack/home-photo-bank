@@ -13,4 +13,5 @@
 
 (deftest category-names
   (testing "month names instead of numbers"
-    (is (= "January 2017" (ps/category-name "2017/1")))))
+    (is (= "January 2017" (ps/category-name "2017/1")))
+    (is (= "1 February 2016" (ps/category-name "2016/2/1")))))

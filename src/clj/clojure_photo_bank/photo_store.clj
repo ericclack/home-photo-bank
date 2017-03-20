@@ -118,20 +118,22 @@
   "Return a list of directory names within this category"
   (get-directories (media-path category)))
 
-(defn date-from-strings [year month]
-  (tf/unparse (tf/formatter "MMMM YYYY")
-              (t/date-time (Integer/parseInt year)
-                           (Integer/parseInt month)
-                           )))
+(defn month-name [month]
+  (tf/unparse (tf/formatter "MMMM")
+              (t/date-time 2017 month 1)))
 
 (defn category-name [category]
   "Currently just the month name and year"
-  (let [year-month (re-matches #"^(\d\d\d\d)/(\d+)$" category)
-        year-only (re-matches #"^(\d\d\d\d)$" category)]
+  (let [ymd (re-matches #"^(\d\d\d\d)/(\d+)/(\d+)$" category)
+        ym (re-matches #"^(\d\d\d\d)/(\d+)$" category)
+        y (re-matches #"^(\d\d\d\d)$" category)]
     (cond
-      (some? year-only) (nth year-only 1)
-      (some? year-month) (date-from-strings (nth year-month 1)
-                                            (nth year-month 2))
+      (some? ymd) (str (nth ymd 3) " "
+                       (month-name (Integer/parseInt (nth ymd 2)))
+                       " " (nth ymd 1))
+      (some? ym)  (str (month-name (Integer/parseInt (nth ym 2))) " "
+                       (nth ym 1))
+      (some? y)   (str (nth y 1))
       )))
 
 (defn photos [category]

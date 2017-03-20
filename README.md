@@ -16,6 +16,27 @@ To start a web server for the application, run:
 
     lein run
 
+## Set up
+
+Create a profiles.clj, here's an example:
+
+```
+{:profiles/dev  {:env {
+                       :media-path "media" }}
+ :profiles/test {:env {
+                       :media-path "media-test" }}}
+```
+
+Create your `media/_import` directory, this is where you'll put photos for import into your Photo Bank.
+
+Put some photos into the import directory.
+
+Run the following from the REPL:
+
+    (clojure-photo-bank.photo-store/import-images)
+
+Now browse to: http://127.0.0.1:3000/
+
 ## To Do
 
 Choose between [clj-exif.core :as exif]

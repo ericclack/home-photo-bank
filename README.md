@@ -20,7 +20,7 @@ To start a web server for the application, run:
 
 Start up couchdb. Then from the Futon admin system -
 http://127.0.0.1:5984/_utils/ - create a database for your photo-bank,
-and add it's name to profiles.clj, here's an example:
+and add its name to profiles.clj, here's an example:
 
 ```
 {:profiles/dev  {:env {:media-path "media"

@@ -18,9 +18,11 @@ To start a web server for the application, run:
 
 ## Set up
 
-Start up couchdb. Then from the Futon admin system -
-http://127.0.0.1:5984/_utils/ - create a database for your photo-bank,
-and add its name to profiles.clj, here's an example:
+Start up couchdb. Then create your database:
+
+    curl -X PUT http://127.0.0.1:5984/photo-bank
+
+Now add its name to profiles.clj, here's an example:
 
 ```
 {:profiles/dev  {:env {:media-path "media"
@@ -41,6 +43,10 @@ Put some photos into the import directory. Name them with some keywords.
 Run the following from the REPL:
 
     (clojure-photo-bank.photo-store/import-images)
+
+Generate the index by running this from the REPL:
+
+    (clojure-photo-bank.photo-store/create-initial-photo-metadata)
 
 Now browse to: http://127.0.0.1:3000/
 

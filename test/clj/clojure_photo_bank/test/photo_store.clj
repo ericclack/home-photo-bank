@@ -9,4 +9,8 @@
 (deftest test-1
   (testing "get years"
     (let [years (ps/top-level-categories)]
-      (is (= "2017" (first years))))))
+      (is (re-find #"^\d\d\d\d$" (first years))))))
+
+(deftest category-names
+  (testing "month names instead of numbers"
+    (is (= "January 2017" (ps/category-name "2017/1")))))

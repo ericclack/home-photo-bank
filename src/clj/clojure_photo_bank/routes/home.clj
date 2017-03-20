@@ -18,6 +18,7 @@
     "category.html"
     {:top-level-categories (ps/top-level-categories)
      :category category
+     :category-name (ps/category-name category)
      :categories (ps/categories category)
      :photos (ps/photos category)})))
 

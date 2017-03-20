@@ -1,11 +1,11 @@
-(ns clojure-image-bank.layout
+(ns clojure-photo-bank.layout
   (:require [selmer.parser :as parser]
             [selmer.filters :as filters]
             [markdown.core :refer [md-to-html-string]]
             [ring.util.http-response :refer [content-type ok]]
             [ring.util.anti-forgery :refer [anti-forgery-field]]
             [ring.middleware.anti-forgery :refer [*anti-forgery-token*]]
-            [clojure-image-bank.image-store :as imgs]))
+            [clojure-photo-bank.photo-store :as ps]))
 
 (declare ^:dynamic *app-context*)
 (parser/set-resource-path!  (clojure.java.io/resource "templates"))
@@ -13,7 +13,7 @@
 (filters/add-filter! :markdown (fn [content] [:safe (md-to-html-string content)]))
 (filters/add-filter! :thumb
                      (fn [file]
-                       (imgs/thumbnail-file file)))
+                       (ps/thumbnail-file file)))
 
 (defn render
   "renders the HTML template located relative to resources/templates"

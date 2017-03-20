@@ -1,14 +1,14 @@
-(ns clojure-image-bank.routes.home
-  (:require [clojure-image-bank.layout :as layout]
+(ns clojure-photo-bank.routes.home
+  (:require [clojure-photo-bank.layout :as layout]
             [compojure.core :refer [defroutes GET]]
             [ring.util.http-response :as response]
             [ring.util.response :refer [file-response]]
             [clojure.java.io :as io]
-            [clojure-image-bank.image-store :as imgs]))
+            [clojure-photo-bank.photo-store :as ps]))
 
 (defn home-page []
   (layout/render
-    "home.html" {:top-level-categories (imgs/top-level-categories)}))
+    "home.html" {:top-level-categories (ps/top-level-categories)}))
 
 (defn category-page
   ([year month] (category-page (str year "/" month)))
@@ -16,13 +16,13 @@
   ([category]
    (layout/render
     "category.html"
-    {:top-level-categories (imgs/top-level-categories)
+    {:top-level-categories (ps/top-level-categories)
      :category category
-     :categories (imgs/categories category)
-     :photos (imgs/photos category)})))
+     :categories (ps/categories category)
+     :photos (ps/photos category)})))
 
 (defn serve-file [file-path]
-  (file-response (imgs/media-path-string file-path)))
+  (file-response (str (ps/media-path file-path))))
 
 (defn about-page []
   (layout/render "about.html"))

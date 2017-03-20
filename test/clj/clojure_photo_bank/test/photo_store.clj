@@ -1,6 +1,6 @@
-(ns clojure-image-bank.test.image-store
+(ns clojure-photo-bank.test.photo-store
   (:require [clojure.test :refer :all]
-            [clojure-image-bank.image-store :as imgs]
+            [clojure-photo-bank.photo-store :as ps]
             [clojure.string :as s]))
 
 ;; These tests are hard-coded to my data, that needs to be
@@ -8,5 +8,5 @@
 
 (deftest test-1
   (testing "get years"
-    (let [years (imgs/top-level-categories)]
+    (let [years (ps/top-level-categories)]
       (is (= "2017" (first years))))))

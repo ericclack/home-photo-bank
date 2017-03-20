@@ -1,11 +1,11 @@
-(ns clojure-image-bank.middleware
-  (:require [clojure-image-bank.env :refer [defaults]]
+(ns clojure-photo-bank.middleware
+  (:require [clojure-photo-bank.env :refer [defaults]]
             [clojure.tools.logging :as log]
-            [clojure-image-bank.layout :refer [*app-context* error-page]]
+            [clojure-photo-bank.layout :refer [*app-context* error-page]]
             [ring.middleware.anti-forgery :refer [wrap-anti-forgery]]
             [ring.middleware.webjars :refer [wrap-webjars]]
             [ring.middleware.format :refer [wrap-restful-format]]
-            [clojure-image-bank.config :refer [env]]
+            [clojure-photo-bank.config :refer [env]]
             [ring.middleware.flash :refer [wrap-flash]]
             [immutant.web.middleware :refer [wrap-session]]
             [ring.middleware.defaults :refer [site-defaults wrap-defaults]])

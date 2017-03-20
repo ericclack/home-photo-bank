@@ -1,8 +1,8 @@
-(ns clojure-image-bank.test.image
+(ns clojure-photo-bank.test.image
   (:require [clojure.test :refer :all]
             [ring.mock.request :refer :all]
-            [clojure-image-bank.handler :refer :all]
-            [clojure-image-bank.image-store :as imgs]
+            [clojure-photo-bank.handler :refer :all]
+            [clojure-photo-bank.photo-store :as ps]
             [clojure.tools.logging :as log]
             ;;---
             [clojure.java.io    :as io]
@@ -20,14 +20,14 @@
 
 (deftest test-image
   (testing "resize"
-    (let [file (imgs/media-path "_test" "boat.jpg")
+    (let [file (ps/media-path "_test" "boat.jpg")
           thumbnail (resize file 100 100)
-          outfilepath (format/as-file thumbnail (imgs/media-path-string "out.jpg"))]
-      (is (s/ends-with? outfilepath (imgs/media-path-string "out_100x100.jpg"))))))
+          outfilepath (format/as-file thumbnail (ps/media-path-string "out.jpg"))]
+      (is (s/ends-with? outfilepath (ps/media-path-string "out_100x100.jpg"))))))
 
 (deftest test-exif
   (testing "Exif data from images"
-    (let [file (imgs/media-path "_test" "flower_exiv2.jpg")
-          metadata (imgs/get-exif-metadata file)]
-      (is (= 1 (imgs/get-orientation metadata)))
-      (is (= 2003 (t/year (imgs/get-date-time metadata)))))))
+    (let [file (ps/media-path "_test" "flower_exiv2.jpg")
+          metadata (ps/get-exif-metadata file)]
+      (is (= 1 (ps/get-orientation metadata)))
+      (is (= 2003 (t/year (ps/get-date-time metadata)))))))

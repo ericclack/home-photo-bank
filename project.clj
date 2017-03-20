@@ -1,4 +1,4 @@
-(defproject clojure-image-bank "0.1.0-SNAPSHOT"
+(defproject clojure-photo-bank "0.1.0-SNAPSHOT"
 
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
@@ -38,7 +38,7 @@
   :test-paths ["test/clj"]
   :resource-paths ["resources"]
   :target-path "target/%s/"
-  :main clojure-image-bank.core
+  :main clojure-photo-bank.core
 
   :plugins [[lein-cprop "1.0.1"]
             [lein-immutant "2.1.0"]
@@ -47,7 +47,7 @@
   :profiles
   {:uberjar {:omit-source true
              :aot :all
-             :uberjar-name "clojure-image-bank.jar"
+             :uberjar-name "clojure-photo-bank.jar"
              :source-paths ["env/prod/clj"]
              :resource-paths ["env/prod/resources"]}
 

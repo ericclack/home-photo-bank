@@ -1,4 +1,4 @@
-(ns clojure-image-bank.image-store
+(ns clojure-photo-bank.photo-store
   (:require [environ.core :refer [env]]
             [clojure.java.io    :as io]
             [clojure.string :as s]

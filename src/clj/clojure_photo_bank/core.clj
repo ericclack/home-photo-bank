@@ -1,8 +1,8 @@
-(ns clojure-image-bank.core
-  (:require [clojure-image-bank.handler :as handler]
+(ns clojure-photo-bank.core
+  (:require [clojure-photo-bank.handler :as handler]
             [luminus.repl-server :as repl]
             [luminus.http-server :as http]
-            [clojure-image-bank.config :refer [env]]
+            [clojure-photo-bank.config :refer [env]]
             [clojure.tools.cli :refer [parse-opts]]
             [clojure.tools.logging :as log]
             [mount.core :as mount])

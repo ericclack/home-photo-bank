@@ -1,7 +1,7 @@
-(ns clojure-image-bank.test.handler
+(ns clojure-photo-bank.test.handler
   (:require [clojure.test :refer :all]
             [ring.mock.request :refer :all]
-            [clojure-image-bank.handler :refer :all]
+            [clojure-photo-bank.handler :refer :all]
             [clojure.string :as s]
             [clojure.tools.logging :as log]))
 

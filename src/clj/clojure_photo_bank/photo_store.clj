@@ -3,6 +3,7 @@
             [clojure.java.io    :as io]
             [clojure.string :as s]
             [clojure.pprint :refer [pprint pp]]
+            [clojure.tools.logging :as log]  
             ;; -------
             [image-resizer.core :refer :all]
             [image-resizer.format :as format]
@@ -174,5 +175,7 @@
 
 (defn create-initial-photo-metadata []
   (map
-   #(db/set-photo-metadata! % (make-photo-metadata %))
+   #(try
+      (db/set-photo-metadata! % (make-photo-metadata %))
+      (catch Exception e (log/warn (.getMessage e))))
    (reverse (all-photos))))

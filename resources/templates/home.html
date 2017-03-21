@@ -11,4 +11,33 @@
     </ul>
   </div>
 </div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <h2>Photos about: {{random-keyword}}</h2>
+  </div>
+  {% for p in keyword-photos %}
+  <div class="col-sm-3">
+    <div class="thumbnail">
+      <a href="/{{p}}">
+        <img src="/{{p|thumb}}" alt="{{p}}" class="img-rounded img-thumbnail"/>
+      </a>
+      <div class="caption">
+        {{p}}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <h2>All keywords:</h2>
+    {% for word,num in all-keywords %}
+    <a href="/photos/_search?word={{word}}"
+       class="btn btn-outline-secondary btn-sm"
+       style="margin: 0.2em 0.2em">{{word}} x {{num}}</a>
+    {% endfor %}
+  </div>
+</div>
 {% endblock %}

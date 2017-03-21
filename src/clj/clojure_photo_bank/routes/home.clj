@@ -8,8 +8,14 @@
             [clojure-photo-bank.models.db :as db]))
 
 (defn home-page []
-  (layout/render
-    "home.html" {:top-level-categories (ps/top-level-categories)}))
+  (let [keywords (db/all-photo-keywords)
+        random-keyword (first (rand-nth keywords))
+        keyword-photos (db/photos-with-keyword random-keyword)]
+    (layout/render
+     "home.html" {:top-level-categories (ps/top-level-categories)
+                  :all-keywords keywords 
+                  :random-keyword random-keyword
+                  :keyword-photos keyword-photos})))
 
 (defn category-page
   ([year month] (category-page (str year "/" month)))

@@ -18,4 +18,13 @@
 
 (defn photos-with-keyword [word]
   (map #(:id %)
-       (with-db (couch/get-view "photos" "by_keyword" {:key word}))))
+       (with-db (couch/get-view "photos" "by_keyword"
+                                {:key word
+                                 :reduce false}))))
+
+(defn all-photo-keywords []
+  "Return a list of (key, count) pairs"
+  (map #(list (:key %) (:value %))
+       (with-db (couch/get-view "photos" "by_keyword"
+                                {:reduce true
+                                 :group true }))))

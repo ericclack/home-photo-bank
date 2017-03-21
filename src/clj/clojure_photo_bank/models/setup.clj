@@ -14,7 +14,7 @@
                                 {:map
 "function(doc) {
   doc.keywords.forEach( function(word) {
-    emit(word) });
+    emit(word, 1) });
 }"
                                  :reduce
 "function(key, values, rereduce) {

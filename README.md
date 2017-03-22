@@ -42,11 +42,11 @@ Put some photos into the import directory. Name them with some keywords.
 
 Run the following from the REPL:
 
-    (clojure-photo-bank.photo-store/import-images)
+    (clojure-photo-bank.photo-store/import-images!)
 
 Generate the index by running this from the REPL:
 
-    (clojure-photo-bank.photo-store/create-initial-photo-metadata)
+    (clojure-photo-bank.photo-store/create-initial-photo-metadata!)
 
 Now browse to: http://127.0.0.1:3000/
 

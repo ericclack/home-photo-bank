@@ -15,3 +15,10 @@
   (testing "month names instead of numbers"
     (is (= "January 2017" (ps/category-name "2017/1")))
     (is (= "1 February 2016" (ps/category-name "2016/2/1")))))
+
+(deftest photo-metadata
+  (testing "file name to keywords"
+    (is (= (list "apple" "pear" "orange")
+           (ps/file-name-to-keywords "apple-pear-orange")))
+    (is (= (list "apple pie" "orange")
+           (ps/file-name-to-keywords "apple_pie-orange")))))

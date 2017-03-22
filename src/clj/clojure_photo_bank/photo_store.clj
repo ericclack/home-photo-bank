@@ -69,7 +69,7 @@
                 (str (t/day d))
                 (.getName image-file))))
 
-(defn move-image-into-store
+(defn move-image-into-store!
   "Move image from import into store"
   [image-file]
   (let [destination (media-path-for-image image-file)]
@@ -77,7 +77,7 @@
     (.renameTo image-file destination)
     destination))
 
-(defn make-image-thumbnail
+(defn make-image-thumbnail!
   "Make a small version for browsing, call after move-image-into-store"
   [image-file]
   (let [destination (thumbnail-file image-file)]
@@ -85,18 +85,18 @@
     (let [thumbnail (resize image-file thumbnail-size thumbnail-size)]
       (format/as-file thumbnail (str destination) :verbatim))))
 
-(defn import-images
+(defn import-images!
   "Process images and store them away.
   TODO: store metadata somewhere
   FIX: what about images that have the same name (already imported?)
   FIX: what about images that have no EXIF data?"
   []
-  (map #(make-image-thumbnail (move-image-into-store %))
+  (map #(make-image-thumbnail! (move-image-into-store! %))
        (images-to-import)))
 
-(defn regen-thumbnails
+(defn regen-thumbnails!
   [path]
-  (map #(make-image-thumbnail %)
+  (map #(make-image-thumbnail! %)
        (filter is-jpeg 
                (file-seq path))))
 
@@ -157,6 +157,9 @@
            (map #(file-seq (media-path %))
                 (top-level-categories)))))  
 
+(defn file-name-to-keywords [name]
+  (map #(s/replace % "_" " ")
+       (s/split name #"[ \-,]")))
 
 (defn make-photo-metadata [photo]
   ;; Consider removing media/ from paths -- seems redundant
@@ -170,10 +173,10 @@
      :category (s/replace (.getParent photo)
                           (str (env :media-path) "/")
                           "")
-     :keywords (s/split name #"[_ \-,]")
+     :keywords (file-name-to-keywords name)
      }))
 
-(defn create-initial-photo-metadata []
+(defn create-initial-photo-metadata! []
   (map
    #(try
       (db/set-photo-metadata! % (make-photo-metadata %))

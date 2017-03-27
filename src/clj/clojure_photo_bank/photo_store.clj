@@ -104,8 +104,8 @@
 
 (defn get-directories
   [path]
-  (map #(.getName %)
-       (filter #(.isDirectory %) (.listFiles path))))
+  (sort (map #(.getName %)
+             (filter #(.isDirectory %) (.listFiles path)))))
 
 (defn get-photos
   "Return a list of JPEGs in this path"

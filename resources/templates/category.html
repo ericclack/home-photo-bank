@@ -16,4 +16,23 @@
 
 {% include "_photos.html" %}
 
+{% if month-photos %}
+<div class="row">
+  <div class="col-sm-12">
+    <h2>In this month...</h2>
+  </div>
+</div>
+
+{% for cat, photos in month-photos %}
+<div class="row">
+  <div class="col-sm-12">
+    <h2>{{cat}}</h2>
+  </div>
+</div>
+
+{% include "_photos.html" %}
+
+{% endfor %}
+{% endif %}
+
 {% endblock %}

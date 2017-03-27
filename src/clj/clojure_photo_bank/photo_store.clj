@@ -148,6 +148,10 @@
   (map #(list % (category-name (str category "/" %)))
        (categories category)))
 
+(defn date-parts-to-category [parts]
+  "Return string form of category from date parts"
+  (s/join "/" (filter some? parts)))
+
 ;; -------------------------------------------------------
 
 (defn all-photos []

@@ -1,7 +1,8 @@
 (ns clojure-photo-bank.models.db
   (:require [com.ashafa.clutch :as couch]
             [environ.core :refer [env]]
-            [clojure.string :as s]))
+            [clojure.string :as s]
+            [clojure.pprint :refer [pprint pp]]))
 
 (defmacro with-db
   [& body]
@@ -43,3 +44,13 @@
        (with-db (couch/get-view "photos" "by_category"
                                 {:key category
                                  :reduce false}))))
+
+(defn photos-in-parent-category [category]
+  (map #(:value %)
+       (with-db (couch/get-view "photos" "by_parent_category"
+                                {:key category
+                                 :reduce false}))))
+
+(defn grouped-photos-in-parent-category [category]
+  (group-by #(:category %)
+            (photos-in-parent-category category)))

@@ -18,16 +18,20 @@
                   :keyword-photos keyword-photos})))
 
 (defn category-page
-  ([year month] (category-page (str year "/" month)))
-  ([year month day] (category-page (str year "/" month "/" day)))
-  ([category]
-   (layout/render
-    "category.html"
-    {:top-level-categories (ps/top-level-categories)
-     :category category
-     :category-name (ps/category-name category)
-     :categories-and-names (ps/categories-and-names category)
-     :photos (db/photos-in-category category)})))
+  ([year] (category-page year nil nil))
+  ([year month] (category-page year month nil))
+  ([year month day] 
+   (let [category (ps/date-parts-to-category (list year month day))
+         photos (if day (db/photos-in-category category) '())
+         month-photos (if (not day) (db/grouped-photos-in-parent-category category) '())]
+     (layout/render
+      "category.html"
+      {:top-level-categories (ps/top-level-categories)
+       :category category
+       :category-name (ps/category-name category)
+       :categories-and-names (ps/categories-and-names category)
+       :photos photos
+       :month-photos month-photos}))))
 
 (defn serve-file [file-path]
   (file-response (str (ps/media-path file-path))))

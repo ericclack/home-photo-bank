@@ -22,3 +22,12 @@
            (ps/file-name-to-keywords "apple-pear-orange")))
     (is (= (list "apple pie" "orange")
            (ps/file-name-to-keywords "apple_pie-orange")))))
+
+(deftest dates-and-categories
+  (testing "year, month, day -> category"
+    (is (= "2013/12" (ps/date-parts-to-category '("2013" "12"))))
+    (is (= "2013/12" (ps/date-parts-to-category '("2013" "12" nil))))
+    (is (= "2013/12/1" (ps/date-parts-to-category '("2013" "12" "1"))))
+    (is (= "2013" (ps/date-parts-to-category '("2013" nil))))
+    (is (= "2013" (ps/date-parts-to-category '("2013"))))
+    ))

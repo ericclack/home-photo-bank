@@ -32,3 +32,10 @@ body {
   }
 }
 
+div.thumbnail div.caption a.btn {
+    margin-bottom: 0.2rem;
+}
+
+div.thumbnail {
+    margin-bottom: 15px;
+}

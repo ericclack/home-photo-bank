@@ -23,24 +23,6 @@
   </div>
 </div>
 
-<div class="row">
-  {% for p in photos %}
-  <div class="col-sm-3">
-    <div class="thumbnail">
-      <a href="/{{p.path}}">
-        <img src="/{{p.path|thumb}}" alt="{{p.name}}" class="img-rounded img-thumbnail"/>
-      </a>
-      <div class="caption">
-        {{p.name}}<br/>
-        {% for word in p.keywords %}
-        <a href="/photos/_search?word={{word}}"
-           class="btn btn-outline-secondary btn-sm"
-           style="margin: 0.2em 0.2em">{{word}}</a>
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-  {% endfor %}
-</div>
-
+{% include "_photos.html" %}
+ 
 {% endblock %}

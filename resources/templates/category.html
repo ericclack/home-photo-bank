@@ -14,19 +14,6 @@
   </div>
 </div>
 
-<div class="row">
-  {% for p in photos %}
-  <div class="col-sm-3">
-    <div class="thumbnail">
-      <a href="/{{p}}">
-        <img src="/{{p|thumb}}" alt="{{p}}" class="img-rounded img-thumbnail"/>
-      </a>
-      <div class="caption">
-        {{p}}
-      </div>
-    </div>
-  </div>
-  {% endfor %}
-</div>
+{% include "_photos.html" %}
 
 {% endblock %}

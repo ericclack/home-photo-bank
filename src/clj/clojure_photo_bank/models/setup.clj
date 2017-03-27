@@ -30,6 +30,14 @@ function(key, values, rereduce) {
   "
 function(doc) {
   emit(doc.category, doc);
+}"}
+
+ :by_parent_category
+ {:map
+  "
+function(doc) {
+  const re = /(\\d+)\\/(\\d+)\\/(\\d+)/;
+  emit(doc.category.replace(re, '$1/$2'), doc);
 }"}}
 ))))
 

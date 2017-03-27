@@ -26,7 +26,6 @@
     {:top-level-categories (ps/top-level-categories)
      :category category
      :category-name (ps/category-name category)
-     :categories (ps/categories category)
      :categories-and-names (ps/categories-and-names category)
      :photos (ps/photos-in-category category)})))
 
@@ -40,7 +39,7 @@
   (layout/render
    "search.html"
    {:word word
-    :photos (db/photos-with-keyword word)
+    :photos (db/photos-with-keyword-starting word)
     }))
 
 ;; ----------------------------------------------------

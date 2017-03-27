@@ -17,10 +17,19 @@
 ;; -------------------------------------------------
 
 (defn photos-with-keyword [word]
-  (map #(:id %)
+  (map #(:doc %)
        (with-db (couch/get-view "photos" "by_keyword"
                                 {:key word
-                                 :reduce false}))))
+                                 :reduce false
+                                 :include_docs true}))))
+
+(defn photos-with-keyword-starting [stem]
+  (map #(:doc %)
+       (with-db (couch/get-view "photos" "by_keyword"
+                                {:startkey stem
+                                 :endkey (str stem "\uffff")
+                                 :reduce false
+                                 :include_docs true}))))
 
 (defn all-photo-keywords []
   "Return a list of (key, count) pairs"
@@ -28,3 +37,9 @@
        (with-db (couch/get-view "photos" "by_keyword"
                                 {:reduce true
                                  :group true }))))
+
+(defn photos-in-category [category]
+  (map #(:value %)
+       (with-db (couch/get-view "photos" "by_category"
+                                {:key category
+                                 :reduce false}))))

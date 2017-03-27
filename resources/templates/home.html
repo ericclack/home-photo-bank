@@ -2,28 +2,16 @@
 {% block content %}
 <div class="row">
   <div class="col-sm-12">
-    <ul>
-      {% for c in top-level-categories %}
-      <li>
-        <a href="/photos/{{c}}">{{c}}</a>
-      </li>
-      {% endfor %}
-    </ul>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-sm-12">
     <h2>Photos about: {{random-keyword}}</h2>
   </div>
   {% for p in keyword-photos %}
   <div class="col-sm-3">
     <div class="thumbnail">
-      <a href="/{{p}}">
-        <img src="/{{p|thumb}}" alt="{{p}}" class="img-rounded img-thumbnail"/>
+      <a href="/{{p.path}}">
+        <img src="/{{p.path|thumb}}" alt="{{p.name}}" class="img-rounded img-thumbnail"/>
       </a>
       <div class="caption">
-        {{p}}
+        {{p.name}}
       </div>
     </div>
   </div>

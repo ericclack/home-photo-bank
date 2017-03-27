@@ -1,18 +1,5 @@
 {% extends "base.html" %}
 {% block content %}
-
-<div class="row">
-  <div class="col-sm-12">
-    <ul>
-      {% for c in top-level-categories %}
-      <li>
-        <a href="/photos/{{c}}">{{c}}</a>
-      </li>
-      {% endfor %}
-    </ul>
-  </div>
-</div>
-
 <div class="row">
   <div class="col-sm-12">
     <h1>{{ category-name }}</h1>

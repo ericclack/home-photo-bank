@@ -69,6 +69,10 @@
                 (str (t/day d))
                 (.getName image-file))))
 
+(defn file-name-to-keywords [name]
+  (map #(s/replace % "_" " ")
+       (s/split name #"[ \-,]")))
+
 (defn make-photo-metadata [photo]
   ;; Consider removing media/ from paths -- seems redundant
   (let [path (str photo)
@@ -181,11 +185,6 @@
           (flatten
            (map #(file-seq (media-path %))
                 (top-level-categories)))))  
-
-(defn file-name-to-keywords [name]
-  (map #(s/replace % "_" " ")
-       (s/split name #"[ \-,]")))
-
 
 (defn create-initial-photo-metadata! []
   (map

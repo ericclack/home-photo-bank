@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block top-level-categories %}
+{% endblock %}
+
+{% block content %}
+<div class="row" style="padding-bottom: 1em">
+  <div class="col-sm-12">
+    <h1>Edit {{photo.name}}</h1>
+    {% if keywords %}
+    <div class="success">
+      <mark>Your keywords new were saved.</mark>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-6">
+    <div class="thumbnail">
+      <img src="/{{photo.path|thumb}}" alt="{{photo.name}}" class="img-rounded img-thumbnail"/>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <form method="POST">
+      {% csrf-field %}
+      Add, edit or remove keywords:<br/>
+      <textarea name="keywords" rows="10">{% for word in photo.keywords %}{{word}}
+{% endfor %}</textarea>
+      <br/>
+      
+      <input type="submit" name="Save" value="Save"/>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

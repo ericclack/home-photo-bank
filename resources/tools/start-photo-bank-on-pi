@@ -1,0 +1,15 @@
+#!/bin/sh
+
+echo "Start in a screen session"
+echo "Once REPL started, disconnect from screen with Ctrl-A d"
+echo
+echo "Then connect from your computer and run"
+echo "lein repl :connect saturn:PORT"
+echo "then in REPL"
+echo "(mount/start)"
+echo
+echo "You can also import images from REPL with"
+echo "(clojure-photo-bank.photo-store/import-images!)"
+
+cd ~/code/clojure/clojure-photo-bank/
+lein repl :headless :host 0.0.0.0

@@ -69,6 +69,21 @@
                 (str (t/day d))
                 (.getName image-file))))
 
+(defn make-photo-metadata [photo]
+  ;; Consider removing media/ from paths -- seems redundant
+  (let [path (str photo)
+        filename (.getName photo)
+        name (first (s/split (.getName photo) #"\."))]
+    {:_id path
+     :path path
+     :filename filename
+     :name name
+     :category (s/replace (.getParent photo)
+                          (str (env :media-path) "/")
+                          "")
+     :keywords (file-name-to-keywords name)
+     }))
+
 (defn move-image-into-store!
   "Move image from import into store"
   [image-file]
@@ -171,20 +186,6 @@
   (map #(s/replace % "_" " ")
        (s/split name #"[ \-,]")))
 
-(defn make-photo-metadata [photo]
-  ;; Consider removing media/ from paths -- seems redundant
-  (let [path (str photo)
-        filename (.getName photo)
-        name (first (s/split (.getName photo) #"\."))]
-    {:_id path
-     :path path
-     :filename filename
-     :name name
-     :category (s/replace (.getParent photo)
-                          (str (env :media-path) "/")
-                          "")
-     :keywords (file-name-to-keywords name)
-     }))
 
 (defn create-initial-photo-metadata! []
   (map

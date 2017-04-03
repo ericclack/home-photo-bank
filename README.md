@@ -44,9 +44,9 @@ Run the following from the REPL:
 
     (clojure-photo-bank.photo-store/import-images!)
 
-Generate the index by running this from the REPL:
-
-    (clojure-photo-bank.photo-store/create-initial-photo-metadata!)
+This copies the photos into their category directory (year/month/day
+of creation) and generates metadata from the filename and
+stores in CouchDB.
 
 Now browse to: http://127.0.0.1:3000/
 

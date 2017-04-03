@@ -85,14 +85,20 @@
     (let [thumbnail (resize image-file thumbnail-size thumbnail-size)]
       (format/as-file thumbnail (str destination) :verbatim))))
 
+(defn import-image! 
+  [image-file]
+  (let [stored-image (move-image-into-store! image-file)]
+    (make-image-thumbnail! stored-image)
+    (db/set-photo-metadata! stored-image
+                            (make-photo-metadata stored-image))
+    stored-image))
+
 (defn import-images!
   "Process images and store them away.
-  TODO: store metadata somewhere
   FIX: what about images that have the same name (already imported?)
   FIX: what about images that have no EXIF data?"
   []
-  (map #(make-image-thumbnail! (move-image-into-store! %))
-       (images-to-import)))
+  (map import-image! (images-to-import)))
 
 (defn regen-thumbnails!
   [path]

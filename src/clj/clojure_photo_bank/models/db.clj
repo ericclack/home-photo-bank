@@ -15,6 +15,11 @@
 (defn set-photo-metadata! [photo-path metadata]
   (with-db (couch/put-document metadata)))
 
+(defn set-photo-keywords! [photo-path keywords]
+  (with-db (set-photo-metadata! photo-path
+                                (assoc (couch/get-document photo-path)
+                                       :keywords keywords))))
+
 ;; -------------------------------------------------
 
 (defn photos-with-keyword [word]

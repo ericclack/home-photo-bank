@@ -6,7 +6,8 @@
         <img src="/{{p.path|thumb}}" alt="{{p.name}}" class="img-rounded img-thumbnail"/>
       </a>
       <div class="caption">
-        {{p.name}}<br/>
+        {{p.name}}
+        <br/>
         {% for word in p.keywords %}
         <a href="/photos/_search?word={{word}}"
            class="btn btn-outline-secondary btn-sm">{{word}}</a>
@@ -15,6 +16,8 @@
         <a href="/photos/{{p.category}}"
            class="btn btn-outline-primary btn-sm">{{p.category}}</a>
         {% endif %}
+        <a href="/photos/_edit/{{p.path}}"
+           class="btn btn-warning btn-sm">edit</a>
       </div>
     </div>
   </div>

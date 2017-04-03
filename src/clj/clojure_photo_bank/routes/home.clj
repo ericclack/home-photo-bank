@@ -1,11 +1,13 @@
 (ns clojure-photo-bank.routes.home
   (:require [clojure-photo-bank.layout :as layout]
-            [compojure.core :refer [defroutes GET]]
+            [compojure.core :refer [defroutes GET ANY]]
             [ring.util.http-response :as response]
             [ring.util.response :refer [file-response]]
             [clojure.java.io :as io]
             [clojure-photo-bank.photo-store :as ps]
-            [clojure-photo-bank.models.db :as db]))
+            [clojure-photo-bank.models.db :as db]
+            [clojure.tools.logging :as log]
+            [clojure.string :as s]))
 
 (defn home-page []
   (let [keywords (db/all-photo-keywords)
@@ -46,11 +48,22 @@
     :photos (db/photos-with-keyword-starting word)
     }))
 
+(defn edit-photo [photo-path keywords]
+  (when keywords
+    (db/set-photo-keywords! photo-path
+                            (map s/trim (s/split-lines keywords))))
+  (layout/render
+   "edit.html"
+   {:photo (db/photo-metadata photo-path)
+    :keywords keywords
+    }))
+
 ;; ----------------------------------------------------
 
 (defroutes home-routes
   (GET "/" [] (home-page))
   (GET "/photos/_search" [word] (photo-search word))
+  (ANY "/photos/_edit/:photo-path{.*}" [photo-path keywords] (edit-photo photo-path keywords))
   
   (GET "/photos/:year/:month" [year month] (category-page year month))
   (GET "/photos/:year/:month/:day"

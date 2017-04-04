@@ -18,7 +18,7 @@
 (defn set-photo-keywords! [photo-path keywords]
   (with-db (set-photo-metadata! photo-path
                                 (assoc (couch/get-document photo-path)
-                                       :keywords keywords))))
+                                       :keywords (map s/lower-case keywords)))))
 
 ;; -------------------------------------------------
 

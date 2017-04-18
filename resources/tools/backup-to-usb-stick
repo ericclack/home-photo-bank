@@ -1,0 +1,3 @@
+#!/bin/sh
+
+rsync -va pi@saturn:/home/pi/code/clojure/clojure-photo-bank/media /Volumes/ClackPhoto1/

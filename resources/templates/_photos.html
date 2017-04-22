@@ -16,7 +16,7 @@
         <a href="/photos/{{p.category}}"
            class="btn btn-outline-primary btn-sm">{{p.category}}</a>
         {% endif %}
-        <a href="/photos/_edit/{{p.path}}"
+        <a href="/photos/_edit/{{p.path}}{% if back %}?back={{back}}{% endif %}"
            class="btn btn-warning btn-sm">edit</a>
       </div>
     </div>

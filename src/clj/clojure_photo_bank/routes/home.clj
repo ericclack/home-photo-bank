@@ -41,14 +41,15 @@
 (defn about-page []
   (layout/render "about.html"))
 
-(defn photo-search [word]
+(defn photo-search [word req]
   (layout/render
    "search.html"
    {:word word
     :photos (db/photos-with-keyword-starting word)
+    :back (str (:uri req) "?" (:query-string req))
     }))
 
-(defn edit-photo [photo-path keywords]
+(defn edit-photo [photo-path keywords back]
   (when keywords
     (db/set-photo-keywords! photo-path
                             (map s/trim (s/split-lines keywords))))
@@ -56,14 +57,16 @@
    "edit.html"
    {:photo (db/photo-metadata photo-path)
     :keywords keywords
+    :back back
     }))
 
 ;; ----------------------------------------------------
 
 (defroutes home-routes
   (GET "/" [] (home-page))
-  (GET "/photos/_search" [word] (photo-search word))
-  (ANY "/photos/_edit/:photo-path{.*}" [photo-path keywords] (edit-photo photo-path keywords))
+  (GET "/photos/_search" [word :as req] (photo-search word req))
+  (ANY "/photos/_edit/:photo-path{.*}" [photo-path keywords back]
+       (edit-photo photo-path keywords back))
   
   (GET "/photos/:year/:month" [year month] (category-page year month))
   (GET "/photos/:year/:month/:day"

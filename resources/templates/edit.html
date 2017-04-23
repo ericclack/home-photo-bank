@@ -12,6 +12,9 @@
       <mark>Your new keywords were saved.</mark>
     </div>
     {% endif %}
+    {% if back %}
+    <p><a href="{{back}}">Back to photos</a></p>
+    {% endif %}
   </div>
 </div>
 
@@ -28,7 +31,8 @@
       <textarea name="keywords" rows="10">{% for word in photo.keywords %}{{word}}
 {% endfor %}</textarea>
       <br/>
-      
+
+      <input type="hidden" name="back" value="{{back}}"/>
       <input type="submit" name="Save" value="Save"/>
     </form>
   </div>

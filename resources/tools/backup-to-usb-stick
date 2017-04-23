@@ -1,3 +1,12 @@
 #!/bin/sh
 
-rsync -va pi@saturn:/home/pi/code/clojure/clojure-photo-bank/media /Volumes/ClackPhoto1/
+APPDIR=code/clojure/clojure-photo-bank
+BACKUPDIR=/Volumes/ClackPhoto1
+
+# Backup database first
+ssh -A pi@saturn $APPDIR/resources/tools/backup-couchdb
+rsync -va pi@saturn:$APPDIR/resources/backup $BACKUPDIR/
+
+# Now fetch media
+rsync -va pi@saturn:$APPDIR/media $BACKUPDIR/
+

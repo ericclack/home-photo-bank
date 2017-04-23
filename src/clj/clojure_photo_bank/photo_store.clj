@@ -142,9 +142,10 @@
   (filter #(not (s/starts-with? % "_"))
           (get-directories (media-path))))
 
-(defn categories [category]
+(defn categories 
   "Return a sorted list of directory names within this category.
   Assumes that directory names are numeric."
+  [category]
   (sort #(compare (Integer. %1) (Integer. %2)) 
         (get-directories (media-path category))))
 

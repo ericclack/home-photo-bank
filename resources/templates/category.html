@@ -5,31 +5,24 @@
 {% block content %}
 <div class="row">
   <div class="col-sm-12">
-    <h1>{{ category-name }}</h1>
+    <h1>{{ category-name }}:</h1>
 
-    <ul>
-    {% for c,n in categories-and-names %}
-      <li>
-        <a href="/photos/{{category}}/{{c}}">{{n}}</a>
-      </li>
-    {% endfor %}
-    </ul>
+    <p>
+      {% for c,n in categories-and-names %}
+      <a class="btn btn-outline-primary btn-sm" href="/photos/{{category}}/{{c}}">{{n}}</a>
+      {% endfor %}
+     </p>
   </div>
 </div>
 
 {% include "_photos.html" %}
 
-{% if month-photos %}
-<div class="row">
-  <div class="col-sm-12">
-    <h2>In this month...</h2>
-  </div>
-</div>
+{% if month-photos|not-empty %}
 
 {% for cat, photos in month-photos %}
 <div class="row">
   <div class="col-sm-12">
-    <h2>{{cat}}</h2>
+    <h2>On {{cat}}</h2>
   </div>
 </div>
 

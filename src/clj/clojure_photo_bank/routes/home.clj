@@ -57,12 +57,13 @@
   (render "about.html"))
 
 (defn photo-search [word req]
-  (render
-   "search.html"
-   {:word word
-    :photos (db/photos-with-keyword-starting word)
-    }
-   req))
+  (let [words (s/split (s/trim word) #" ")]
+    (render
+     "search.html"
+     {:word word
+      :photos (db/photos-with-keywords-starting words)
+      }
+     req)))
 
 (defn edit-photo [photo-path keywords back]
   (when keywords

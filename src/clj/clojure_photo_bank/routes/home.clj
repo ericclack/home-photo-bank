@@ -9,51 +9,66 @@
             [clojure.tools.logging :as log]
             [clojure.string :as s]))
 
+(defn render
+  "render this template adding in request and back
+  link if not already included in the data"
+  ([template] (render template {} nil))
+  ([template data] (render template data nil))
+  ([template data request]
+   (let [back (or (:back data)
+                  (when (some? request)
+                    (str (:uri request) "?" (:query-string request))))]
+     (layout/render template
+                    (assoc data
+                           :request request
+                           :back back)))))
+
 (defn home-page []
   (let [keywords (db/all-photo-keywords)
         random-keyword (first (rand-nth keywords))
         keyword-photos (db/photos-with-keyword random-keyword)]
-    (layout/render
+    (render
      "home.html" {:top-level-categories (ps/top-level-categories)
                   :all-keywords keywords 
                   :random-keyword random-keyword
                   :keyword-photos keyword-photos})))
 
 (defn category-page
-  ([year] (category-page year nil nil))
-  ([year month] (category-page year month nil))
-  ([year month day] 
+  ([year req] (category-page year nil nil req))
+  ([year month req] (category-page year month nil req))
+  ([year month day req] 
    (let [category (ps/date-parts-to-category (list year month day))
          photos (if day (db/photos-in-category category) '())
          month-photos (if (not day) (db/grouped-photos-in-parent-category category) '())]
-     (layout/render
+     (render
       "category.html"
       {:top-level-categories (ps/top-level-categories)
        :category category
        :category-name (ps/category-name category)
        :categories-and-names (ps/categories-and-names category)
        :photos photos
-       :month-photos month-photos}))))
+       :month-photos month-photos}
+      req))))
 
 (defn serve-file [file-path]
   (file-response (str (ps/media-path file-path))))
 
 (defn about-page []
-  (layout/render "about.html"))
+  (render "about.html"))
 
 (defn photo-search [word req]
-  (layout/render
+  (render
    "search.html"
    {:word word
     :photos (db/photos-with-keyword-starting word)
-    :back (str (:uri req) "?" (:query-string req))
-    }))
+    }
+   req))
 
 (defn edit-photo [photo-path keywords back]
   (when keywords
     (db/set-photo-keywords! photo-path
                             (map s/trim (s/split-lines keywords))))
-  (layout/render
+  (render
    "edit.html"
    {:photo (db/photo-metadata photo-path)
     :keywords keywords
@@ -68,10 +83,11 @@
   (ANY "/photos/_edit/:photo-path{.*}" [photo-path keywords back]
        (edit-photo photo-path keywords back))
   
-  (GET "/photos/:year/:month" [year month] (category-page year month))
-  (GET "/photos/:year/:month/:day"
-       [year month day] (category-page year month day))
-  (GET "/photos/:year" [year] (category-page year))
+  (GET "/photos/:year" [year :as req] (category-page year req))
+  (GET "/photos/:year/:month" [year month :as req]
+       (category-page year month req))
+  (GET "/photos/:year/:month/:day" [year month day :as req]
+       (category-page year month day req))
 
   (GET "/media/:file-path{.*}" [file-path] (serve-file file-path))
   

@@ -2,6 +2,7 @@
   (:require [com.ashafa.clutch :as couch]
             [environ.core :refer [env]]
             [clojure.string :as s]
+            [clojure.set :as set]
             [clojure.pprint :refer [pprint pp]]))
 
 (defmacro with-db
@@ -36,6 +37,11 @@
                                  :endkey (str stem "\uffff")
                                  :reduce false
                                  :include_docs true}))))
+
+(defn photos-with-keywords-starting [stems]
+  (apply set/intersection
+         (map set
+              (map photos-with-keyword-starting stems))))
 
 (defn all-photo-keywords []
   "Return a list of (key, count) pairs"

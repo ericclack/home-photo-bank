@@ -143,8 +143,10 @@
           (get-directories (media-path))))
 
 (defn categories [category]
-  "Return a list of directory names within this category"
-  (get-directories (media-path category)))
+  "Return a sorted list of directory names within this category.
+  Assumes that directory names are numeric."
+  (sort #(compare (Integer. %1) (Integer. %2)) 
+        (get-directories (media-path category))))
 
 (defn photos-in-category [category]
   "Return a list of photo Files"

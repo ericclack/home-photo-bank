@@ -57,13 +57,23 @@
   (render "about.html"))
 
 (defn photo-search [word req]
-  (let [words (s/split (s/trim word) #" ")]
-    (render
-     "search.html"
-     {:word word
-      :photos (db/photos-with-keywords-starting words)
-      }
-     req)))
+  (let [trimmed-word (s/trim word)
+        words (s/split trimmed-word #" ")
+        photos
+        ;; At least two words? Then search for both
+        ;; separate words and combined phrase
+        (if (second words)
+          (concat 
+           (db/photos-with-keyword-starting trimmed-word)
+           (db/photos-with-keywords-starting words))
+          (db/photos-with-keyword-starting trimmed-word))]
+  
+        (render
+         "search.html"
+         {:word word
+          :photos photos
+          }
+         req)))
 
 (defn edit-photo [photo-path keywords back]
   (when keywords

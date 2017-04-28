@@ -40,11 +40,11 @@
 
 (def exif-date-format "yyyy:MM:dd HH:mm:ss")
 
-(defn get-date-time
+(defn get-date-created
   "EXIF time is in format: 2003:12:14 12:01:44"
   [metadata]
   (tf/parse (tf/formatter exif-date-format)
-            (get-in metadata ["Root" "DateTime"])))
+            (get-in metadata ["Exif" "DateTimeOriginal"])))
 
 (defn get-orientation
   [metadata]
@@ -63,7 +63,7 @@
 (defn media-path-for-image
   "Image path is Year/Month/Day/Filename based on DateTime in EXIF data"
   [image-file]
-  (let [d (get-date-time (get-exif-metadata image-file))]
+  (let [d (get-date-created (get-exif-metadata image-file))]
     (media-path (str (t/year d))
                 (str (t/month d))
                 (str (t/day d))

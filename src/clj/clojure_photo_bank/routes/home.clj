@@ -24,7 +24,7 @@
                            :back back)))))
 
 (defn home-page []
-  (let [keywords (db/all-photo-keywords)
+  (let [keywords (db/popular-photo-keywords)
         random-keyword (first (rand-nth keywords))
         keyword-photos (db/photos-with-keyword random-keyword)]
     (render

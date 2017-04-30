@@ -49,6 +49,8 @@
        (with-db (couch/get-view "photos" "by_keyword"
                                 {:reduce true
                                  :group true }))))
+(defn popular-photo-keywords []
+  (filter #(> (second %) 1) (all-photo-keywords)))
 
 (defn photos-in-category [category]
   (map #(:value %)

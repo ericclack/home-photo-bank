@@ -4,23 +4,15 @@
   <div class="col-sm-12">
     <h2>Photos about: {{random-keyword}}</h2>
   </div>
-  {% for p in keyword-photos %}
-  <div class="col-sm-3">
-    <div class="thumbnail">
-      <a href="/{{p.path}}">
-        <img src="/{{p.path|thumb}}" alt="{{p.name}}" class="img-rounded img-thumbnail"/>
-      </a>
-      <div class="caption">
-        {{p.name}}
-      </div>
-    </div>
-  </div>
-  {% endfor %}
 </div>
 
+{% with photos=keyword-photos %}
+{% include "_photos.html" %}
+{% endwith %}
+  
 <div class="row">
   <div class="col-sm-12">
-    <h2>All keywords:</h2>
+    <h2>Popular keywords:</h2>
     {% for word,num in all-keywords %}
     <a href="/photos/_search?word={{word}}"
        class="btn btn-outline-secondary btn-sm"

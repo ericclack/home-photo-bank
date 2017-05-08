@@ -2,5 +2,4 @@
  :port 3000
  ;; when :nrepl-port is set the application starts the nREPL server on load
  :nrepl-port 3001
- :nrepl-bind "0.0.0.0" ;; allow connections from anywhere!
 }

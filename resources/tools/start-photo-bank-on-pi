@@ -9,4 +9,4 @@ echo "(clojure-photo-bank.photo-store/import-images!)"
 echo
 
 cd ~/code/clojure/clojure-photo-bank/
-lein run
+NREPL_BIND=0.0.0.0 lein run

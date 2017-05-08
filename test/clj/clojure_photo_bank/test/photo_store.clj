@@ -31,3 +31,12 @@
     (is (= "2013" (ps/date-parts-to-category '("2013" nil))))
     (is (= "2013" (ps/date-parts-to-category '("2013"))))
     ))
+
+(deftest next-category
+  (testing "next-month"
+    (is (= "2017/2" (ps/next-month-category 2017 1)))
+    (is (= "2018/1" (ps/next-month-category 2017 12))))
+  (testing "prev-month"
+    (is (= "2017/2" (ps/prev-month-category 2017 3)))
+    (is (= "2016/12" (ps/prev-month-category 2017 1))))  
+  )

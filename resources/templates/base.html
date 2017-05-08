@@ -49,9 +49,13 @@
         {% block top-level-categories %}
         <div class="row" style="margin-bottom: 15px;">
           <div class="col-sm-12">
-            Year: 
+            Year:
             {% for c in top-level-categories %}
-            <a href="/photos/{{c}}" class="btn btn-outline-primary btn-sm">{{c}}</a>
+            <a href="/photos/{{c}}"
+               class="btn btn-sm
+               {% ifequal c year %}btn-primary{% else %}btn-outline-primary{% endifequal %}"
+               >{{c}}
+            </a>
             {% endfor %}
           </div>
         </div>

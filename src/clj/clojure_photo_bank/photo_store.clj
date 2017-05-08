@@ -1,4 +1,7 @@
 (ns clojure-photo-bank.photo-store
+  "Store and retrive photos in categories. Categories
+  are nested folders in the file system, which could
+  be anything (needs testing), but commonly year/month/day."
   (:require [environ.core :refer [env]]
             [clojure.java.io    :as io]
             [clojure.string :as s]
@@ -153,6 +156,8 @@
   "Return a list of photo Files"
   (get-photos (media-path category)))
 
+;; --
+
 (defn month-name [month]
   (tf/unparse (tf/formatter "MMMM")
               (t/date-time 2017 month 1)))
@@ -179,6 +184,18 @@
 (defn date-parts-to-category [parts]
   "Return string form of category from date parts"
   (s/join "/" (filter some? parts)))
+
+(defn next-month-category [year month]
+  (date-parts-to-category
+   (if (= 12 month)
+     (list (+ 1 year) 1)
+     (list year (+ 1 month)))))
+
+(defn prev-month-category [year month]
+  (date-parts-to-category
+   (if (= 1 month)
+     (list (- year 1) 12)
+     (list year (- month 1)))))
 
 ;; -------------------------------------------------------
 

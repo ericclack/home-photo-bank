@@ -41,15 +41,23 @@
   ([year month day req] 
    (let [category (ps/date-parts-to-category (list year month day))
          photos (if day (db/photos-in-category category) '())
-         month-photos (if (not day) (db/grouped-photos-in-parent-category category) '())]
+         month-photos (if (not day) (db/grouped-photos-in-parent-category category) '())
+         iyear (Integer/parseInt year)
+         imonth (when month (Integer/parseInt month)) ]
      (render
       "category.html"
       {:top-level-categories (ps/top-level-categories)
+       :year year
+       :month month
+       :day day
        :category category
        :category-name (ps/category-name category)
        :categories-and-names (ps/categories-and-names category)
        :photos photos
-       :month-photos month-photos}
+       :month-photos month-photos
+       :next-month-category (when imonth (ps/next-month-category iyear imonth))
+       :prev-month-category (when imonth (ps/prev-month-category iyear imonth))
+       }
       req))))
 
 (defn serve-file [file-path]

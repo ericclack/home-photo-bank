@@ -24,12 +24,14 @@
                            :back back)))))
 
 (defn home-page []
-  (let [keywords (db/popular-photo-keywords)
-        random-keyword (first (rand-nth keywords))
+  (let [all-keywords (db/all-photo-keywords)
+        pop-keywords (db/popular-photo-keywords 50)
+        random-keyword (first (rand-nth all-keywords))
         keyword-photos (db/photos-with-keyword random-keyword)]
     (render
      "home.html" {:top-level-categories (ps/top-level-categories)
-                  :all-keywords keywords 
+                  :all-keywords all-keywords
+                  :pop-keywords pop-keywords
                   :random-keyword random-keyword
                   :keyword-photos keyword-photos})))
 

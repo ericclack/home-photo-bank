@@ -43,14 +43,17 @@
          (map set
               (map photos-with-keyword-starting stems))))
 
-(defn all-photo-keywords []
+(defn all-photo-keywords
   "Return a list of (key, count) pairs"
+  []
   (map #(list (:key %) (:value %))
        (with-db (couch/get-view "photos" "by_keyword"
                                 {:reduce true
                                  :group true }))))
-(defn popular-photo-keywords []
-  (filter #(> (second %) 1) (all-photo-keywords)))
+(defn popular-photo-keywords
+  "Return the top scoring keywords"
+  [n]
+  (sort-by first (take n (reverse (sort-by second (all-photo-keywords))))))
 
 (defn photos-in-category [category]
   (map #(:value %)

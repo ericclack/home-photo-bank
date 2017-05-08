@@ -99,6 +99,12 @@
     (.renameTo image-file destination)
     destination))
 
+(defn move-image-into-failed!
+  [image-file]
+  (let [destination (media-path "_failed" (.getName image-file))]
+    (.renameTo image-file destination)
+    destination))
+
 (defn make-image-thumbnail!
   "Make a small version for browsing, call after move-image-into-store"
   [image-file]
@@ -109,11 +115,15 @@
 
 (defn import-image! 
   [image-file]
-  (let [stored-image (move-image-into-store! image-file)]
-    (make-image-thumbnail! stored-image)
-    (db/set-photo-metadata! stored-image
-                            (make-photo-metadata stored-image))
-    stored-image))
+  (try
+    (let [stored-image (move-image-into-store! image-file)]
+      (make-image-thumbnail! stored-image)
+      (db/set-photo-metadata! stored-image
+                              (make-photo-metadata stored-image))
+      stored-image)
+    (catch Exception e
+      (log/warn "Cannot import" image-file "Maybe missing EXIF?" e)
+      (move-image-into-failed! image-file))))
 
 (defn import-images!
   "Process images and store them away.
@@ -127,6 +137,15 @@
   (map #(make-image-thumbnail! %)
        (filter is-jpeg 
                (file-seq path))))
+
+(defn watch-and-import!
+  "Repeatedly watch for, then import images."
+  ([] (watch-and-import! 5))
+  ([minutes-sleep]
+   (when-let [imports (not-empty (import-images!))]
+     (log/info "imported images" imports))
+   (Thread/sleep (* minutes-sleep 60 1000))
+   (recur minutes-sleep)))
 
 ;; -------------------------------------------------------
 

@@ -100,7 +100,7 @@
     }))
 
 (defn process-photos
-  ([] (process-photos 0))
+  ([] (process-photos 1))
   ([photo-path keywords n]
    (ps/process-photo-add-keywords!
     (io/file (ps/media-path "_process" photo-path))
@@ -108,16 +108,20 @@
    (process-photos (+ 1 n)))
   ([n]
    (let [photos (ps/photos-to-process)
-         photo (nth photos n)
-         name (.getName photo)]
-   (render
-    "process.html"
-    {:n n
-     :photo photo
-     :name name
-     :keywords (ps/file-name-to-keywords
-                (first (ps/split-extension photo)))
-     :photos photos}))))
+         num-photos (count photos)
+         in-range (<= n num-photos)
+         photo (when in-range (nth photos (- n 1)))
+         name (when in-range (.getName photo))
+         keywords (when in-range (ps/file-name-to-keywords
+                                  (first (ps/split-extension photo))))]
+     (render
+      "process.html"
+      {:n n
+       :num-photos num-photos
+       :photo photo
+       :name name
+       :keywords keywords
+       :photos photos}))))
 
 ;; ----------------------------------------------------
 

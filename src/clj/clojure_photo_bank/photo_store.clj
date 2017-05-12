@@ -1,7 +1,22 @@
 (ns clojure-photo-bank.photo-store
   "Store and retrive photos in categories. Categories
   are nested folders in the file system, which could
-  be anything (needs testing), but commonly year/month/day."
+  be anything (needs testing), but commonly year/month/day.
+
+  Special directories:
+  _import: photos ready to import
+  _process: photos that need processing before import
+  _failed: photos that failed to import
+  _thumbs: thumbnails for imported images.
+
+  Guarantees:
+  This module will never modify files. It will rename
+  them both to move to storage folders and to add keywords
+  but only when moving from _process to _import.
+
+  To Do:
+  Why sometimes 'image' and sometimes 'photo'?
+  "
   (:require [environ.core :refer [env]]
             [clojure.java.io    :as io]
             [clojure.string :as s]
@@ -59,7 +74,7 @@
   (s/ends-with? (s/lower-case file) ".jpg"))
 
 (defn images-to-import
-  "JPG image files in the media/import directory"
+  "JPG image files in the media/_import directory"
   []
   (filter is-jpeg (file-seq (media-path "_import"))))
 
@@ -231,3 +246,29 @@
       (db/set-photo-metadata! % (make-photo-metadata %))
       (catch Exception e (log/warn (.getMessage e))))
    (reverse (all-photos))))
+
+;; -------------------------------------------------------
+
+(defn images-to-process
+  "JPG image files in the media/_process directory"
+  []
+  (filter is-jpeg (file-seq (media-path "_process"))))
+
+(defn file-extension
+  [file]
+  (second (s/split (.getName file) #"\.")))
+
+(defn keyword-image-to-process
+  "Add keywords to this image by renaming it, ready
+  for import. Seq is 1 unless the new name would clash
+  with an existing file, in which case it is incremented."
+  ([image-file keywords] (keyword-image-to-process image-file keywords 1))
+  ([image-file keywords seq]
+   (let [path (.getParentFile image-file)
+         keywords-part (s/join "-" keywords)
+         extension (file-extension image-file)
+         new-name (str keywords-part "-" seq "." extension)
+         new-file (io/file path new-name)]
+     (if (.exists new-file)
+       (recur image-file keywords (+ 1 seq))
+       (list image-file new-file)))))

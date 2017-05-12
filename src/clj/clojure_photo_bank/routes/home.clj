@@ -1,6 +1,6 @@
 (ns clojure-photo-bank.routes.home
   (:require [clojure-photo-bank.layout :as layout]
-            [compojure.core :refer [defroutes GET ANY]]
+            [compojure.core :refer [defroutes GET ANY POST]]
             [ring.util.http-response :as response]
             [ring.util.response :refer [file-response]]
             [clojure.java.io :as io]
@@ -85,10 +85,13 @@
           }
          req)))
 
+(defn str->keywords
+  [s]
+  (map s/trim (s/split-lines s)))
+
 (defn edit-photo [photo-path keywords back]
   (when keywords
-    (db/set-photo-keywords! photo-path
-                            (map s/trim (s/split-lines keywords))))
+    (db/set-photo-keywords! photo-path (str->keywords keywords)))
   (render
    "edit.html"
    {:photo (db/photo-metadata photo-path)
@@ -96,11 +99,35 @@
     :back back
     }))
 
+(defn process-photos
+  ([] (process-photos 0))
+  ([photo-path keywords n]
+   (ps/process-photo-add-keywords!
+    (io/file (ps/media-path "_process" photo-path))
+    (str->keywords keywords))
+   (process-photos (+ 1 n)))
+  ([n]
+   (let [photos (ps/photos-to-process)
+         photo (nth photos n)
+         name (.getName photo)]
+   (render
+    "process.html"
+    {:n n
+     :photo photo
+     :name name
+     :keywords (ps/file-name-to-keywords
+                (first (ps/split-extension photo)))
+     :photos photos}))))
+
 ;; ----------------------------------------------------
 
 (defroutes home-routes
   (GET "/" [] (home-page))
   (GET "/photos/_search" [word :as req] (photo-search word req))
+  (GET "/photos/_process" [] (process-photos))
+  (POST "/photos/_process/:photo-path{.*}" [photo-path keywords n]
+        (process-photos photo-path keywords (Integer/parseInt n)))
+        
   (ANY "/photos/_edit/:photo-path{.*}" [photo-path keywords back]
        (edit-photo photo-path keywords back))
   

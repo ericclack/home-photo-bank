@@ -49,6 +49,12 @@
                       (env :media-path)
                       (str (env :media-path) "/_thumbs"))))
 
+(defn split-extension
+  "Return list of name, extension"
+  [file]
+  (s/split (.getName file) #"\."))
+
+
 ;; -------------------------------------------------------
 
 (defn get-exif-metadata
@@ -87,15 +93,19 @@
                 (str (t/day d))
                 (.getName image-file))))
 
-(defn file-name-to-keywords [name]
-  (map #(s/replace % "_" " ")
-       (s/split name #"[ \-,]")))
+(defn file-name-to-keywords
+  "Keywords from file name, separated by -, multi-word
+  separated by _. Single letter keywords are ignored."
+  [name]
+  (filter #(> (count %) 1)
+          (map #(s/replace % "_" " ")
+               (s/split name #"[ \-,]"))))
 
 (defn make-photo-metadata [photo]
   ;; Consider removing media/ from paths -- seems redundant
   (let [path (str photo)
         filename (.getName photo)
-        name (first (s/split (.getName photo) #"\."))]
+        name (first (split-extension photo))]
     {:_id path
      :path path
      :filename filename
@@ -249,26 +259,22 @@
 
 ;; -------------------------------------------------------
 
-(defn images-to-process
+(defn photos-to-process
   "JPG image files in the media/_process directory"
   []
   (filter is-jpeg (file-seq (media-path "_process"))))
 
-(defn file-extension
-  [file]
-  (second (s/split (.getName file) #"\.")))
-
-(defn keyword-image-to-process
-  "Add keywords to this image by renaming it, ready
+(defn process-photo-add-keywords!
+  "Add keywords to this photo by renaming it, ready
   for import. Seq is 1 unless the new name would clash
   with an existing file, in which case it is incremented."
-  ([image-file keywords] (keyword-image-to-process image-file keywords 1))
-  ([image-file keywords seq]
-   (let [path (.getParentFile image-file)
+  ([photo-file keywords] (process-photo-add-keywords! photo-file keywords 1))
+  ([photo-file keywords seq]
+   (let [path (.getParentFile photo-file)
          keywords-part (s/join "-" keywords)
-         extension (file-extension image-file)
+         extension (second (split-extension photo-file))
          new-name (str keywords-part "-" seq "." extension)
          new-file (io/file path new-name)]
      (if (.exists new-file)
-       (recur image-file keywords (+ 1 seq))
-       (list image-file new-file)))))
+       (recur photo-file keywords (+ 1 seq))
+       (.renameTo photo-file new-file)))))

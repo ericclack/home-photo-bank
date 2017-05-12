@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block top-level-categories %}
+{% endblock %}
+
+{% block content %}
+<div class="row" style="padding-bottom: 1em">
+  <div class="col-sm-12">
+    <h1>Process Photos</h1>
+  </div>
+</div>
+
+{% if photo %}
+<div class="row" style="padding-bottom: 1em">
+  <div class="col-sm-12">
+    <h2>#{{n}} of {{num-photos}} - {{name}}</h2>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-6">
+    <div class="thumbnail">
+      <img src="/{{photo}}" alt="{{name}}" class="img-rounded img-thumbnail"/>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <form method="POST" action="/photos/_process/{{name}}">
+      {% csrf-field %}
+      Add, edit or remove keywords:<br/>
+      <textarea name="keywords" rows="10">{% for word in keywords %}{{word}}
+{% endfor %}</textarea>
+      <br/>
+
+      <input type="hidden" name="photo" value="{{photo}}"/>
+      <input type="hidden" name="n" value="{{n}}"/>
+      <input type="submit" name="Next" value="Next &gt"/>
+    </form>
+  </div>
+</div>
+{% else %}
+
+<div class="row" style="padding-bottom: 1em">
+  <div class="col-sm-12">
+    <h2>All {{num-photos}} photos done :)</h2>
+
+    <p style="padding-top: 1em;">You can now:
+      <a href="/photos/_process" class="btn btn-secondary">Review keywords again</a> or <a href="" class="btn btn-primary">start photo import</a></p>
+  </div>
+</div>
+{% endif %}
+
+{% endblock %}

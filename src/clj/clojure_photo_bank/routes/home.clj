@@ -67,7 +67,7 @@
   (render "about.html"))
 
 (defn photo-search [word req]
-  (let [trimmed-word (s/trim word)
+  (let [trimmed-word (s/trim (s/lower-case word))
         words (s/split trimmed-word #" ")
         photos
         ;; At least two words? Then search for both
@@ -80,7 +80,7 @@
   
         (render
          "search.html"
-         {:word word
+         {:word trimmed-word
           :photos photos
           }
          req)))

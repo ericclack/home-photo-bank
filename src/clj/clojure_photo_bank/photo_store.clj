@@ -279,10 +279,13 @@
   ([photo-file keywords] (process-photo-add-keywords! photo-file keywords 1))
   ([photo-file keywords seq]
    (let [path (.getParentFile photo-file)
+         old-name (.getName photo-file)
          keywords-part (keywords-to-file-name keywords)
          extension (second (split-extension photo-file))
          new-name (str keywords-part "-" seq "." extension)
          new-file (io/file path new-name)]
-     (if (.exists new-file)
-       (recur photo-file keywords (+ 1 seq))
-       (.renameTo photo-file new-file)))))
+     (when-not (= old-name new-name)
+       (if (.exists new-file)
+         (recur photo-file keywords (+ 1 seq))
+         (.renameTo photo-file new-file))))))
+  

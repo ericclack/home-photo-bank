@@ -39,6 +39,7 @@
 </div>
 {% else %}
 
+{% if num-photos > 0 %}
 <div class="row" style="padding-bottom: 1em">
   <div class="col-sm-12">
     <h2>All {{num-photos}} photos done :)</h2>
@@ -53,6 +54,15 @@
     </form>
   </div>
 </div>
+{% else %}
+
+<div class="row" style="padding-bottom: 1em">
+  <div class="col-sm-12">
+    <h2>No photos left to process :)</h2>
+  </div>
+</div>
+{% endif %}
+
 {% endif %}
 
 {% endblock %}

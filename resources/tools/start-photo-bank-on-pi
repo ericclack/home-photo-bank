@@ -3,9 +3,9 @@
 echo "Start in a screen session."
 echo "Once server has started, disconnect from screen with Ctrl-A d"
 echo
-echo "Then connect from your computer to run imports etc. E.g."
+echo "Then connect from your computer to run import watcher"
 echo "lein repl :connect saturn:3001"
-echo "(clojure-photo-bank.photo-store/import-images!)"
+echo "(future (clojure-photo-bank.photo-store/watch-and-import!))"
 echo
 
 cd ~/code/clojure/clojure-photo-bank/

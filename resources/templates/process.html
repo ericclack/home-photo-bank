@@ -44,7 +44,13 @@
     <h2>All {{num-photos}} photos done :)</h2>
 
     <p style="padding-top: 1em;">You can now:
-      <a href="/photos/_process" class="btn btn-secondary">Review keywords again</a> or <a href="" class="btn btn-primary">start photo import</a></p>
+      <a href="/photos/_process" class="btn btn-secondary">Review keywords again</a></p>
+    <p>or</p>
+    <form method="POST" action="/photos/_processing-done">
+      {% csrf-field %}
+      <input type="submit" class="btn btn-primary" name="done"
+             value="Start photo import" />
+    </form>
   </div>
 </div>
 {% endif %}

@@ -288,4 +288,25 @@
        (if (.exists new-file)
          (recur photo-file keywords (+ 1 seq))
          (.renameTo photo-file new-file))))))
-  
+
+(defn is-processed
+  "We guess this file is processed if its name ends 
+  with -nnn and it has a multi-char strings in it"
+  [file]
+  (re-find #"[a-zA-Z]{2,}.*-\d+" (first (split-extension file))))
+
+(defn processed-photos
+  []
+  (filter is-processed 
+          (photos-to-process)))
+
+(defn move-process-photo-to-import!
+  [file]
+  (let [destination (media-path "_import" (.getName file))]
+    (.renameTo file destination)
+    destination))  
+
+(defn move-processed-to-import!
+  []
+  (map move-process-photo-to-import!
+       (processed-photos)))

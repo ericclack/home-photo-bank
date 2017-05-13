@@ -123,6 +123,12 @@
        :keywords keywords
        :photos photos}))))
 
+(defn processing-done
+  []
+  (log/info
+   (ps/move-processed-to-import!))
+  (process-photos))
+
 ;; ----------------------------------------------------
 
 (defroutes home-routes
@@ -131,7 +137,8 @@
   (GET "/photos/_process" [] (process-photos))
   (POST "/photos/_process/:photo-path{.*}" [photo-path keywords n]
         (process-photos photo-path keywords (Integer/parseInt n)))
-        
+  (POST "/photos/_processing-done" [] (processing-done))
+
   (ANY "/photos/_edit/:photo-path{.*}" [photo-path keywords back]
        (edit-photo photo-path keywords back))
   

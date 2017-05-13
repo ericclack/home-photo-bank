@@ -50,7 +50,7 @@
                       (str (env :media-path) "/_thumbs"))))
 
 (defn split-extension
-  "Return list of name, extension"
+  "Return list of (name extension)"
   [file]
   (s/split (.getName file) #"\."))
 
@@ -94,12 +94,19 @@
                 (.getName image-file))))
 
 (defn file-name-to-keywords
-  "Keywords from file name, separated by -, multi-word
-  separated by _. Single letter keywords are ignored."
+  "Keywords from file name (without extension), 
+  separated by -, multi-word separated by _. Single 
+  letter keywords are ignored."
   [name]
   (filter #(> (count %) 1)
           (map #(s/replace % "_" " ")
                (s/split name #"[ \-,]"))))
+
+(defn keywords-to-file-name
+  "Turn a list of keywords into a file name (without extension)"
+  [keywords]
+  (s/replace (s/join "-" keywords)
+             " " "_"))
 
 (defn make-photo-metadata [photo]
   ;; Consider removing media/ from paths -- seems redundant
@@ -262,7 +269,8 @@
 (defn photos-to-process
   "JPG image files in the media/_process directory"
   []
-  (filter is-jpeg (file-seq (media-path "_process"))))
+  (sort #(compare (.lastModified %1) (.lastModified %2))
+        (filter is-jpeg (file-seq (media-path "_process")))))
 
 (defn process-photo-add-keywords!
   "Add keywords to this photo by renaming it, ready
@@ -271,7 +279,7 @@
   ([photo-file keywords] (process-photo-add-keywords! photo-file keywords 1))
   ([photo-file keywords seq]
    (let [path (.getParentFile photo-file)
-         keywords-part (s/join "-" keywords)
+         keywords-part (keywords-to-file-name keywords)
          extension (second (split-extension photo-file))
          new-name (str keywords-part "-" seq "." extension)
          new-file (io/file path new-name)]

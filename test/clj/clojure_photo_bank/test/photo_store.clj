@@ -16,7 +16,7 @@
     (is (= "January 2017" (ps/category-name "2017/1")))
     (is (= "1 February 2016" (ps/category-name "2016/2/1")))))
 
-(deftest photo-metadata
+(deftest keywords
   (testing "file name to keywords"
     (is (= (list "apple" "pear" "orange")
            (ps/file-name-to-keywords "apple-pear-orange")))
@@ -26,7 +26,13 @@
            (ps/file-name-to-keywords "apple-banana-1")))
     (is (= (list "apple" "banana")
            (ps/file-name-to-keywords "apple-banana-1-a-b")))
-    ))
+    )
+  (testing "keywords to file name"
+    (is (= "apple-pear-orange"
+           (ps/keywords-to-file-name (list "apple" "pear" "orange"))))
+    (is (= "apple_pie-pear"
+           (ps/keywords-to-file-name (list "apple pie" "pear"))))))
+
 
 (deftest dates-and-categories
   (testing "year, month, day -> category"

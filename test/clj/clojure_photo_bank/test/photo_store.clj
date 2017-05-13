@@ -26,10 +26,13 @@
            (ps/file-name-to-keywords "apple-banana-1")))
     (is (= (list "apple" "banana")
            (ps/file-name-to-keywords "apple-banana-1-a-b")))
-    )
+    (is (= (list "apple" "banana")
+           (ps/file-name-to-keywords "applE-Banana-1"))))
   (testing "keywords to file name"
     (is (= "apple-pear-orange"
            (ps/keywords-to-file-name (list "apple" "pear" "orange"))))
+    (is (= "apple-pear-orange"
+           (ps/keywords-to-file-name (list "apple" "peaR" "ORANGE"))))
     (is (= "apple_pie-pear"
            (ps/keywords-to-file-name (list "apple pie" "pear"))))))
 

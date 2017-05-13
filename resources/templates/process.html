@@ -18,12 +18,12 @@
 </div>
 
 <div class="row">
-  <div class="col-sm-6">
+  <div class="col-sm-9">
     <div class="thumbnail">
       <img src="/{{photo}}" alt="{{name}}" class="img-rounded img-thumbnail"/>
     </div>
   </div>
-  <div class="col-sm-6">
+  <div class="col-sm-3">
     <form method="POST" action="/photos/_process/{{name}}">
       {% csrf-field %}
       Add, edit or remove keywords:<br/>

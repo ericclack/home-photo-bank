@@ -100,13 +100,13 @@
   [name]
   (filter #(> (count %) 1)
           (map #(s/replace % "_" " ")
-               (s/split name #"[ \-,]"))))
+               (s/split (s/lower-case name) #"[ \-,]"))))
 
 (defn keywords-to-file-name
   "Turn a list of keywords into a file name (without extension)"
   [keywords]
-  (s/replace (s/join "-" keywords)
-             " " "_"))
+  (s/lower-case (s/replace (s/join "-" keywords)
+                           " " "_")))
 
 (defn make-photo-metadata [photo]
   ;; Consider removing media/ from paths -- seems redundant

@@ -1,20 +1,21 @@
 # clojure-photo-bank
 
-generated using Luminus version "2.9.11.34"
 
-FIXME
+Philosophy:
+
+* Home Photo Bank – a safe place to store family photos
+* Photos are always JPEGs – if not, convert them first using your photo software
+* Use EXIF: Photos are organised by creation date
+* Named photos contain keywords
+* Home network is fast
+* Never modify photo files, except moving them into their category folders
+
 
 ## Prerequisites
 
 You will need [Leiningen][1] 2.0 or above installed.
 
 [1]: https://github.com/technomancy/leiningen
-
-## Running
-
-To start a web server for the application, run:
-
-    lein run
 
 ## Set up
 
@@ -36,9 +37,11 @@ Now create the database views:
 
     lein setup-db
 
-Create your `media/_import` directory, this is where you'll put photos for import into your Photo Bank.
+Create your `media/_import`, `media/_process` and `media/_failed`
+directories, these are used when importing photos into your photo
+bank.
 
-Put some photos into the import directory. Name them with some keywords.
+Put some photos into the _import directory. Name them with some keywords.
 
 Run the following from the REPL:
 
@@ -49,6 +52,39 @@ of creation) and generates metadata from the filename and
 stores in CouchDB.
 
 Now browse to: http://127.0.0.1:3000/
+
+## Copying files into _process or _import
+
+Set up a new user on your home server and generate keys so that other people can
+copy photos into the bank...
+
+(test it)
+
+```
+sudo adduser --disabled-password photo-uploader 
+su - photo-uploader
+ln -s path-to-media-process-directory ~photo-uploader/
+ssh-keygen
+```
+
+Now add your key to photo-uploader's authorized_keys file:
+
+```
+emacs .ssh/authorized_keys
+```
+
+Now set permissions on the _process directory
+
+```
+path/to/_process $ chgrp photo-uploader .
+path/to/_process $ chmod +t .
+```
+
+## Running
+
+To start a web server for the application, run:
+
+    lein run
 
 ## Photo metadata
 

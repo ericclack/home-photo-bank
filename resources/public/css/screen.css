@@ -42,8 +42,8 @@ div.thumbnail {
 
 div#keyword-form {
     position: fixed;
-    top: 12em;
+    top: 16em;
     right: 7em;
     background-color: rgba(255, 255, 255, 0.5);
-    padding: 11px 15px;
+    padding: 9px 15px;
 }

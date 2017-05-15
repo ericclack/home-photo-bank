@@ -7,10 +7,13 @@
 <div class="row" style="padding-bottom: 1em">
   <div class="col-sm-12">
     <h1>Process Photos for Import</h1>
+    <p>Add keywords to your photos before import so that
+      each file can be named with something descriptive.</p>
   </div>
 </div>
 
 <div class="row" style="padding-bottom: 1em">
+  {% if num-photos > 0 %}
   <div class="col-sm-3">
     <p><b>{{num-photos}} photos:</b></p>
     <ul style="padding-left: 0; list-style-type: none;">
@@ -18,7 +21,8 @@
       <li><a href="/photos/_process/{{p}}">{{p}}</a></li>
       {% endfor %}
     </ul>
-  </div>  
+  </div>
+  {% endif %}
 
 {% if photo %}
 
@@ -61,7 +65,8 @@
   {% else %}
 
     <div class="col-sm-9">
-      <h2>No photos left to process :)</h2>
+      <h2>No photos left to process</h2>
+      <p>Upload some more to process by dropping them into your ForPhotoBank folder.</p>
     </div>
 
   {% endif %}

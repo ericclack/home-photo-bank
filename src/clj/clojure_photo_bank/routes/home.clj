@@ -100,31 +100,40 @@
     }))
 
 (defn process-photos
-  ([] (process-photos 1))
-  ([photo-path keywords n]
-   (ps/process-photo-add-keywords!
-    (io/file (ps/media-path "_process" photo-path))
-    (str->keywords keywords))
-   (process-photos (+ 1 n)))
-  ([n]
-   (let [photos (ps/photos-to-process)
-         num-photos (count photos)
-         in-range (<= n num-photos)
-         photo (when in-range (nth photos (- n 1)))
-         name (when in-range (.getName photo))
-         keywords (when in-range (ps/file-name-to-keywords
-                                  (first (ps/split-extension photo))))]
+  "Display the next photo for processing"
+  ([]
+   (let [next (first (ps/process-photos-with-no-keywords))
+         name (when next (.getName next))]
+     (process-photos name)))
+  
+  ([photo-path]
+   (let [all-photos (ps/photos-to-process)
+         num-photos (count all-photos)
+         done? (nil? photo-path)
+         photo (when-not done? (first (filter #(= photo-path
+                                                  (.getName %))
+                                              all-photos)))
+         name (when-not done? (.getName photo))
+         keywords (when-not done? (ps/file-name-to-keywords
+                                   (first (ps/split-extension photo))))]
      (render
       "process.html"
-      {:n n
-       :num-photos num-photos
+      {:num-photos num-photos
        :photo photo
        :name name
        :keywords keywords
-       :photos photos
-       :photos-names (map #(.getName %) photos)}))))
+       :all-photos all-photos
+       :all-photos-names (map #(.getName %) all-photos)}))))
 
-(defn processing-done
+(defn process-photo!
+  "Add keywords to this photo"
+  [photo-path keywords]
+   (ps/process-photo-add-keywords!
+    (io/file (ps/media-path "_process" photo-path))
+    (str->keywords keywords))
+   (process-photos))
+
+(defn processing-done!
   []
   (log/info
    (ps/move-processed-to-import!))
@@ -135,10 +144,14 @@
 (defroutes home-routes
   (GET "/" [] (home-page))
   (GET "/photos/_search" [word :as req] (photo-search word req))
+
   (GET "/photos/_process" [] (process-photos))
-  (POST "/photos/_process/:photo-path{.*}" [photo-path keywords n]
-        (process-photos photo-path keywords (Integer/parseInt n)))
-  (POST "/photos/_processing-done" [] (processing-done))
+  (GET "/photos/_process/:photo-path{.*}" [photo-path]
+        (process-photos photo-path))
+  
+  (POST "/photos/_process/:photo-path{.*}" [photo-path keywords]
+        (process-photo! photo-path keywords))
+  (POST "/photos/_processing-done" [] (processing-done!))
 
   (ANY "/photos/_edit/:photo-path{.*}" [photo-path keywords back]
        (edit-photo photo-path keywords back))

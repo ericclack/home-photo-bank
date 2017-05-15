@@ -6,71 +6,68 @@
 {% block content %}
 <div class="row" style="padding-bottom: 1em">
   <div class="col-sm-12">
-    <h1>Process Photos</h1>
+    <h1>Process Photos for Import</h1>
   </div>
 </div>
 
-{% if photo %}
 <div class="row" style="padding-bottom: 1em">
-  <div class="col-sm-12">
-    <h2>#{{n}} of {{num-photos}} - {{name}}</h2>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-sm-2">
-    <p>Photos:</p>
+  <div class="col-sm-3">
+    <p><b>{{num-photos}} photos:</b></p>
     <ul style="padding-left: 0; list-style-type: none;">
-      {% for p in photos-names %}
-      <li>{{p}}</li>
+      {% for p in all-photos-names %}
+      <li><a href="/photos/_process/{{p}}">{{p}}</a></li>
       {% endfor %}
     </ul>
   </div>  
-  <div class="col-sm-8">
+
+{% if photo %}
+
+  <div class="col-sm-9">
+    <h2>Add keywords to {{name}}</h2>
     <div class="thumbnail">
       <img src="/{{photo}}" alt="{{name}}" class="img-rounded img-thumbnail"/>
     </div>
   </div>
-  <div class="col-sm-2">
+
+  <div id="keyword-form">
     <form method="POST" action="/photos/_process/{{name}}">
       {% csrf-field %}
       Add keywords:<br/>
-      <textarea name="keywords" rows="10" autofocus>{% for word in keywords %}{{word}}
+      <textarea name="keywords" rows="5" autofocus>{% for word in keywords %}{{word}}
 {% endfor %}</textarea>
       <br/>
 
       <input type="hidden" name="photo" value="{{photo}}"/>
-      <input type="hidden" name="n" value="{{n}}"/>
       <input type="submit" name="Next" value="Next &gt"/>
     </form>
   </div>
-</div>
+
 {% else %}
 
-{% if num-photos > 0 %}
-<div class="row" style="padding-bottom: 1em">
-  <div class="col-sm-12">
+  {% if num-photos > 0 %}
+
+  <div class="col-sm-9">
     <h2>All {{num-photos}} photos done :)</h2>
 
-    <p style="padding-top: 1em;">You can now:
-      <a href="/photos/_process" class="btn btn-secondary">Review keywords again</a></p>
-    <p>or</p>
+    <p style="padding-top: 1em;">You can add or change keywords by
+      clicking a link on the left, or... </p>
     <form method="POST" action="/photos/_processing-done">
       {% csrf-field %}
       <input type="submit" class="btn btn-primary" name="done"
              value="Start photo import" />
     </form>
   </div>
-</div>
-{% else %}
 
-<div class="row" style="padding-bottom: 1em">
-  <div class="col-sm-12">
-    <h2>No photos left to process :)</h2>
-  </div>
-</div>
+  {% else %}
+
+    <div class="col-sm-9">
+      <h2>No photos left to process :)</h2>
+    </div>
+
+  {% endif %}
+
 {% endif %}
 
-{% endif %}
-
+</div>
+    
 {% endblock %}

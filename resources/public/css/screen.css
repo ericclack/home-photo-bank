@@ -39,3 +39,11 @@ div.thumbnail div.caption a.btn {
 div.thumbnail {
     margin-bottom: 15px;
 }
+
+div#keyword-form {
+    position: fixed;
+    top: 12em;
+    right: 7em;
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 11px 15px;
+}

@@ -10,7 +10,11 @@
     <p>
       {% if month %}
       <a class="btn btn-outline-secondary btn-sm" href="/photos/{{prev-month-category}}">&lt; Prev month</a>
-      {% endif %}      
+      {% endif %}
+
+      {% if day %}
+      <a class="btn btn-outline-secondary btn-sm" href="/photos/{{year}}/{{month}}">All of month</a>
+      {% endif %}
 
       {% for c,n in categories-and-names %}
       <a class="btn btn-outline-primary btn-sm" href="/photos/{{category}}/{{c}}">{{n}}</a>

@@ -121,7 +121,8 @@
        :photo photo
        :name name
        :keywords keywords
-       :photos photos}))))
+       :photos photos
+       :photos-names (map #(.getName %) photos)}))))
 
 (defn processing-done
   []

@@ -18,16 +18,24 @@
 </div>
 
 <div class="row">
-  <div class="col-sm-9">
+  <div class="col-sm-2">
+    <p>Photos:</p>
+    <ul style="padding-left: 0; list-style-type: none;">
+      {% for p in photos-names %}
+      <li>{{p}}</li>
+      {% endfor %}
+    </ul>
+  </div>  
+  <div class="col-sm-8">
     <div class="thumbnail">
       <img src="/{{photo}}" alt="{{name}}" class="img-rounded img-thumbnail"/>
     </div>
   </div>
-  <div class="col-sm-3">
+  <div class="col-sm-2">
     <form method="POST" action="/photos/_process/{{name}}">
       {% csrf-field %}
-      Add, edit or remove keywords:<br/>
-      <textarea name="keywords" rows="10">{% for word in keywords %}{{word}}
+      Add keywords:<br/>
+      <textarea name="keywords" rows="10" autofocus>{% for word in keywords %}{{word}}
 {% endfor %}</textarea>
       <br/>
 

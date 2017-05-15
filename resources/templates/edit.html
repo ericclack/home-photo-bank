@@ -28,7 +28,7 @@
     <form method="POST">
       {% csrf-field %}
       Add, edit or remove keywords:<br/>
-      <textarea name="keywords" rows="10">{% for word in photo.keywords %}{{word}}
+      <textarea name="keywords" rows="10" autofocus>{% for word in photo.keywords %}{{word}}
 {% endfor %}</textarea>
       <br/>
 

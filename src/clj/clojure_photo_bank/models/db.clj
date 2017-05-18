@@ -3,6 +3,7 @@
             [environ.core :refer [env]]
             [clojure.string :as s]
             [clojure.set :as set]
+            [clojure.core.memoize :as memo]
             [clojure.pprint :refer [pprint pp]]))
 
 (defmacro with-db
@@ -14,7 +15,8 @@
   (with-db (couch/get-document photo-path)))
 
 (defn set-photo-metadata! [photo-path metadata]
-  (with-db (couch/put-document metadata)))
+  (with-db (couch/put-document metadata))
+  (memo/memo-clear! all-photo-keywords))
 
 (defn set-photo-keywords! [photo-path keywords]
   (with-db (set-photo-metadata! photo-path
@@ -43,13 +45,15 @@
          (map set
               (map photos-with-keyword-starting stems))))
 
-(defn all-photo-keywords
-  "Return a list of (key, count) pairs"
-  []
-  (map #(list (:key %) (:value %))
-       (with-db (couch/get-view "photos" "by_keyword"
-                                {:reduce true
-                                 :group true }))))
+(def all-photo-keywords
+  ;; "Return a list of (key, count) pairs"
+  (memo/memo
+   (fn []
+     (map #(list (:key %) (:value %))
+          (with-db (couch/get-view "photos" "by_keyword"
+                                   {:reduce true
+                                    :group true }))))))
+
 (defn popular-photo-keywords
   "Return the top scoring keywords"
   [n]

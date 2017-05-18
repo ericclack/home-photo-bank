@@ -25,7 +25,7 @@
 
 (defn home-page []
   (let [all-keywords (db/all-photo-keywords)
-        pop-keywords (db/popular-photo-keywords 50)
+        pop-keywords (db/popular-photo-keywords 100)
         random-keyword (first (rand-nth all-keywords))
         keyword-photos (db/photos-with-keyword random-keyword)]
     (render

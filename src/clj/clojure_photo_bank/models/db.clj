@@ -14,15 +14,6 @@
 (defn photo-metadata [photo-path]
   (with-db (couch/get-document photo-path)))
 
-(defn set-photo-metadata! [photo-path metadata]
-  (with-db (couch/put-document metadata))
-  (memo/memo-clear! all-photo-keywords))
-
-(defn set-photo-keywords! [photo-path keywords]
-  (with-db (set-photo-metadata! photo-path
-                                (assoc (couch/get-document photo-path)
-                                       :keywords (map s/lower-case keywords)))))
-
 ;; -------------------------------------------------
 
 (defn photos-with-keyword [word]
@@ -74,3 +65,15 @@
 (defn grouped-photos-in-parent-category [category]
   (group-by #(:category %)
             (photos-in-parent-category category)))
+
+;; ----------------------------------------------------------
+
+(defn set-photo-metadata! [photo-path metadata]
+  (with-db (couch/put-document metadata))
+  (memo/memo-clear! all-photo-keywords))
+
+(defn set-photo-keywords! [photo-path keywords]
+  (with-db (set-photo-metadata! photo-path
+                                (assoc (couch/get-document photo-path)
+                                       :keywords (map s/lower-case keywords)))))
+

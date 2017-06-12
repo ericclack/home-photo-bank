@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+  <div class="col-sm-12">
+    <h2>All keywords:</h2>
+    {% for word,num in all-keywords %}
+    <a href="/photos/_search?word={{word}}"
+       class="btn btn-outline-secondary btn-sm"
+       style="margin: 0.2em 0.2em">{{word}} x {{num}}</a>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

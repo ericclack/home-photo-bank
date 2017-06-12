@@ -97,6 +97,12 @@
           }
          req)))
 
+(defn all-keywords []
+  (let [all-keywords (db/all-photo-keywords)]
+    (render "keywords.html"
+            {:top-level-categories (ps/top-level-categories)
+             :all-keywords all-keywords})))
+
 (defn str->keywords
   [s]
   (map s/trim (s/split-lines s)))
@@ -156,6 +162,7 @@
 (defroutes home-routes
   (GET "/" [] (home-page))
   (GET "/photos/_search" [word :as req] (photo-search word req))
+  (GET "/photos/_keywords" [] (all-keywords))
 
   (GET "/photos/_process" [] (process-photos))
   (GET "/photos/_process/:photo-path{.*}" [photo-path]

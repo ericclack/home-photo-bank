@@ -11,6 +11,12 @@
   `(couch/with-db (env :database-url)
      ~@body))
 
+(defn all-photos
+  []
+  (with-db (couch/all-documents {:startkey "media/"
+                                 :endkey "media/\uffff"
+                                 :include_docs true})))
+
 (defn photo-metadata [photo-path]
   (with-db (couch/get-document photo-path)))
 
@@ -68,12 +74,15 @@
 
 ;; ----------------------------------------------------------
 
-(defn set-photo-metadata! [photo-path metadata]
-  (with-db (couch/put-document metadata))
-  (memo/memo-clear! all-photo-keywords))
+(defn set-photo-metadata!
+  "metadata is a complete couch document"
+  [metadata]
+  (let [doc (with-db (couch/put-document metadata))]
+    (memo/memo-clear! all-photo-keywords)
+    doc))
 
 (defn set-photo-keywords! [photo-path keywords]
-  (with-db (set-photo-metadata! photo-path
-                                (assoc (couch/get-document photo-path)
-                                       :keywords (map s/lower-case keywords)))))
+  (with-db (set-photo-metadata!
+            (assoc (couch/get-document photo-path)
+                   :keywords (map s/lower-case keywords)))))
 

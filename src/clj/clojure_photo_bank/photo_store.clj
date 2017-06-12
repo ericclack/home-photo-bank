@@ -150,8 +150,7 @@
   (try
     (let [stored-image (move-image-into-store! image-file)]
       (make-image-thumbnail! stored-image)
-      (db/set-photo-metadata! stored-image
-                              (make-photo-metadata stored-image))
+      (db/set-photo-metadata! (make-photo-metadata stored-image))
       stored-image)
     (catch Exception e
       (log/warn "Cannot import" image-file "Maybe missing EXIF?" e)
@@ -260,7 +259,7 @@
 (defn create-initial-photo-metadata! []
   (map
    #(try
-      (db/set-photo-metadata! % (make-photo-metadata %))
+      (db/set-photo-metadata! (make-photo-metadata %))
       (catch Exception e (log/warn (.getMessage e))))
    (reverse (all-photos))))
 

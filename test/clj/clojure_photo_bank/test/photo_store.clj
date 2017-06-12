@@ -54,3 +54,11 @@
     (is (= "2017/2" (ps/prev-month-category 2017 3)))
     (is (= "2016/12" (ps/prev-month-category 2017 1))))  
   )
+
+(deftest category-sorting
+  (testing "sort key"
+    (is (= "2017/02/11" (ps/category-sort-key "2017/2/11")))
+    (is (= "2017/12/11" (ps/category-sort-key "2017/12/11"))) 
+    (is (= "2017/02/01" (ps/category-sort-key "2017/2/1")))
+    (is (= "2017/12/01" (ps/category-sort-key "2017/12/1")))
+    )) 

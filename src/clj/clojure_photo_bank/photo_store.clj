@@ -226,6 +226,13 @@
       (some? y)   (str (nth y 1))
       )))
 
+(defn category-sort-key
+  "Zero pad single digit months and days"
+  [category]
+  (s/replace 
+   (s/replace category #"^(\d\d\d\d)/(\d)/" "$1/0$2/")
+   #"^(\d\d\d\d)/(\d\d)/(\d)$" "$1/$2/0$3"))
+
 (defn categories-and-names [category]
   "A list of pairs: '(category name)"
   (map #(list % (category-name (str category "/" %)))

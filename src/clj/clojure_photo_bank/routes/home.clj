@@ -23,6 +23,18 @@
                            :request request
                            :back back)))))
 
+(defn month-photos
+  "A list of lists of photos for this month
+  nested by day: (day1 (photos...) day2 (photos...))
+  sorted by date."
+  [category]
+  (let [grouped-photos (db/grouped-photos-in-parent-category category)
+        sorted-keys (ps/sort-categories (keys grouped-photos))]
+    (map #(list % (get grouped-photos %))
+         sorted-keys)))
+
+;; ---------------------------------------------------
+
 (defn home-page []
   (let [all-keywords (db/all-photo-keywords)
         pop-keywords (db/popular-photo-keywords 100)
@@ -41,7 +53,7 @@
   ([year month day req] 
    (let [category (ps/date-parts-to-category (list year month day))
          photos (if day (db/photos-in-category category) '())
-         month-photos (if (not day) (db/grouped-photos-in-parent-category category) '())
+         month-photos (if (not day) (month-photos category) '())
          iyear (Integer/parseInt year)
          imonth (when month (Integer/parseInt month)) ]
      (render

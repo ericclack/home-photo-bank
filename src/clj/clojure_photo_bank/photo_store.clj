@@ -233,6 +233,12 @@
    (s/replace category #"^(\d\d\d\d)/(\d)/" "$1/0$2/")
    #"^(\d\d\d\d)/(\d\d)/(\d)$" "$1/$2/0$3"))
 
+(defn sort-categories
+  "Sort list of categories in date order"
+  [categories]
+  (sort #(compare (category-sort-key %1) (category-sort-key %2))
+                  categories))
+
 (defn categories-and-names [category]
   "A list of pairs: '(category name)"
   (map #(list % (category-name (str category "/" %)))
@@ -256,8 +262,10 @@
 
 ;; -------------------------------------------------------
 
-(defn all-photos []
-  "Return all photos across all top-level categories"
+(defn all-photos 
+  "Return all photos across all top-level categories
+  from the file system, not couch metadata."
+  []
   (filter is-jpeg
           (flatten
            (map #(file-seq (media-path %))

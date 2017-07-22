@@ -74,6 +74,15 @@
 
 ;; ----------------------------------------------------------
 
+(defn photos-selected [selection]
+  (map #(:doc %)
+       (with-db (couch/get-view "photos" "by_selection"
+                                {:key selection
+                                 :include_docs true}))))
+
+;; ----------------------------------------------------------
+
+
 (defn set-photo-metadata!
   "metadata is a complete couch document"
   [metadata]
@@ -86,3 +95,8 @@
             (assoc (couch/get-document photo-path)
                    :keywords (map s/lower-case keywords)))))
 
+(defn set-photo-selection! [photo-path selections]
+  (with-db (set-photo-metadata!
+            (assoc (couch/get-document photo-path)
+                   :selections (map s/lower-case selections)))))
+  

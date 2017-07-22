@@ -40,13 +40,21 @@
                          class="nav-link{% ifequal page "process.html" %} active{%endifequal%}">
                       import
                       </a>
-                  </li>                                    
+                  </li>
+                  <li class="nav-item">
+                      <a href="{{servlet-context}}/photos/_selection"
+                         class="nav-link{% ifequal page "selection.html" %} active{%endifequal%}">
+                      selection
+                      </a>
+                  </li>
+                  
                   <li class="nav-item">
                       <a href="{{servlet-context}}/about"
                          class="nav-link{% ifequal page "about.html" %} active{%endifequal%}">
                       about
                       </a>
                   </li>
+                  
                   <li>
                     <form method="GET" action="/photos/_search" class="form-inline pull-right">
                       <input type="search" name="word" placeholder="Search" value="{{word}}" class="form-control"/>

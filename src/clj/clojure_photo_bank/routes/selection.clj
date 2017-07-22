@@ -1,6 +1,6 @@
 (ns clojure-photo-bank.routes.selection
   (:require [clojure-photo-bank.layout :as layout]
-            [compojure.core :refer [defroutes GET ANY POST]]
+            [compojure.core :refer [defroutes context GET ANY POST]]
             [ring.util.http-response :as response]
             [ring.util.response :refer [file-response]]
             [clojure.java.io :as io]
@@ -15,14 +15,17 @@
                    {:photos photos})))
 
 (defn select-photo [photo-path]
-  (log/info "in select-photo" photo-path)
   (db/set-photo-selection! photo-path '("1"))
-  (log/info "in select-photo")
+  (layout/render-json "\"ok\""))
+
+(defn unselect-photo [photo-path]
+  (db/set-photo-selection! photo-path '())
   (layout/render-json "\"ok\""))
 
 ;; ----------------------------------------------------
 
 (defroutes selection-routes
-  (GET "/photos/_selection" [] (selection-page))
-  (POST "/photos/_selection/:photo-path{.*}" [photo-path]
-        (select-photo photo-path)))
+  (context "/photos/_select" []
+           (GET "/" [] (selection-page))
+           (POST "/_drop/:photo-path{.*}" [photo-path] (unselect-photo photo-path))
+           (POST "/:photo-path{.*}" [photo-path] (select-photo photo-path))))

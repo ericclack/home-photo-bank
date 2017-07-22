@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}{{word}}{% endblock %}
+
+{% block top-level-categories %}
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col-sm-12">
+    <ul>
+      {% for c in top-level-categories %}
+      <li>
+        <a href="/photos/{{c}}">{{c}}</a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <h1>Selected Photos</h1>
+  </div>
+</div>
+
+{% include "_photos.html" %}
+ 
+{% endblock %}

@@ -14,7 +14,15 @@
     (layout/render "selection.html"
                    {:photos photos})))
 
+(defn select-photo [photo-path]
+  (log/info "in select-photo" photo-path)
+  (db/set-photo-selection! photo-path '("1"))
+  (log/info "in select-photo")
+  (layout/render-json "\"ok\""))
+
 ;; ----------------------------------------------------
 
 (defroutes selection-routes
-  (GET "/photos/_selection" [] (selection-page)))
+  (GET "/photos/_selection" [] (selection-page))
+  (POST "/photos/_selection/:photo-path{.*}" [photo-path]
+        (select-photo photo-path)))

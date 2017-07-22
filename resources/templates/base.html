@@ -89,8 +89,20 @@
     {% script "/assets/tether/dist/js/tether.min.js" %}
     {% script "/assets/bootstrap/js/bootstrap.min.js" %}
 
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript">
       var context = "{{servlet-context}}";
+    </script>
+    <script type="text/javascript">
+      $("button.selection").click(function(button) {
+        const photo_url = $(this).attr("data");
+        $.post({
+          headers: { 'x-csrf-token': '{{csrf-token}}' },
+          url: photo_url,
+          success: function(data) { alert("Thanks"); },
+          error: function(o, s) { alert("Oops: " + s); }
+        });
+      });
     </script>
     {% block page-scripts %}
     {% endblock %}

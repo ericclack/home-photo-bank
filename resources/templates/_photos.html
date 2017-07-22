@@ -16,11 +16,12 @@
         {% endif %}
         <a href="/photos/_edit/{{p.path}}{% if back %}?back={{back}}{% endif %}"
            class="btn btn-warning btn-sm">edit</a>
-        <a href="" {% if p.selections %}
-           class="btn btn-warning btn-sm"
-           {% else %}
-           class="btn btn-outline-warning btn-sm"
-           {% endif %}>&#9734;</a>
+        <button data="/photos/_selection/{{p.path}}"
+                {% if p.selections %}
+                class="selection btn btn-warning btn-sm"
+                {% else %}
+                class="selection btn btn-outline-warning btn-sm"
+                {% endif %}>&#9734;</button>
       </div>
     </div>
   </div>

@@ -30,6 +30,12 @@
           :servlet-context *app-context*)))
     "text/html; charset=utf-8"))
 
+(defn render-json
+  [json]
+  (content-type
+   (ok json)
+   "application/json; charset=utf-8"))   
+
 (defn error-page
   "error-details should be a map containing the following keys:
    :status - error status

@@ -16,16 +16,22 @@
 
 (defn select-photo [photo-path]
   (db/set-photo-selection! photo-path '("1"))
-  (layout/render-json "\"ok\""))
+  (layout/render-json "true"))
 
 (defn unselect-photo [photo-path]
   (db/set-photo-selection! photo-path '())
-  (layout/render-json "\"ok\""))
+  (layout/render-json "false"))
+
+(defn toggle-select-photo [photo-path]
+  (let [photo (db/photo-metadata photo-path)
+        is-selected (some #{"1"} (:selections photo))]
+    (if is-selected
+      (unselect-photo photo-path)
+      (select-photo photo-path))))
 
 ;; ----------------------------------------------------
 
 (defroutes selection-routes
   (context "/photos/_select" []
            (GET "/" [] (selection-page))
-           (POST "/_drop/:photo-path{.*}" [photo-path] (unselect-photo photo-path))
-           (POST "/:photo-path{.*}" [photo-path] (select-photo photo-path))))
+           (POST "/:photo-path{.*}" [photo-path] (toggle-select-photo photo-path))))

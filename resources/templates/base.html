@@ -96,10 +96,20 @@
     <script type="text/javascript">
       $("button.selection").click(function(button) {
         const photo_url = $(this).attr("data");
+        const this_button = this;
+        $(this).blur();
         $.post({
           headers: { 'x-csrf-token': '{{csrf-token}}' },
           url: photo_url,
-          success: function(data) { alert("Thanks"); },
+          success: function(data) {
+            if (data) {
+              $(this_button).removeClass('btn-outline-warning');
+              $(this_button).addClass('btn-warning');
+            } else {
+              $(this_button).removeClass('btn-warning');
+              $(this_button).addClass('btn-outline-warning');
+            }
+          },
           error: function(o, s) { alert("Oops: " + s); }
         });
       });

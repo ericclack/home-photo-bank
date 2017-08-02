@@ -332,11 +332,11 @@
 
 ;; -------------------------------------------------------
 
-(defn selected-photos-as-zip!
+(defn selected-photos-as-zip
   "Write the selected photos as a zip to an output-stream.
    E.g.
    (selected-photos-as-zip 
-      (io/output-stream "foo.zip"))"  
+      (io/output-stream \"foo.zip\"))"  
   [out-stream]
   (with-open [zip (ZipOutputStream. out-stream)]
     (doseq [p (db/photos-selected "1")]

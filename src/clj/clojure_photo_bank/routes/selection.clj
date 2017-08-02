@@ -2,7 +2,7 @@
   (:require [clojure-photo-bank.layout :as layout]
             [compojure.core :refer [defroutes context GET ANY POST]]
             [ring.util.http-response :as response]
-            [ring.util.response :refer [file-response]]
+            [ring.util.response :refer [file-response content-type header]]
             [clojure.java.io :as io]
             [clojure-photo-bank.photo-store :as ps]
             [clojure-photo-bank.models.db :as db]
@@ -29,9 +29,18 @@
       (unselect-photo photo-path)
       (select-photo photo-path))))
 
+(defn download-selection []
+  (let [zip-file "/tmp/photo-bank-selection.zip"]
+    (ps/selected-photos-as-zip (io/output-stream zip-file))
+    (header
+     (content-type (file-response zip-file)
+                   "application/zip")
+     "Content-Disposition" "attachment; filename=\"selection.zip\"")))
+
 ;; ----------------------------------------------------
 
 (defroutes selection-routes
   (context "/photos/_select" []
            (GET "/" [] (selection-page))
+           (GET "/_download" [] (download-selection))
            (POST "/:photo-path{.*}" [photo-path] (toggle-select-photo photo-path))))

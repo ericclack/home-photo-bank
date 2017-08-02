@@ -29,8 +29,8 @@
             [clj-time.core :as t]
             [clj-time.format :as tf]
             ;; -------
-            [clojure-photo-bank.models.db :as db]))
-
+            [clojure-photo-bank.models.db :as db])
+  (:import [java.util.zip ZipEntry ZipOutputStream]))
 
 (def thumbnail-size 300) ;; bounding box 300x300
 
@@ -329,3 +329,18 @@
   []
   (map move-process-photo-to-import!
        (processed-photos-with-keywords)))
+
+;; -------------------------------------------------------
+
+(defn selected-photos-as-zip!
+  "Write the selected photos as a zip to an output-stream.
+   E.g.
+   (selected-photos-as-zip 
+      (io/output-stream "foo.zip"))"  
+  [out-stream]
+  (with-open [zip (ZipOutputStream. out-stream)]
+    (doseq [p (db/photos-selected "1")]
+      (.putNextEntry zip (ZipEntry. (:path p)))
+      (io/copy (io/file (:path p)) zip)
+      (.closeEntry zip)))
+  )

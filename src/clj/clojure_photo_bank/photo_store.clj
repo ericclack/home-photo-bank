@@ -333,14 +333,18 @@
 ;; -------------------------------------------------------
 
 (defn selected-photos-as-zip
-  "Write the selected photos as a zip to an output-stream.
+  "Write the selected photos as a zip to an output-stream,
+   flattening the media directory structure to make it easier
+   to work with the resulting files.
    E.g.
    (selected-photos-as-zip 
       (io/output-stream \"foo.zip\"))"  
   [out-stream]
   (with-open [zip (ZipOutputStream. out-stream)]
     (doseq [p (db/photos-selected "1")]
-      (.putNextEntry zip (ZipEntry. (:path p)))
-      (io/copy (io/file (:path p)) zip)
-      (.closeEntry zip)))
+      (let [path (:path p)
+            flattend-path (s/replace path "/" ",")]
+        (.putNextEntry zip (ZipEntry. flattend-path))
+        (io/copy (io/file path) zip)
+        (.closeEntry zip))))
   )

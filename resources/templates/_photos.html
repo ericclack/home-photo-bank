@@ -2,7 +2,7 @@
   {% for p in photos %}
   <div class="col-sm-3">
     <div class="thumbnail">
-      <a href="/{{p.path}}">
+      <a href="/photo/{{p.path}}{% if back %}?back={{back}}{% endif %}">
         <img src="/{{p.path|thumb}}" alt="{{p.name}}" class="img-rounded img-thumbnail"/>
       </a>
       <div class="caption">

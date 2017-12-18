@@ -48,6 +48,11 @@
                   :random-keyword random-keyword
                   :keyword-photos keyword-photos})))
 
+(defn photo-page [photo-path back]
+  (render
+   "photo.html" {:photo (db/photo-metadata photo-path)
+                 :back back})) 
+
 (defn category-page
   ([year req] (category-page year nil nil req))
   ([year month req] (category-page year month nil req))
@@ -172,7 +177,8 @@
   (GET "/" [] (home-page))
   (GET "/photos/_search" [word :as req] (photo-search word req))
   (GET "/photos/_keywords" [] (all-keywords))
-
+  (GET "/photo/:photo-path{.*}" [photo-path back] (photo-page photo-path back))
+       
   (GET "/photos/_process" [] (process-photos))
   (GET "/photos/_process/:photo-path{.*}" [photo-path]
         (process-photos photo-path))

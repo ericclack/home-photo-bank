@@ -75,3 +75,19 @@ div#full-size-photo-info a#back {
     right: 15px;
     top: 9px;
 }
+
+div#next-photo {
+    position: fixed;
+    right: 0;
+    top: 10em;
+    background-color: rgba(0, 0, 0, 0.5);        
+    padding: 9px 15px;
+}
+
+div#prev-photo {
+    position: fixed;
+    left: 0;
+    top: 10em;
+    background-color: rgba(0, 0, 0, 0.5);        
+    padding: 9px 15px;
+}

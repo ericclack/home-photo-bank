@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 
-{% block top-level-categories %}
-{% endblock %}
+{% block body %}
+<div id="full-size-photo"
+     style="background-image: url('/{{photo.path}}');">
 
-{% block content %}
-<div class="row" style="padding-bottom: 1em">
-  <div class="col-sm-12">
+  <div id="full-size-photo-info">
     <h1>{{photo.name}}</h1>
     {% if back %}
     <p><a href="{{back}}">Back to photos</a></p>
@@ -17,14 +16,6 @@
     <a href="/{{photo.path}}?resize=1000" class="btn btn-outline-primary btn-sm"
        download="{{photo.name}}" >Download for email</a>
   </div>
-</div>
 
-<div class="row">
-  <div class="col-sm-12">
-    <div class="thumbnail">
-      <img src="/{{photo.path}}" alt="{{photo.name}}" class="img-rounded img-thumbnail"/>
-    </div>
-  </div>
 </div>
-
 {% endblock %}

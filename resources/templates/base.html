@@ -12,6 +12,7 @@
     {% style "/css/screen.css" %}
   </head>
   <body>
+    {% block body %}
       <!-- navbar -->
       <nav class="navbar navbar-dark bg-primary" role="navigation">
           <button class="navbar-toggler hidden-sm-up"
@@ -84,6 +85,7 @@
         {% endblock %}
       </div>
 
+      {% endblock %} 
     <!-- scripts -->
     {% script "/assets/jquery/jquery.min.js" %}
     {% script "/assets/tether/dist/js/tether.min.js" %}

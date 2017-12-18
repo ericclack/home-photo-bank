@@ -1,6 +1,6 @@
 html,
 body {
-	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     height: 100%;
 }
 .navbar {
@@ -46,4 +46,24 @@ div#keyword-form {
     right: 7em;
     background-color: rgba(255, 255, 255, 0.5);
     padding: 9px 15px;
+}
+
+div#full-size-photo {
+    height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+div#full-size-photo-info {
+    position: fixed;
+    bottom: 3em;
+    right: 3em;
+    background-color: rgba(0, 0, 0, 0.5);    
+    padding: 9px 15px;
+}
+
+div#full-size-photo-info h1 {
+    color: white;
+    font-size: 100%;
 }

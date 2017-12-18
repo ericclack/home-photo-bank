@@ -6,24 +6,7 @@
 <div class="row">
   <div class="col-sm-12">
     <h1>{{ category-name }}:</h1>
-
-    <p>
-      {% if month %}
-      <a class="btn btn-outline-secondary btn-sm" href="/photos/{{prev-month-category}}">&lt; Prev month</a>
-      {% endif %}
-
-      {% if day %}
-      <a class="btn btn-outline-secondary btn-sm" href="/photos/{{year}}/{{month}}">All of month</a>
-      {% endif %}
-
-      {% for c,n in categories-and-names %}
-      <a class="btn btn-outline-primary btn-sm" href="/photos/{{category}}/{{c}}">{{n}}</a>
-      {% endfor %}
-      
-      {% if month %}
-      <a class="btn btn-outline-secondary btn-sm" href="/photos/{{next-month-category}}">Next month &gt;</a>
-      {% endif %}      
-     </p>
+    {% include "_category_nav.html" %}
   </div>
 </div>
 
@@ -41,6 +24,10 @@
 {% include "_photos.html" %}
 
 {% endfor %}
+
+<hr/>
+{% include "_category_nav.html" %}
+
 {% endif %}
 
 {% endblock %}

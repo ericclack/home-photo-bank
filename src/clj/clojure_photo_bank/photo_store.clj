@@ -137,6 +137,12 @@
     (.renameTo image-file destination)
     destination))
 
+(defn resized-file-as-stream
+  [image-file size]
+  (format/as-stream 
+   (resize image-file size size)
+   "jpg"))
+
 (defn make-image-thumbnail!
   "Make a small version for browsing, call after move-image-into-store"
   [image-file]

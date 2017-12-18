@@ -2,7 +2,8 @@
   (:require [clojure-photo-bank.layout :as layout]
             [compojure.core :refer [defroutes GET ANY POST]]
             [ring.util.http-response :as response]
-            [ring.util.response :refer [file-response]]
+            [ring.util.response :refer [file-response content-type]]
+            [ring.util.io :refer [piped-input-stream]]
             [clojure.java.io :as io]
             [clojure-photo-bank.photo-store :as ps]
             [clojure-photo-bank.models.db :as db]
@@ -72,8 +73,16 @@
        }
       req))))
 
-(defn serve-file [file-path]
-  (file-response (str (ps/media-path file-path))))
+(defn serve-file
+  [file-path resize]
+  (if (nil? resize)
+    (file-response (str (ps/media-path file-path)))
+    (let* [size (Integer/parseInt resize)
+           stream (ps/resized-file-as-stream
+                   (ps/media-path file-path)
+                   size)]
+      (content-type {:body stream }
+                    "image/jpeg"))))
 
 (defn about-page []
   (render "about.html"))
@@ -181,7 +190,7 @@
   (GET "/photos/:year/:month/:day" [year month day :as req]
        (category-page year month day req))
 
-  (GET "/media/:file-path{.*}" [file-path] (serve-file file-path))
+  (GET "/media/:file-path{.*}" [file-path resize] (serve-file file-path resize))
   
   (GET "/about" [] (about-page)))
 

@@ -7,7 +7,7 @@
   <div id="full-size-photo-info">
     <h1>{{photo.name}}</h1>
     {% if back %}
-    <p><a href="{{back}}">Back to photos</a></p>
+    <a href="{{back}}" id="back">Back to photos</a>
     {% endif %}
     {% for word in photo.keywords %}
     <a href="/photos/_search?word={{word}}"

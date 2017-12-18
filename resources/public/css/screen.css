@@ -52,7 +52,7 @@ div#full-size-photo {
     height: 100vh;
     background-position: center;
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: contain;
 }
 
 div#full-size-photo-info {
@@ -66,4 +66,12 @@ div#full-size-photo-info {
 div#full-size-photo-info h1 {
     color: white;
     font-size: 100%;
+    padding: 0px;
+    padding-bottom: 9px;
+}
+
+div#full-size-photo-info a#back {
+    position: absolute;
+    right: 15px;
+    top: 9px;
 }

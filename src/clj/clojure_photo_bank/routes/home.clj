@@ -57,12 +57,12 @@
   [photo-path from find-fn]
   (cond (s/starts-with? from "/photos/_search") (redirect from) ;todo
 
-        (s/starts-with? from "/photos/")
+        :else
         (let [current-photo (db/photo-metadata photo-path)
               category (:category current-photo)
               next-photo (find-fn category photo-path)]
           (if (nil? next-photo)
-            (redirect from)
+            (redirect (str "/photos/" category))
             (redirect (str "/photo/" (:path next-photo) "?back=" from))))))
 
 (defn next-photo-page

@@ -8,13 +8,24 @@
 
   <div id="full-size-photo-info">
     <h1>{{photo.name}}</h1>
+
     {% if back %}
     <a href="{{back}}" id="back">Back to photos</a>
     {% endif %}
+
     {% for word in photo.keywords %}
     <a href="/photos/_search?word={{word}}"
        class="btn btn-outline-secondary btn-sm">{{word}}</a>
     {% endfor %}
+
+    <button data="/photos/_select/{{photo.path}}"
+            {% if p.selections|length > 0 %}        
+      class="selection btn btn-warning btn-sm"
+      {% else %}
+      class="selection btn btn-outline-warning btn-sm"
+      {% endif %}
+      >&#9734;</button>    
+
     <a href="/{{photo.path}}?resize=1000" class="btn btn-outline-primary btn-sm"
        download="{{photo.name}}" >Download for email</a>
   </div>

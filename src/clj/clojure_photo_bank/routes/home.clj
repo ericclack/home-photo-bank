@@ -2,7 +2,7 @@
   (:require [clojure-photo-bank.layout :as layout]
             [compojure.core :refer [defroutes GET ANY POST]]
             [ring.util.http-response :as response]
-            [ring.util.response :refer [file-response content-type]]
+            [ring.util.response :refer [file-response content-type redirect]]
             [ring.util.io :refer [piped-input-stream]]
             [clojure.java.io :as io]
             [clojure-photo-bank.photo-store :as ps]
@@ -51,7 +51,21 @@
 (defn photo-page [photo-path back]
   (render
    "photo.html" {:photo (db/photo-metadata photo-path)
-                 :back back})) 
+                 :back back}))
+
+(defn next-photo-page
+  "Show the next photo after the one specified by photo-path"
+  [photo-path from]
+  (cond (s/starts-with? from "/photos/_search") (redirect from) ;todo
+
+        (s/starts-with? from "/photos/")
+        (let [current-photo (db/photo-metadata photo-path)
+              category (:category current-photo)
+              next-photo (db/next-photo-in-category
+                          category photo-path)]
+          (if (nil? next-photo)
+            (redirect from)
+            (redirect (str "/photo/" (:path next-photo) "?back=" from))))))
 
 (defn category-page
   ([year req] (category-page year nil nil req))
@@ -177,7 +191,6 @@
   (GET "/" [] (home-page))
   (GET "/photos/_search" [word :as req] (photo-search word req))
   (GET "/photos/_keywords" [] (all-keywords))
-  (GET "/photo/:photo-path{.*}" [photo-path back] (photo-page photo-path back))
        
   (GET "/photos/_process" [] (process-photos))
   (GET "/photos/_process/:photo-path{.*}" [photo-path]
@@ -196,6 +209,9 @@
   (GET "/photos/:year/:month/:day" [year month day :as req]
        (category-page year month day req))
 
+  (GET "/photo/_next/:photo-path{.*}" [photo-path from] (next-photo-page photo-path from))
+;  (GET "/photo/_prev/:photo-path{.*}" [photo-path from] (prev-photo-page photo-path from))
+  (GET "/photo/:photo-path{.*}" [photo-path back] (photo-page photo-path back))
   (GET "/media/:file-path{.*}" [file-path resize] (serve-file file-path resize))
   
   (GET "/about" [] (about-page)))

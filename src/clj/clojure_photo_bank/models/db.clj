@@ -72,6 +72,21 @@
   (group-by #(:category %)
             (photos-in-parent-category category)))
 
+
+(defn following-item
+  "Return the item after the item that satisfies pred"
+  [a-list pred]
+  (cond
+    (nil? (second a-list)) nil
+    (pred (first a-list)) (second a-list)
+    :else (recur (rest a-list) pred)))
+  
+(defn next-photo-in-category [category photo-path]
+  (let [photos (photos-in-category category)]
+    (following-item
+     photos
+     #(= photo-path (:path %)))))
+
 ;; ----------------------------------------------------------
 
 (defn photos-selected [selection]
@@ -81,7 +96,6 @@
                                  :include_docs true}))))
 
 ;; ----------------------------------------------------------
-
 
 (defn set-photo-metadata!
   "metadata is a complete couch document"

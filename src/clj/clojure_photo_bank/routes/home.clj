@@ -62,7 +62,9 @@
               category (:category current-photo)
               next-photo (find-fn category photo-path)]
           (if (nil? next-photo)
-            (redirect (str "/photos/" category))
+            (redirect (if (= "" from)
+                        (str "/photos/" category)
+                        from))
             (redirect (str "/photo/" (:path next-photo) "?back=" from))))))
 
 (defn next-photo-page

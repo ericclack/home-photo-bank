@@ -13,7 +13,7 @@ Philosophy:
 
 ## Prerequisites
 
-You will need [Leiningen][1] 2.0 or above installed.
+You will need [Leiningen][1] 2.0 or above and CouchDB (tested with 1.2 and 2.1.1) installed.
 
 [1]: https://github.com/technomancy/leiningen
 

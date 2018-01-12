@@ -1,8 +1,7 @@
 (ns ^{:doc "Set up CouchDB for the photo bank. Run these functions 
             once after install with `lein setup-db`"}
     clojure-photo-bank.models.setup
-  (:require [com.ashafa.clutch :as couch]
-            [clojure-photo-bank.models.db :as db]))
+  (:require [clojure-photo-bank.models.db :as db]))
 
 (defn create-photo-views 
   "Create CouchDB views:

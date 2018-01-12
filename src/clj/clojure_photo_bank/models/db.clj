@@ -1,6 +1,6 @@
 (ns clojure-photo-bank.models.db
-  (:require [com.ashafa.clutch :as couch]
-            [environ.core :refer [env]]
+  (:require [environ.core :refer [env]]
+            [monger.core :as mg]
             [clojure.string :as s]
             [clojure.set :as set]
             [clojure.core.memoize :as memo]
@@ -8,30 +8,30 @@
 
 (defmacro with-db
   [& body]
-  `(couch/with-db (env :database-url)
+  `(mg/connect-via-uri (env :database-url)
      ~@body))
 
 (defn all-photos
   []
-  (with-db (couch/all-documents {:startkey "media/"
+  (with-db (mg/find {:startkey "media/"
                                  :endkey "media/\uffff"
                                  :include_docs true})))
 
 (defn photo-metadata [photo-path]
-  (with-db (couch/get-document photo-path)))
+  (with-db (mg/find-one photo-path)))
 
 ;; -------------------------------------------------
 
 (defn photos-with-keyword [word]
   (map #(:doc %)
-       (with-db (couch/get-view "photos" "by_keyword"
+       (with-db (mg/get-view "photos" "by_keyword"
                                 {:key word
                                  :reduce false
                                  :include_docs true}))))
 
 (defn photos-with-keyword-starting [stem]
   (map #(:doc %)
-       (with-db (couch/get-view "photos" "by_keyword"
+       (with-db (mg/get-view "photos" "by_keyword"
                                 {:startkey stem
                                  :endkey (str stem "\uffff")
                                  :reduce false
@@ -58,13 +58,13 @@
 
 (defn photos-in-category [category]
   (map #(:value %)
-       (with-db (couch/get-view "photos" "by_category"
+       (with-db (mg/get-view "photos" "by_category"
                                 {:key category
                                  :reduce false}))))
 
 (defn photos-in-parent-category [category]
   (map #(:value %)
-       (with-db (couch/get-view "photos" "by_parent_category"
+       (with-db (mg/get-view "photos" "by_parent_category"
                                 {:key category
                                  :reduce false}))))
 
@@ -114,17 +114,17 @@
 (defn set-photo-metadata!
   "metadata is a complete couch document"
   [metadata]
-  (let [doc (with-db (couch/put-document metadata))]
+  (let [doc (with-db (mg/put-document metadata))]
     (memo/memo-clear! all-photo-keywords)
     doc))
 
 (defn set-photo-keywords! [photo-path keywords]
   (with-db (set-photo-metadata!
-            (assoc (couch/get-document photo-path)
+            (assoc (mg/get-document photo-path)
                    :keywords (map s/lower-case keywords)))))
 
 (defn set-photo-selection! [photo-path selections]
   (with-db (set-photo-metadata!
-            (assoc (couch/get-document photo-path)
+            (assoc (mg/get-document photo-path)
                    :selections (map s/lower-case selections)))))
   

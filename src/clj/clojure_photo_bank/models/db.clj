@@ -1,37 +1,45 @@
 (ns clojure-photo-bank.models.db
   (:require [environ.core :refer [env]]
             [monger.core :as mg]
+            [monger.collection :as mc]
+            [monger.query :as q]
             [clojure.string :as s]
             [clojure.set :as set]
             [clojure.core.memoize :as memo]
             [clojure.pprint :refer [pprint pp]]))
 
+(defn db []
+  (:db (mg/connect-via-uri (env :database-url))))
+
+(def coll "photos")
+
 (defmacro with-db
   [& body]
-  `(mg/connect-via-uri (env :database-url)
+  `(q/with-collection (db) coll
      ~@body))
+
+;  `(mg/connect-via-uri (env :database-url)
+;     ~@body))
 
 (defn all-photos
   []
-  (with-db (mg/find {:startkey "media/"
-                                 :endkey "media/\uffff"
-                                 :include_docs true})))
+  (with-db (q/find {})))
 
 (defn photo-metadata [photo-path]
-  (with-db (mg/find-one photo-path)))
+  (with-db (mc/find-one photo-path)))
 
 ;; -------------------------------------------------
 
 (defn photos-with-keyword [word]
   (map #(:doc %)
-       (with-db (mg/get-view "photos" "by_keyword"
+       (with-db (mc/find "photos" "by_keyword"
                                 {:key word
                                  :reduce false
                                  :include_docs true}))))
 
 (defn photos-with-keyword-starting [stem]
   (map #(:doc %)
-       (with-db (mg/get-view "photos" "by_keyword"
+       (with-db (mc/find "photos" "by_keyword"
                                 {:startkey stem
                                  :endkey (str stem "\uffff")
                                  :reduce false
@@ -47,7 +55,7 @@
   (memo/memo
    (fn []
      (map #(list (:key %) (:value %))
-          (with-db (couch/get-view "photos" "by_keyword"
+          (with-db (mc/find "photos" "by_keyword"
                                    {:reduce true
                                     :group true }))))))
 
@@ -58,13 +66,13 @@
 
 (defn photos-in-category [category]
   (map #(:value %)
-       (with-db (mg/get-view "photos" "by_category"
+       (with-db (mc/find "photos" "by_category"
                                 {:key category
                                  :reduce false}))))
 
 (defn photos-in-parent-category [category]
   (map #(:value %)
-       (with-db (mg/get-view "photos" "by_parent_category"
+       (with-db (mc/find "photos" "by_parent_category"
                                 {:key category
                                  :reduce false}))))
 
@@ -105,26 +113,26 @@
 
 (defn photos-selected [selection]
   (map #(:doc %)
-       (with-db (couch/get-view "photos" "by_selection"
+       (with-db (mc/find "photos" "by_selection"
                                 {:key selection
                                  :include_docs true}))))
 
 ;; ----------------------------------------------------------
 
 (defn set-photo-metadata!
-  "metadata is a complete couch document"
+  "metadata is a complete document"
   [metadata]
-  (let [doc (with-db (mg/put-document metadata))]
+  (let [doc (mc/insert (db) coll metadata)]
     (memo/memo-clear! all-photo-keywords)
     doc))
 
 (defn set-photo-keywords! [photo-path keywords]
   (with-db (set-photo-metadata!
-            (assoc (mg/get-document photo-path)
+            (assoc (mc/find-one photo-path)
                    :keywords (map s/lower-case keywords)))))
 
 (defn set-photo-selection! [photo-path selections]
   (with-db (set-photo-metadata!
-            (assoc (mg/get-document photo-path)
+            (assoc (mc/find-one photo-path)
                    :selections (map s/lower-case selections)))))
   

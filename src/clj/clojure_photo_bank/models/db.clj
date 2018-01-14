@@ -3,6 +3,7 @@
             [monger.core :as mg]
             [monger.collection :as mc]
             [monger.query :as q]
+            [monger.operators :refer :all]
             [clojure.string :as s]
             [clojure.set :as set]
             [clojure.core.memoize :as memo]
@@ -26,24 +27,16 @@
   (with-db (q/find {})))
 
 (defn photo-metadata [photo-path]
-  (with-db (mc/find-one photo-path)))
+  (first (with-db (q/find {:_id photo-path}))))
 
 ;; -------------------------------------------------
 
 (defn photos-with-keyword [word]
-  (map #(:doc %)
-       (with-db (mc/find "photos" "by_keyword"
-                                {:key word
-                                 :reduce false
-                                 :include_docs true}))))
+  (with-db (q/find {:keywords {$in [ word ]}})))
 
 (defn photos-with-keyword-starting [stem]
-  (map #(:doc %)
-       (with-db (mc/find "photos" "by_keyword"
-                                {:startkey stem
-                                 :endkey (str stem "\uffff")
-                                 :reduce false
-                                 :include_docs true}))))
+                                        ; To do
+  (photos-with-keyword stem))
 
 (defn photos-with-keywords-starting [stems]
   (apply set/intersection
@@ -54,10 +47,9 @@
   ;; "Return a list of (key, count) pairs"
   (memo/memo
    (fn []
-     (map #(list (:key %) (:value %))
-          (with-db (mc/find "photos" "by_keyword"
-                                   {:reduce true
-                                    :group true }))))))
+     (map #(list % 1)
+                                        ; No count yet
+          (mc/distinct (db) coll "keywords")))))
 
 (defn popular-photo-keywords
   "Return the top scoring keywords"
@@ -65,21 +57,14 @@
   (sort-by first (take n (reverse (sort-by second (all-photo-keywords))))))
 
 (defn photos-in-category [category]
-  (map #(:value %)
-       (with-db (mc/find "photos" "by_category"
-                                {:key category
-                                 :reduce false}))))
+  (with-db (q/find {:category category})))
 
 (defn photos-in-parent-category [category]
-  (map #(:value %)
-       (with-db (mc/find "photos" "by_parent_category"
-                                {:key category
-                                 :reduce false}))))
+  (with-db (q/find {:category {$regex (str "^" category)}})))
 
 (defn grouped-photos-in-parent-category [category]
   (group-by #(:category %)
             (photos-in-parent-category category)))
-
 
 (defn following-item
   "Return the item after the item that satisfies pred"

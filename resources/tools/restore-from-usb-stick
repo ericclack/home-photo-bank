@@ -1,0 +1,15 @@
+#!/bin/sh
+
+APPDIR=code/clojure/clojure-photo-bank
+BACKUPDIR=/Volumes/CLACKPHOTO2
+HOST=192.168.1.103
+
+# Backup database first
+#ssh -A pi@$HOST $APPDIR/resources/tools/backup-couchdb
+#rsync -va pi@$HOST:$APPDIR/resources/backup $BACKUPDIR/
+
+# Now sync media, thumbs first
+rsync -va $BACKUPDIR/media/_thumbs pi@$HOST:$APPDIR/media/ 
+rsync -va $BACKUPDIR/media pi@$HOST:$APPDIR/ 
+
+

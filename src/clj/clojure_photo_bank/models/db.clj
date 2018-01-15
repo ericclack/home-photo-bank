@@ -9,14 +9,14 @@
             [clojure.core.memoize :as memo]
             [clojure.pprint :refer [pprint pp]]))
 
-(defn db []
+(def db
   (:db (mg/connect-via-uri (env :database-url))))
 
 (def coll "photos")
 
 (defmacro with-db
   [& body]
-  `(q/with-collection (db) coll
+  `(q/with-collection db coll
      ~@body))
 
 ;  `(mg/connect-via-uri (env :database-url)
@@ -49,7 +49,7 @@
    (fn []
      (map #(list % 1)
                                         ; No count yet
-          (mc/distinct (db) coll "keywords")))))
+          (mc/distinct db coll "keywords")))))
 
 (defn popular-photo-keywords
   "Return the top scoring keywords"
@@ -97,27 +97,24 @@
 ;; ----------------------------------------------------------
 
 (defn photos-selected [selection]
-  (map #(:doc %)
-       (with-db (mc/find "photos" "by_selection"
-                                {:key selection
-                                 :include_docs true}))))
+  (with-db (q/find {:selections {$in [selection]}})))
 
 ;; ----------------------------------------------------------
 
 (defn set-photo-metadata!
   "metadata is a complete document"
   [metadata]
-  (let [doc (mc/insert (db) coll metadata)]
+  (let [doc (mc/save-and-return db coll metadata)]
     (memo/memo-clear! all-photo-keywords)
     doc))
 
 (defn set-photo-keywords! [photo-path keywords]
-  (with-db (set-photo-metadata!
-            (assoc (mc/find-one photo-path)
-                   :keywords (map s/lower-case keywords)))))
+  (set-photo-metadata!
+   (assoc (photo-metadata photo-path)
+          :keywords (map s/lower-case keywords))))
 
 (defn set-photo-selection! [photo-path selections]
-  (with-db (set-photo-metadata!
-            (assoc (mc/find-one photo-path)
-                   :selections (map s/lower-case selections)))))
+  (set-photo-metadata!
+   (assoc (photo-metadata photo-path)
+          :selections (map s/lower-case selections))))
   

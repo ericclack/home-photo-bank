@@ -7,23 +7,23 @@
 
     <!-- styles -->
     {% style "/assets/bootstrap/css/bootstrap.min.css" %}
-    {% style "/assets/font-awesome/css/font-awesome.min.css" %}
-
+    {% style "/assets/font-awesome/web-fonts-with-css/css/fontawesome-all.min.css" %}
     {% style "/css/screen.css?3" %}
   </head>
   <body>
     {% block body %}
-      <!-- navbar -->
-      <nav class="navbar navbar-dark bg-primary" role="navigation">
+    <!-- navbar -->
+          <nav class="navbar navbar-dark bg-primary navbar-expand-md" role="navigation">
           <button class="navbar-toggler hidden-sm-up"
                   type="button"
                   data-toggle="collapse"
                   data-target="#collapsing-navbar">
               &#9776;
           </button>
-          <div class="collapse navbar-toggleable-xs" id="collapsing-navbar">
-              <a class="navbar-brand" href="{{servlet-context}}/">photo-bank</a>
-              <ul class="nav navbar-nav">
+          <a class="navbar-brand" href="{{servlet-context}}/">photo-bank</a>
+          <div class="collapse navbar-collapse" id="collapsing-navbar">
+
+            <ul class="nav navbar-nav mr-auto">
                   <li class="nav-item">
                       <a href="{{servlet-context}}/"
                          class="nav-link{% ifequal page "home.html" %} active{%endifequal%}">
@@ -55,9 +55,10 @@
                       about
                       </a>
                   </li>
-                  
+	    </ul>
+            <ul class="nav navbar-nav">                  
                   <li>
-                    <form method="GET" action="/photos/_search" class="form-inline pull-right">
+                    <form method="GET" action="/photos/_search" class="form-inline">
                       <input type="search" name="word" placeholder="Search" value="{{word}}" class="form-control"/>
                       <button type="submit" class="btn">Go</button>
                     </form>

@@ -32,11 +32,10 @@
 ;; -------------------------------------------------
 
 (defn photos-with-keyword [word]
-  (with-db (q/find {:keywords {$in [ word ]}})))
+  (with-db (q/find {:keywords word})))
 
 (defn photos-with-keyword-starting [stem]
-                                        ; To do
-  (photos-with-keyword stem))
+  (with-db (q/find {:keywords {$regex (str "^" stem)}})))
 
 (defn photos-with-keywords-starting [stems]
   (apply set/intersection
@@ -61,8 +60,10 @@
 (defn photos-in-category [category]
   (with-db (q/find {:category category})))
 
-(defn photos-in-parent-category [category]
-  (with-db (q/find {:category {$regex (str "^" category)}})))
+(defn photos-in-parent-category
+  "Return photos in parent category such as 2017/1"
+  [category]
+  (with-db (q/find {:category {$regex (str "^" category "/")}})))
 
 (defn grouped-photos-in-parent-category [category]
   (group-by #(:category %)

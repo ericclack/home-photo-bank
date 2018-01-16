@@ -13,29 +13,23 @@ Philosophy:
 
 ## Prerequisites
 
-You will need [Leiningen][1] 2.0 or above installed.
+You will need [Leiningen][1] 2.0 or above installed, plus MongoDB.
 
 [1]: https://github.com/technomancy/leiningen
 
 ## Set up
 
-Start up couchdb. Then create your database:
-
-    curl -X PUT http://127.0.0.1:5984/photo-bank
+Start up MongoDB. (TODO)
 
 Now add its name to profiles.clj, here's an example:
 
 ```
 {:profiles/dev  {:env {:media-path "media"
-                       :database-url "photo-bank" }}
+                       :database-url "mongodb://localhost/photo-bank" }}
  
  :profiles/test {:env {:media-path "media-test"
-                       :database-url "photo-bank-test" }}}
+                       :database-url "mongodb://localhost/photo-bank-test" }}}
 ```
-
-Now create the database views:
-
-    lein setup-db
 
 Create your `media/_import`, `media/_process` and `media/_failed`
 directories, these are used when importing photos into your photo
@@ -100,4 +94,4 @@ Lots!
 
 GNU General Public License v3.0
 
-Copyright © 2017 Eric Clack
+Copyright © 2017/18 Eric Clack

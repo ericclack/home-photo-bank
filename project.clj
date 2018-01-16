@@ -24,7 +24,7 @@
                  [ring-webjars "0.2.0"]
                  [ring/ring-core "1.6.3"]
                  [ring/ring-defaults "0.3.1"]
-		 [ring-middleware-format "0.7.2"]
+                 [ring-middleware-format "0.7.2"]
                  [selmer "1.11.5"]
 
                  ;; ----

@@ -47,9 +47,11 @@
   ;; "Return a list of (key, count) pairs"
   (memo/memo
    (fn []
-     (map #(list % 1)
-                                        ; No count yet
-          (mc/distinct db coll "keywords")))))
+     (map #(list (:_id %) (:count %))
+          (mc/aggregate db coll
+                        [{ $project {:keywords 1 :_id 0}}
+                         { $unwind "$keywords" }
+                         { $group {:_id "$keywords" :count {$sum 1}}} ])))))
 
 (defn popular-photo-keywords
   "Return the top scoring keywords"

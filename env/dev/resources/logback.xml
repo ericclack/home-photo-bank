@@ -32,6 +32,14 @@
         <AppenderRef ref="STDOUT"/>
         <AppenderRef ref="FILE"/>
     </logger>
+    <logger name="org.mongodb.driver" level="warn">
+        <AppenderRef ref="STDOUT"/>
+        <AppenderRef ref="FILE"/>
+    </logger>
+    <logger name="io.undertow" level="warn">
+        <AppenderRef ref="STDOUT"/>
+        <AppenderRef ref="FILE"/>
+    </logger>    
     <root level="DEBUG">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE" />

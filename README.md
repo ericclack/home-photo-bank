@@ -43,7 +43,7 @@ Run the following from the REPL:
 
 This copies the photos into their category directory (year/month/day
 of creation) and generates metadata from the filename and
-stores in CouchDB.
+stores in MongoDB.
 
 Now browse to: http://127.0.0.1:3000/
 

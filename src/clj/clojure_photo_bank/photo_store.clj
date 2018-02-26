@@ -109,7 +109,6 @@
                            " " "_")))
 
 (defn make-photo-metadata [photo]
-  ;; Consider removing media/ from paths -- seems redundant
   (let [path (str photo)
         filename (.getName photo)
         name (first (split-extension photo))]
@@ -117,6 +116,7 @@
      :path path
      :filename filename
      :name name
+     :datetime (get-date-created (get-exif-metadata photo))
      :category (s/replace (.getParent photo)
                           (str (env :media-path) "/")
                           "")

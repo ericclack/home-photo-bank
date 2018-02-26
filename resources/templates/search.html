@@ -23,11 +23,23 @@
   <div class="col-sm-12">
     <h1>Search results for '{{word}}'</h1>
 
-    <p>Pick another keyword to narrow search:
-      {% for w2 in keywords-across-photos %}
+    <p class="narrow">Narrow your search:
+      {% for w2 in keywords-across-photos|take:20 %}
       <a href="/photos/_search?word={{word}}+{{w2}}"
          class="btn btn-outline-secondary btn-sm">{{w2}}</a>
       {% endfor %}
+      
+      {% if keywords-across-photos|length > 20 %}
+      <a class="btn btn-sm btn-secondary" data-toggle="collapse" data-target="#more-keywords">More...</button>
+
+      <div id="more-keywords" class="collapse narrow">
+        {% for w2 in keywords-across-photos|drop:20 %}
+        <a href="/photos/_search?word={{word}}+{{w2}}"
+           class="btn btn-outline-secondary btn-sm">{{w2}}</a>
+        {% endfor %}
+        <hr>
+      </div>
+      {% endif %}
     </p>
   </div>
 </div>

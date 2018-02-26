@@ -135,7 +135,7 @@
          "search.html"
          {:word trimmed-word
           :photos photos
-          :keywords-across-photos (take 25 keywords)
+          :keywords-across-photos (sort keywords)
           }
          req)))
 

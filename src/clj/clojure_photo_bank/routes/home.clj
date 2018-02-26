@@ -8,7 +8,8 @@
             [clojure-photo-bank.photo-store :as ps]
             [clojure-photo-bank.models.db :as db]
             [clojure.tools.logging :as log]
-            [clojure.string :as s]))
+            [clojure.string :as s]
+            [clojure.set :as set]))
 
 (defn render
   "render this template adding in request and back
@@ -127,13 +128,14 @@
            (db/photos-with-keyword-starting trimmed-word)
            (db/photos-with-keywords-starting words))
           (db/photos-with-keyword-starting trimmed-word))
-        keywords-across-photos (db/keywords-across-photos photos)]
+        keywords (set/difference (db/keywords-across-photos photos)
+                             (set words))]
   
         (render
          "search.html"
          {:word trimmed-word
           :photos photos
-          :keywords-across-photos keywords-across-photos
+          :keywords-across-photos (take 25 keywords)
           }
          req)))
 

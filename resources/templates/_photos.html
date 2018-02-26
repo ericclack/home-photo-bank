@@ -3,7 +3,7 @@
   <div class="col-sm-3">
     <div class="thumbnail">
       <a href="/photo/{{p.path}}{% if back %}?back={{back}}{% endif %}">
-        <img src="/{{p.path|thumb}}" alt="{{p.name}}" class="img-rounded img-thumbnail"/>
+        <img data-src="/{{p.path|thumb}}" alt="{{p.name}}" class="lazyload img-rounded img-thumbnail"/>
       </a>
       <div class="caption">
         {% for word in p.keywords %}

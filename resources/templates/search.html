@@ -30,7 +30,7 @@
       {% endfor %}
       
       {% if keywords-across-photos|length > 20 %}
-      <a class="btn btn-sm btn-secondary" data-toggle="collapse" data-target="#more-keywords">More...</button>
+      <a class="btn btn-sm btn-secondary" data-toggle="collapse" data-target="#more-keywords">More...</a>
 
       <div id="more-keywords" class="collapse button-list">
         {% for w2 in keywords-across-photos|drop:20 %}

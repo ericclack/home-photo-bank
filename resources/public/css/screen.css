@@ -32,7 +32,7 @@ body {
   }
 }
 
-div.thumbnail div.caption a.btn, .narrow a.btn {
+div.thumbnail div.caption a.btn, .button-list a.btn {
     margin-bottom: 0.2rem;
 }
 

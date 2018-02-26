@@ -58,6 +58,9 @@
   [n]
   (sort-by first (take n (reverse (sort-by second (all-photo-keywords))))))
 
+(defn keywords-across-photos [photos]
+  (set (flatten (map :keywords photos))))
+
 (defn photos-in-category [category]
   (with-db (q/find {:category category})))
 

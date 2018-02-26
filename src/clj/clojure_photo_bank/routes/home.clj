@@ -126,12 +126,14 @@
           (concat 
            (db/photos-with-keyword-starting trimmed-word)
            (db/photos-with-keywords-starting words))
-          (db/photos-with-keyword-starting trimmed-word))]
+          (db/photos-with-keyword-starting trimmed-word))
+        keywords-across-photos (db/keywords-across-photos photos)]
   
         (render
          "search.html"
          {:word trimmed-word
           :photos photos
+          :keywords-across-photos keywords-across-photos
           }
          req)))
 

@@ -29,6 +29,14 @@
                                     #(= "Fred" (:name %)))]
         (is (= "James" (:name item2)))
         (is (nil? item3))))
-  ))
+    ))
+
+(deftest keywords
+  (let [photos-mock-1 (list {:keywords (list "hat")}
+                            {:keywords (list "hat" "scarf")}
+                            {:keywords (list "glove" "scarf")})]
+    (testing "simple case"
+      (is (= #{"hat" "scarf" "glove"}
+             (db/keywords-across-photos photos-mock-1))))))
 
 

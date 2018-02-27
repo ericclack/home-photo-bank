@@ -4,9 +4,11 @@
 
 {% block body %}
 <div id="full-size-photo"
-     style="background-image: url(&quot;/{{photo.path}}&quot;);">
+     style="background-image: url(&quot;/{{photo.path}}&quot;);"
+     data-target="#full-size-photo-info"
+     data-toggle="collapse">
 
-  <div id="full-size-photo-info">
+  <div id="full-size-photo-info" class="collapse show">
     <h1>{{photo.name}}</h1>
 
     {% if back %}

@@ -34,10 +34,12 @@
 ;; -------------------------------------------------
 
 (defn photos-with-keyword [word]
-  (with-db (q/find {:keywords word})))
+  (with-db (q/find {:keywords word})
+    (q/sort {:datetime 1})))
 
 (defn photos-with-keyword-starting [stem]
-  (with-db (q/find {:keywords {$regex (str "^" stem)}})))
+  (with-db (q/find {:keywords {$regex (str "^" stem)}})
+    (q/sort {:datetime 1})))
 
 (defn photos-with-keywords-starting [stems]
   (apply set/intersection

@@ -117,23 +117,24 @@
     (memo/memo-clear! all-photo-keywords)
     doc))
 
-(defn set-photo-keywords! [photo-path keywords]
+(defn update-photo-metadata!
+  [photo-path key value]
   (set-photo-metadata!
    (assoc (photo-metadata photo-path)
-          :keywords (map s/lower-case keywords))))
+          (keyword key) value)))
+
+(defn set-photo-keywords! [photo-path keywords]
+  (update-photo-metadata! photo-path "keywords"
+                         (map s/lower-case keywords)))
 
 (defn set-photo-selection! [photo-path selections]
-  (set-photo-metadata!
-   (assoc (photo-metadata photo-path)
-          :selections (map s/lower-case selections))))
+  (update-photo-metadata! photo-path "selections"
+                          (map s/lower-case selections)))
   
 ;; ----------------------------------------------------------
 
-(defn photos-without-datetime []
-  (with-db (q/find {:datetime nil
-                    :keywords "igloo"})))
-
-(defn category-to-datetime [category]
-  (tf/parse (tf/formatter "yyyy/M/d")
-            category))
+(defn photos-without-metadatum
+  "Find all photos without this piece of metadata"
+  [m]
+  (with-db (q/find {(keyword m) {"$exists" false}})))
 

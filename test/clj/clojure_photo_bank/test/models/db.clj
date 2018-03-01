@@ -41,10 +41,3 @@
       (is (= #{"hat" "scarf" "glove"}
              (db/keywords-across-photos photos-mock-1))))))
 
-
-(deftest photo-dates
-  (testing "category to datetime conversion"
-    (is (= (db/category-to-datetime "2018/1/1")
-           (t/date-time 2018 1 1)))
-    (is (= (db/category-to-datetime "2018/12/18")
-           (t/date-time 2018 12 18)))))

@@ -72,3 +72,15 @@
             (list "2017/12/12" "2017/12/5" "2017/5/9" "2017/5/7"))))
     
     ))
+
+(deftest media-path
+  (testing "cope with duplicate media in path"
+    (is (s/includes? 
+         (ps/media-path "2018/3/1/fish.jpg")
+         "media/2018/3/1/fish.jpg"))
+    (is (not (s/includes? 
+              (ps/media-path "2018/3/1/fish.jpg")
+              "media/media")))
+    (is (not (s/includes? 
+              (ps/media-path "media/2018/3/1/fish.jpg")
+              "media/media")))))

@@ -1,9 +1,9 @@
 <div class="row">
-  {% for p in photos %}
+  {% for p in photos|take:200 %}
   <div class="col-sm-3">
     <div class="thumbnail">
       <a href="/photo/{{p.path}}{% if back %}?back={{back}}{% endif %}">
-        <img src="/{{p.path|thumb}}" alt="{{p.name}}" class="img-rounded img-thumbnail"/>
+        <img data-src="/{{p.path|thumb}}" alt="{{p.name}}" class="lazyload img-rounded img-thumbnail"/>
       </a>
       <div class="caption">
         {% for word in p.keywords %}
@@ -28,4 +28,11 @@
     </div>
   </div>
   {% endfor %}
+
+  {% if photos|length > 200 %}
+  <p>
+    There are more photos, <a href="#top">narrow your search</a> to see them by
+    picking some more keywords.
+  </p>
+  {% endif %}
 </div>

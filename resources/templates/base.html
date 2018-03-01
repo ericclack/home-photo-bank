@@ -8,7 +8,7 @@
     <!-- styles -->
     {% style "/assets/bootstrap/css/bootstrap.min.css" %}
     {% style "/assets/font-awesome/web-fonts-with-css/css/fontawesome-all.min.css" %}
-    {% style "/css/screen.css?3" %}
+    {% style "/css/screen.css?5" %}
   </head>
   <body>
     {% block body %}
@@ -117,6 +117,12 @@
         });
       });
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-beta.2/lazyload.js"></script>
+    <script type="text/javascript">
+      lazyload();
+    </script>
+    
     {% block page-scripts %}
     {% endblock %}
   </body>

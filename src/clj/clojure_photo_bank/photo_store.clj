@@ -39,7 +39,7 @@
 (defn media-path
   "A file object for this path inside the media directory.
   Path is expressed as a list of directories and an optional file"
-  [& path]
+  [& path]    
   (apply io/file (cons (env :media-path) path)))
 
 (defn thumbnail-file
@@ -69,6 +69,9 @@
   [metadata]
   (tf/parse (tf/formatter exif-date-format)
             (get-in metadata ["Exif" "DateTimeOriginal"])))
+
+(defn get-exif-date-created [file]
+  (get-date-created (get-exif-metadata file)))
 
 (defn get-orientation
   [metadata]
@@ -358,3 +361,26 @@
         (io/copy (io/file path) zip)
         (.closeEntry zip))))
   )
+
+;; -------------------------------------------------------
+
+(defn fix-all-photos-without-metadatum!
+  "Find and fix photos without this metadata, value-getter takes a media-path file and returns the appropriate value"
+  [metadata-key value-getter]
+  
+  (defn fix-photo-without-metadatum!
+    [photo-path]
+    (try
+      ;; photo-path starts with media/ which should be removed
+      ;; and fixed in code at somepoint, see make-photo-metadata
+      (let [pp (s/replace photo-path #"^media/" "")
+            value (value-getter (media-path pp))]
+        (db/update-photo-metadata! photo-path
+                                   metadata-key value))
+      (catch java.io.FileNotFoundException e
+        (log/warn "Cannot fix metadata for" photo-path
+                  "Maybe missing file?" (.getMessage e))))) 
+  
+  (map fix-photo-without-metadatum!
+       (map :path
+            (take 10 (db/photos-without-metadatum metadata-key)))))

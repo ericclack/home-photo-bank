@@ -73,14 +73,3 @@
     
     ))
 
-(deftest media-path
-  (testing "cope with duplicate media in path"
-    (is (s/includes? 
-         (ps/media-path "2018/3/1/fish.jpg")
-         "media/2018/3/1/fish.jpg"))
-    (is (not (s/includes? 
-              (ps/media-path "2018/3/1/fish.jpg")
-              "media/media")))
-    (is (not (s/includes? 
-              (ps/media-path "media/2018/3/1/fish.jpg")
-              "media/media")))))

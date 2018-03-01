@@ -8,7 +8,8 @@
             [clojure.string :as s]
             [clojure.set :as set]
             [clojure.core.memoize :as memo]
-            [clojure.pprint :refer [pprint pp]]))
+            [clojure.pprint :refer [pprint pp]]
+            [clj-time.format :as tf]))
 
 (def db
   (:db (mg/connect-via-uri (env :database-url))))
@@ -126,3 +127,13 @@
    (assoc (photo-metadata photo-path)
           :selections (map s/lower-case selections))))
   
+;; ----------------------------------------------------------
+
+(defn photos-without-datetime []
+  (with-db (q/find {:datetime nil
+                    :keywords "igloo"})))
+
+(defn category-to-datetime [category]
+  (tf/parse (tf/formatter "yyyy/M/d")
+            category))
+

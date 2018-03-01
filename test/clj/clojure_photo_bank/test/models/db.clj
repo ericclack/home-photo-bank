@@ -1,7 +1,9 @@
 (ns clojure-photo-bank.test.models.db
   (:require [clojure.test :refer :all]
             [clojure-photo-bank.models.db :as db]
-            [clojure.string :as s]))
+            [clojure.string :as s]
+            [clj-time.core :as t]
+            [clj-time.format :as tf]))
 
 (deftest test-1
   (testing "can access db"
@@ -40,3 +42,9 @@
              (db/keywords-across-photos photos-mock-1))))))
 
 
+(deftest photo-dates
+  (testing "category to datetime conversion"
+    (is (= (db/category-to-datetime "2018/1/1")
+           (t/date-time 2018 1 1)))
+    (is (= (db/category-to-datetime "2018/12/18")
+           (t/date-time 2018 12 18)))))

@@ -364,10 +364,13 @@
 
 ;; -------------------------------------------------------
 
-(defn fix-100-photos-without-metadatum!
+(defn fix-1000-photos-without-metadatum!
   "Find and fix photos without this metadata, value-getter takes a media-path file and returns the appropriate value"
   [metadata-key value-getter]
   
+  ;; To fix missing datetime, run with
+  ;; (fix-1000-photos-without-metadatum! "datetime" get-exif-date-created)
+
   (defn fix-photo-without-metadatum!
     [photo-path]
     (try
@@ -387,5 +390,3 @@
             (take 100
                   (db/photos-without-metadatum metadata-key)))))
 
-;; Run with
-;; (fix-100-photos-without-metadatum! "datetime" get-exif-date-created)

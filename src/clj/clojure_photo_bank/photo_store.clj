@@ -383,7 +383,9 @@
                                    metadata-key value))
       (catch java.io.FileNotFoundException e
         (log/warn "Cannot fix metadata for" photo-path
-                  "Maybe missing file?" (.getMessage e))))) 
+                  "Maybe missing file?" (.getMessage e)))
+      (catch Exception e
+        (log/error "Cannot fix metadata for" photo-path "Cause: " e))))
   
   (map fix-photo-without-metadatum!
        (map :path

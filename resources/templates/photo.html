@@ -10,6 +10,7 @@
 
   <div id="full-size-photo-info" class="collapse show">
     <h1>{{photo.name}}</h1>
+    <p id="datetime">{{photo.datetime|date:mediumDateTime}}</p>
 
     {% if back %}
     <a href="{{back}}" id="back">Back to photos</a>
@@ -19,6 +20,9 @@
     <a href="/photos/_search?word={{word}}"
        class="btn btn-outline-secondary btn-sm">{{word}}</a>
     {% endfor %}
+
+    <a href="/photos/_edit/{{photo.path}}{% if back %}?back={{back}}{% endif %}"
+       class="btn btn-warning btn-sm">edit</a>    
 
     <button data="/photos/_select/{{photo.path}}"
             {% if p.selections|length > 0 %}        

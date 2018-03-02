@@ -26,9 +26,8 @@
       <img src="/{{photo.path|thumb}}" alt="{{photo.name}}" class="img-rounded img-thumbnail"/>
     </div>
     <div class="info">
-      Date &amp; time:
       {% if photo.datetime %}
-      {{photo.datetime}}
+      {{photo.datetime|date:mediumDateTime}}
       {% else %}
       {{photo.category}}
       {% endif %}

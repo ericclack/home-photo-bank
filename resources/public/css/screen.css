@@ -70,6 +70,15 @@ div#full-size-photo-info h1 {
     padding-bottom: 9px;
 }
 
+div#full-size-photo-info p#datetime {
+    color: #ccc;
+    font-size: 80%;
+    padding: 0px;
+    margin: 0;
+    position: relative;
+    top: -1.3em;
+}
+
 div#full-size-photo-info a#back {
     position: absolute;
     right: 15px;

@@ -387,6 +387,6 @@
   
   (map fix-photo-without-metadatum!
        (map :path
-            (take 100
+            (take 1000
                   (db/photos-without-metadatum metadata-key)))))
 

@@ -364,15 +364,16 @@
 
 ;; -------------------------------------------------------
 
-(defn fix-all-photos-without-metadatum!
+(defn fix-100-photos-without-metadatum!
   "Find and fix photos without this metadata, value-getter takes a media-path file and returns the appropriate value"
   [metadata-key value-getter]
   
   (defn fix-photo-without-metadatum!
     [photo-path]
     (try
-      ;; photo-path starts with media/ which should be removed
-      ;; and fixed in code at somepoint, see make-photo-metadata
+      ;; photo-path starts with media/ which will result in
+      ;; incorrect path media/media/... - so we need to remove it
+      ;; and fix in code at somepoint, see make-photo-metadata
       (let [pp (s/replace photo-path #"^media/" "")
             value (value-getter (media-path pp))]
         (db/update-photo-metadata! photo-path
@@ -383,4 +384,8 @@
   
   (map fix-photo-without-metadatum!
        (map :path
-            (take 10 (db/photos-without-metadatum metadata-key)))))
+            (take 100
+                  (db/photos-without-metadatum metadata-key)))))
+
+;; Run with
+;; (fix-100-photos-without-metadatum! "datetime" get-exif-date-created)

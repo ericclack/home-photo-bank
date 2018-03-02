@@ -66,12 +66,14 @@
   (set (flatten (map :keywords photos))))
 
 (defn photos-in-category [category]
-  (with-db (q/find {:category category})))
+  (with-db (q/find {:category category})
+    (q/sort {:datetime 1})))
 
 (defn photos-in-parent-category
   "Return photos in parent category such as 2017/1"
   [category]
-  (with-db (q/find {:category {$regex (str "^" category "/")}})))
+  (with-db (q/find {:category {$regex (str "^" category "/")}})
+    (q/sort {:datetime 1})))
 
 (defn grouped-photos-in-parent-category [category]
   (group-by #(:category %)

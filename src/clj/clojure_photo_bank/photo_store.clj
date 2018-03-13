@@ -184,7 +184,7 @@
 
 (defn watch-and-import!
   "Repeatedly watch for, then import images."
-  ([] (watch-and-import! 5))
+  ([] (watch-and-import! 2))
   ([minutes-sleep]
    (when-let [imports (not-empty (import-images!))]
      (log/info "imported images" imports))

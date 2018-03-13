@@ -3,6 +3,7 @@
             [luminus.repl-server :as repl]
             [luminus.http-server :as http]
             [clojure-photo-bank.config :refer [env]]
+            [clojure-photo-bank.photo-store :as ps]
             [clojure.tools.cli :refer [parse-opts]]
             [clojure.tools.logging :as log]
             [mount.core :as mount])
@@ -48,5 +49,11 @@
     (log/info component "started"))
   (.addShutdownHook (Runtime/getRuntime) (Thread. stop-app)))
 
+(defn start-importer []
+  (let [importer (future (ps/watch-and-import!))]
+    (log/info "started importer - " importer)
+    importer))
+
 (defn -main [& args]
-  (start-app args))
+  (start-app args)
+  (start-importer))

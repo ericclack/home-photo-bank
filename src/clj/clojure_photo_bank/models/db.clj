@@ -19,7 +19,8 @@
 (defmacro with-db
   [& body]
   `(q/with-collection db coll
-     ~@body))
+     ~@body
+     (q/batch-size 5000)))
 
 ;  `(mg/connect-via-uri (env :database-url)
 ;     ~@body))

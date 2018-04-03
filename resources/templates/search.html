@@ -23,6 +23,8 @@
   <div class="col-sm-12">
     <h1>Search results for '{{word}}'</h1>
 
+    {% if photos|not-empty %}
+
     <p class="button-list">Narrow your search:
       {% for w2 in keywords-across-photos|take:20 %}
       <a href="/photos/_search?word={{word}}+{{w2}}"
@@ -54,7 +56,13 @@
          {% endifequal %}
          >{{y}}</a>
       {% endfor %}
-      </p>
+    </p>
+
+    {% else %}
+
+    No results found.
+    
+    {% endif %}
     
   </div>
 </div>

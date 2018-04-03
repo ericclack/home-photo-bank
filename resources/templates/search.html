@@ -47,7 +47,12 @@
          class="btn btn-outline-secondary btn-sm">All</a>
       {% for y in years-across-photos %}
       <a href="/photos/_search?word={{word}}&amp;year={{y}}"
-         class="btn btn-outline-secondary btn-sm">{{y}}</a>
+         {% ifequal y year %}
+         class="btn btn-secondary btn-sm"
+         {% else %}
+         class="btn btn-outline-secondary btn-sm"
+         {% endifequal %}
+         >{{y}}</a>
       {% endfor %}
       </p>
     

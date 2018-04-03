@@ -64,16 +64,6 @@
   [n]
   (sort-by first (take n (reverse (sort-by second (all-photo-keywords))))))
 
-(defn keywords-across-photos [photos]
-  (set (flatten (map :keywords photos))))
-
-(defn years-across-photos [photos]
-  (set
-   (map #(t/year (:datetime %))
-        ;; Not all photos have a date time
-        ;; (historical data quality issue)
-        (filter :datetime photos))))
-
 (defn photos-in-category [category]
   (with-db (q/find {:category category})
     (q/sort {:datetime 1})))
@@ -115,6 +105,25 @@
     (previous-item
      photos
      #(= photo-path (:path %)))))
+
+;; ----------------------------------------------------------
+
+(defn keywords-across-photos [photos]
+  (set (flatten (map :keywords photos))))
+
+(defn photos-with-datetime [photos]
+  ;; Not all photos have a date time
+  ;; (historical data quality issue)
+  (filter :datetime photos))
+
+(defn years-across-photos [photos]
+  (set
+   (map #(t/year (:datetime %))
+        (photos-with-datetime photos))))
+
+(defn photos-in-year [photos year]
+  (filter #(= year (t/year (:datetime %)))
+          (photos-with-datetime photos)))
 
 ;; ----------------------------------------------------------
 

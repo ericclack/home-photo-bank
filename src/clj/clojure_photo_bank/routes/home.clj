@@ -9,7 +9,9 @@
             [clojure-photo-bank.models.db :as db]
             [clojure.tools.logging :as log]
             [clojure.string :as s]
-            [clojure.set :as set]))
+            [clojure.set :as set]
+            [clj-time.core :as t]
+            ))
 
 (defn render
   "render this template adding in request and back
@@ -120,7 +122,10 @@
 (defn photo-search [word year req]
   (let [trimmed-word (s/trim (s/lower-case word))
         words (s/split trimmed-word #" ")
-        photos
+        iyear (when year (Integer/parseInt year))
+        
+        ;; All photos that match the keywords
+        all-photos
         ;; At least two words? Then search for both
         ;; separate words and combined phrase
         (if (second words)
@@ -128,13 +133,21 @@
            (db/photos-with-keyword-starting trimmed-word)
            (db/photos-with-keywords-starting words))
           (db/photos-with-keyword-starting trimmed-word))
-        keywords (set/difference (db/keywords-across-photos photos)
+
+        ;; Photos for year, if specified
+        photos (if iyear
+                 (db/photos-in-year all-photos iyear)
+                 all-photos)
+        
+        ;; Things for search narrowing
+        keywords (set/difference (db/keywords-across-photos all-photos)
                                  (set words))
-        years (db/years-across-photos photos)]
+        years (db/years-across-photos all-photos)]
   
         (render
          "search.html"
          {:word trimmed-word
+          :year iyear
           :photos photos
           :keywords-across-photos (sort keywords)
           :years-across-photos (sort years)

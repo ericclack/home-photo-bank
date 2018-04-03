@@ -117,7 +117,7 @@
 (defn about-page []
   (render "about.html"))
 
-(defn photo-search [word req]
+(defn photo-search [word year req]
   (let [trimmed-word (s/trim (s/lower-case word))
         words (s/split trimmed-word #" ")
         photos
@@ -129,13 +129,15 @@
            (db/photos-with-keywords-starting words))
           (db/photos-with-keyword-starting trimmed-word))
         keywords (set/difference (db/keywords-across-photos photos)
-                             (set words))]
+                                 (set words))
+        years (db/years-across-photos photos)]
   
         (render
          "search.html"
          {:word trimmed-word
           :photos photos
           :keywords-across-photos (sort keywords)
+          :years-across-photos (sort years)
           }
          req)))
 
@@ -203,7 +205,7 @@
 
 (defroutes home-routes
   (GET "/" [] (home-page))
-  (GET "/photos/_search" [word :as req] (photo-search word req))
+  (GET "/photos/_search" [word year :as req] (photo-search word year req))
   (GET "/photos/_keywords" [] (all-keywords))
        
   (GET "/photos/_process" [] (process-photos))

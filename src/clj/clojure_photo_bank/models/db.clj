@@ -9,6 +9,7 @@
             [clojure.set :as set]
             [clojure.core.memoize :as memo]
             [clojure.pprint :refer [pprint pp]]
+            [clj-time.core :as t]            
             [clj-time.format :as tf]))
 
 (def db
@@ -65,6 +66,13 @@
 
 (defn keywords-across-photos [photos]
   (set (flatten (map :keywords photos))))
+
+(defn years-across-photos [photos]
+  (set
+   (map #(t/year (:datetime %))
+        ;; Not all photos have a date time
+        ;; (historical data quality issue)
+        (filter :datetime photos))))
 
 (defn photos-in-category [category]
   (with-db (q/find {:category category})

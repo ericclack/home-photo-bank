@@ -41,6 +41,16 @@
       </div>
       {% endif %}
     </p>
+
+    <p class="button-list">Choose a year:
+      <a href="/photos/_search?word={{word}}"
+         class="btn btn-outline-secondary btn-sm">All</a>
+      {% for y in years-across-photos %}
+      <a href="/photos/_search?word={{word}}&amp;year={{y}}"
+         class="btn btn-outline-secondary btn-sm">{{y}}</a>
+      {% endfor %}
+      </p>
+    
   </div>
 </div>
 

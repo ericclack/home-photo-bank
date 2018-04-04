@@ -7,15 +7,12 @@
   _import: photos ready to import
   _process: photos that need processing before import
   _failed: photos that failed to import
-  _thumbs: thumbnails for imported images.
+  _thumbs: thumbnails for imported photos.
 
   Guarantees:
   This module will never modify files. It will rename
   them both to move to storage folders and to add keywords
   but only when moving from _process to _import.
-
-  To Do:
-  Why sometimes 'image' and sometimes 'photo'?
   "
   (:require [environ.core :refer [env]]
             [clojure.java.io    :as io]
@@ -82,19 +79,19 @@
 (defn is-jpeg [file]
   (s/ends-with? (s/lower-case file) ".jpg"))
 
-(defn images-to-import
-  "JPG image files in the media/_import directory"
+(defn photos-to-import
+  "JPG photo files in the media/_import directory"
   []
   (filter is-jpeg (file-seq (media-path "_import"))))
 
-(defn media-path-for-image
-  "Image path is Year/Month/Day/Filename based on DateTime in EXIF data"
-  [image-file]
-  (let [d (get-date-created (get-exif-metadata image-file))]
+(defn media-path-for-photo
+  "Photo path is Year/Month/Day/Filename based on DateTime in EXIF data"
+  [photo-file]
+  (let [d (get-date-created (get-exif-metadata photo-file))]
     (media-path (str (t/year d))
                 (str (t/month d))
                 (str (t/day d))
-                (.getName image-file))))
+                (.getName photo-file))))
 
 (defn file-name-to-keywords
   "Keywords from file name (without extension), 
@@ -126,68 +123,68 @@
      :keywords (file-name-to-keywords name)
      }))
 
-(defn move-image-into-store!
-  "Move image from import into store"
-  [image-file]
-  (let [destination (media-path-for-image image-file)]
+(defn move-photo-into-store!
+  "Move photo from import into store"
+  [photo-file]
+  (let [destination (media-path-for-photo photo-file)]
     (.mkdirs (.getParentFile destination))
-    (.renameTo image-file destination)
+    (.renameTo photo-file destination)
     destination))
 
-(defn move-image-into-failed!
-  [image-file]
-  (let [destination (media-path "_failed" (.getName image-file))]
-    (.renameTo image-file destination)
+(defn move-photo-into-failed!
+  [photo-file]
+  (let [destination (media-path "_failed" (.getName photo-file))]
+    (.renameTo photo-file destination)
     destination))
 
 (defn resized-file-as-stream
-  [image-file size]
+  [photo-file size]
   (format/as-stream 
-   (resize image-file size size)
+   (resize photo-file size size)
    "jpg"))
 
-(defn make-image-thumbnail!
-  "Make a small version for browsing, call after move-image-into-store"
-  [image-file]
-  (let [destination (thumbnail-file image-file)]
+(defn make-photo-thumbnail!
+  "Make a small version for browsing, call after move-photo-into-store"
+  [photo-file]
+  (let [destination (thumbnail-file photo-file)]
     (.mkdirs (.getParentFile destination))
-    (let [thumbnail (resize image-file thumbnail-size thumbnail-size)]
+    (let [thumbnail (resize photo-file thumbnail-size thumbnail-size)]
       (format/as-file thumbnail (str destination) :verbatim))))
 
-(defn import-image! 
-  [image-file]
+(defn import-photo! 
+  [photo-file]
   (try
-    (let [stored-image (move-image-into-store! image-file)]
-      (make-image-thumbnail! stored-image)
-      (db/set-photo-metadata! (make-photo-metadata stored-image))
-      stored-image)
+    (let [stored-photo (move-photo-into-store! photo-file)]
+      (make-photo-thumbnail! stored-photo)
+      (db/set-photo-metadata! (make-photo-metadata stored-photo))
+      stored-photo)
     (catch Exception e
-      (log/warn "Cannot import" image-file "Maybe missing EXIF?" e)
-      (move-image-into-failed! image-file))))
+      (log/warn "Cannot import" photo-file "Maybe missing EXIF?" e)
+      (move-photo-into-failed! photo-file))))
 
-(defn import-images!
-  "Process images and store them away.
-  FIX: what about images that have the same name (already imported?)
+(defn import-photos!
+  "Process photos and store them away.
+  FIX: what about photos that have the same name (already imported?)
   
-  FIX: what about images that have no EXIF data? These fail and
+  FIX: what about photos that have no EXIF data? These fail and
   currently the only fix is to use something like exiftool:
   exiftool -DateTimeOriginal='1973:06:01 00:00:00' *.jpg"
   
   []
-  (map import-image! (images-to-import)))
+  (map import-photo! (photos-to-import)))
 
 (defn regen-thumbnails!
   [path]
-  (map #(make-image-thumbnail! %)
+  (map #(make-photo-thumbnail! %)
        (filter is-jpeg 
                (file-seq path))))
 
 (defn watch-and-import!
-  "Repeatedly watch for, then import images."
+  "Repeatedly watch for, then import photos."
   ([] (watch-and-import! 2))
   ([minutes-sleep]
-   (when-let [imports (not-empty (import-images!))]
-     (log/info "imported images" imports))
+   (when-let [imports (not-empty (import-photos!))]
+     (log/info "imported photos" imports))
    (Thread/sleep (* minutes-sleep 60 1000))
    (recur minutes-sleep)))
 
@@ -294,7 +291,7 @@
 ;; -------------------------------------------------------
 
 (defn photos-to-process
-  "JPG image files in the media/_process directory"
+  "JPG photo files in the media/_process directory"
   []
   (sort #(compare (.lastModified %1) (.lastModified %2))
         (filter is-jpeg (file-seq (media-path "_process")))))

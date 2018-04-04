@@ -22,5 +22,5 @@
   (testing "browse inside 2017"
     (let [response ((app) (request :get "/photos/2017"))]
       (log/info response)
-      (is (s/includes? response "Janu********ar!yttttttt")))))
+      (is (s/includes? response "January")))))
           

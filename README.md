@@ -1,5 +1,4 @@
-# clojure-photo-bank
-
+# Home Photo Bank
 
 Philosophy:
 
@@ -10,6 +9,8 @@ Philosophy:
 * Home network is fast
 * Never modify photo files, except moving them into their category folders
 
+
+![Search Screen Shot](home-photo-bank-search.jpg)
 
 ## Prerequisites
 

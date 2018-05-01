@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 1. Edit line 7 for your local photo export directory
+# 1. Edit line 9 for your local photo export directory
 # 2. Add your SSH key to the photo-uploader user on your
 #    photo bank server
 # 3. Run each time you want to do an import, or run
@@ -15,4 +15,3 @@ do
     scp $f photo-uploader@saturn:_process
     mv $f __done/
 done
-

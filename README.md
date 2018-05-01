@@ -9,6 +9,7 @@ Philosophy:
 * Home network is fast
 * Never modify photo files, except moving them into their category folders
 
+![Search Screen Shot](home-photo-bank-search.jpg)
 
 ![Search Screen Shot](home-photo-bank-search.jpg)
 

@@ -17,7 +17,8 @@ Philosophy:
 
 ## Prerequisites
 
-You will need [Leiningen][1] 2.0 or above installed, plus MongoDB.
+You will need a Java JVM, [Leiningen][1] 2.0 or above installed, plus
+MongoDB.
 
 [1]: https://github.com/technomancy/leiningen
 

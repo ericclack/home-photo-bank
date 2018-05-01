@@ -1,11 +1,11 @@
-(ns clojure-photo-bank.routes.selection
-  (:require [clojure-photo-bank.layout :as layout]
+(ns home-photo-bank.routes.selection
+  (:require [home-photo-bank.layout :as layout]
             [compojure.core :refer [defroutes context GET ANY POST]]
             [ring.util.http-response :as response]
             [ring.util.response :refer [file-response content-type header]]
             [clojure.java.io :as io]
-            [clojure-photo-bank.photo-store :as ps]
-            [clojure-photo-bank.models.db :as db]
+            [home-photo-bank.photo-store :as ps]
+            [home-photo-bank.models.db :as db]
             [clojure.tools.logging :as log]
             [clojure.string :as s]))
 

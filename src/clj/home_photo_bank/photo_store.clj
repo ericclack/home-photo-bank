@@ -1,4 +1,4 @@
-(ns clojure-photo-bank.photo-store
+(ns home-photo-bank.photo-store
   "Store and retrive photos in categories. Categories
   are nested folders in the file system, which could
   be anything (needs testing), but commonly year/month/day.
@@ -26,7 +26,7 @@
             [clj-time.core :as t]
             [clj-time.format :as tf]
             ;; -------
-            [clojure-photo-bank.models.db :as db])
+            [home-photo-bank.models.db :as db])
   (:import [java.util.zip ZipEntry ZipOutputStream]))
 
 (def thumbnail-size 300) ;; bounding box 300x300

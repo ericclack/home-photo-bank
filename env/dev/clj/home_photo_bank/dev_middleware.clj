@@ -1,4 +1,4 @@
-(ns clojure-photo-bank.dev-middleware
+(ns home-photo-bank.dev-middleware
   (:require [ring.middleware.reload :refer [wrap-reload]]
             [selmer.middleware :refer [wrap-error-page]]
             [prone.middleware :refer [wrap-exceptions]]))

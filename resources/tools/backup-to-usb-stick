@@ -1,6 +1,6 @@
 #!/bin/sh
 
-APPDIR=code/clojure/clojure-photo-bank
+APPDIR=code/clojure/home-photo-bank
 BACKUPDIR=/Volumes/CLACKPHOTO2
 
 # Backup database first

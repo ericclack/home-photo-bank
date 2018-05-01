@@ -1,6 +1,6 @@
-(ns clojure-photo-bank.test.photo-store
+(ns home-photo-bank.test.photo-store
   (:require [clojure.test :refer :all]
-            [clojure-photo-bank.photo-store :as ps]
+            [home-photo-bank.photo-store :as ps]
             [clojure.string :as s]))
 
 ;; These tests are hard-coded to my data, that needs to be

@@ -1,5 +1,5 @@
 (ns ^{:doc "Set up for MongoDB - to do"}
-    clojure-photo-bank.models.setup
+    home-photo-bank.models.setup
   )
 
 (defn setup-db

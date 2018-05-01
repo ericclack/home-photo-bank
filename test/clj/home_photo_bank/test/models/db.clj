@@ -1,6 +1,6 @@
-(ns clojure-photo-bank.test.models.db
+(ns home-photo-bank.test.models.db
   (:require [clojure.test :refer :all]
-            [clojure-photo-bank.models.db :as db]
+            [home-photo-bank.models.db :as db]
             [clojure.string :as s]
             [clj-time.core :as t]
             [clj-time.format :as tf]))

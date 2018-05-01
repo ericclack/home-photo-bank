@@ -3,10 +3,9 @@
 echo "Start in a screen session."
 echo "Once server has started, disconnect from screen with Ctrl-A d"
 echo
-echo "Then connect from your computer to run import watcher"
+echo "To connect from your computer:"
 echo "lein repl :connect saturn:3001"
-echo "(future (clojure-photo-bank.photo-store/watch-and-import!))"
 echo
 
-cd ~/code/clojure/clojure-photo-bank/
+cd ~/code/clojure/home-photo-bank/
 NREPL_BIND=0.0.0.0 lein run

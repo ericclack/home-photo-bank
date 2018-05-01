@@ -1,12 +1,12 @@
-(ns clojure-photo-bank.handler
+(ns home-photo-bank.handler
   (:require [compojure.core :refer [routes wrap-routes]]
-            [clojure-photo-bank.layout :refer [error-page]]
-            [clojure-photo-bank.routes.home :refer [home-routes]]
-            [clojure-photo-bank.routes.selection :refer [selection-routes]]
+            [home-photo-bank.layout :refer [error-page]]
+            [home-photo-bank.routes.home :refer [home-routes]]
+            [home-photo-bank.routes.selection :refer [selection-routes]]
             [compojure.route :as route]
-            [clojure-photo-bank.env :refer [defaults]]
+            [home-photo-bank.env :refer [defaults]]
             [mount.core :as mount]
-            [clojure-photo-bank.middleware :as middleware]))
+            [home-photo-bank.middleware :as middleware]))
 
 (mount/defstate init-app
                 :start ((or (:init defaults) identity))

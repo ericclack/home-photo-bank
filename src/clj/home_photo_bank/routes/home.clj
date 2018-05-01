@@ -1,12 +1,12 @@
-(ns clojure-photo-bank.routes.home
-  (:require [clojure-photo-bank.layout :as layout]
+(ns home-photo-bank.routes.home
+  (:require [home-photo-bank.layout :as layout]
             [compojure.core :refer [defroutes GET ANY POST]]
             [ring.util.http-response :as response]
             [ring.util.response :refer [file-response content-type redirect]]
             [ring.util.io :refer [piped-input-stream]]
             [clojure.java.io :as io]
-            [clojure-photo-bank.photo-store :as ps]
-            [clojure-photo-bank.models.db :as db]
+            [home-photo-bank.photo-store :as ps]
+            [home-photo-bank.models.db :as db]
             [clojure.tools.logging :as log]
             [clojure.string :as s]
             [clojure.set :as set]

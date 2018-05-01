@@ -1,4 +1,4 @@
-(ns clojure-photo-bank.config
+(ns home-photo-bank.config
   (:require [cprop.core :refer [load-config]]
             [cprop.source :as source]
             [mount.core :refer [args defstate]]))

@@ -1,4 +1,4 @@
-(ns clojure-photo-bank.models.db
+(ns home-photo-bank.models.db
   (:require [environ.core :refer [env]]
             [monger.core :as mg]
             [monger.collection :as mc]

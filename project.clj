@@ -1,4 +1,4 @@
-(defproject clojure-photo-bank "0.1.0-SNAPSHOT"
+(defproject home-photo-bank "0.1.0-SNAPSHOT"
 
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
@@ -44,7 +44,7 @@
   :test-paths ["test/clj"]
   :resource-paths ["resources"]
   :target-path "target/%s/"
-  :main clojure-photo-bank.core
+  :main home-photo-bank.core
 
   :plugins [[lein-cprop "1.0.1"]
             [lein-immutant "2.1.0"]
@@ -53,7 +53,7 @@
   :profiles
   {:uberjar {:omit-source true
              :aot :all
-             :uberjar-name "clojure-photo-bank.jar"
+             :uberjar-name "home-photo-bank.jar"
              :source-paths ["env/prod/clj"]
              :resource-paths ["env/prod/resources"]}
 
@@ -75,4 +75,4 @@
    :profiles/dev {}
    :profiles/test {}}
   :aliases
-  {"setup-db" ["run" "-m" "clojure-photo-bank.models.setup/setup-db"]})
+  {"setup-db" ["run" "-m" "home-photo-bank.models.setup/setup-db"]})

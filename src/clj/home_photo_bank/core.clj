@@ -1,9 +1,9 @@
-(ns clojure-photo-bank.core
-  (:require [clojure-photo-bank.handler :as handler]
+(ns home-photo-bank.core
+  (:require [home-photo-bank.handler :as handler]
             [luminus.repl-server :as repl]
             [luminus.http-server :as http]
-            [clojure-photo-bank.config :refer [env]]
-            [clojure-photo-bank.photo-store :as ps]
+            [home-photo-bank.config :refer [env]]
+            [home-photo-bank.photo-store :as ps]
             [clojure.tools.cli :refer [parse-opts]]
             [clojure.tools.logging :as log]
             [mount.core :as mount])

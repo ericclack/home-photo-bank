@@ -1,8 +1,8 @@
-(ns clojure-photo-bank.test.image
+(ns home-photo-bank.test.image
   (:require [clojure.test :refer :all]
             [ring.mock.request :refer :all]
-            [clojure-photo-bank.handler :refer :all]
-            [clojure-photo-bank.photo-store :as ps]
+            [home-photo-bank.handler :refer :all]
+            [home-photo-bank.photo-store :as ps]
             [clojure.tools.logging :as log]
             ;;---
             [clojure.java.io    :as io]

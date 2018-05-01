@@ -1,4 +1,37 @@
 {% extends "base.html" %}
+
+{% block top-level-categories %}
+{% endblock %}
+
 {% block content %}
+
+<h1>Home Photo Bank</h1>
+
+<ul>
+  <li>
+    Home Photo Bank – a safe place to store photos on your home network
+  <li>
+    Photos are always JPEGs – if not, convert them first using your photo software
+  <li>
+    Photos are organised by creation date (from EXIF data)
+  <li>
+    Named photos contain keywords, and you can add more later
+  <li>
+    Home network is fast
+  <li>
+    Never modify photo files, except moving them into their category folders
+</ul>
+
+<h2>Adding photos</h2>
+
+<p>Copy your photos into the _process directory on the server(*), then click the <a href="/photos/_process">Import menu item</a> to add some initial keywords and start the import process.</p>
+
+<p>You can also <a href="https://github.com/ericclack/clojure-photo-bank#-automate-the-copying-of-files-to-the-app">automate this process</a>.</p>
+
+<h2>Find out more</h2>
+
+
+<p>Read more on the <a href="https://github.com/ericclack/clojure-photo-bank">project website</a></p>
+
   <img src="{{servlet-context}}/img/warning_clojure.png"></img>
 {% endblock %}

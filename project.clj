@@ -76,3 +76,8 @@
    :profiles/test {}}
   :aliases
   {"setup-db" ["run" "-m" "home-photo-bank.models.setup/setup-db"]})
+
+;; Allow unsecured repos
+(require 'cemerick.pomegranate.aether)
+(cemerick.pomegranate.aether/register-wagon-factory!
+ "http" #(org.apache.maven.wagon.providers.http.HttpWagon.))

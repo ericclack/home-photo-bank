@@ -3,6 +3,8 @@
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
 
+  :managed-dependencies [[org.flatland/ordered "1.5.7"]]
+  
   :dependencies [[clj-time "0.14.2"]
                  [compojure "1.6.0"]
                  [cprop "0.1.11"]

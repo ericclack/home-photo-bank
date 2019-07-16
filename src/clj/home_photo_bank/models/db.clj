@@ -75,8 +75,8 @@
     (q/sort {:datetime 1})))
 
 (defn category-photo [category]
-  "A photo that represents this category -- just the first for now"
-  (first (photos-in-parent-category category)))
+  "A photo that represents this category -- a random pick for now"
+  (rand-nth (photos-in-parent-category category)))
 
 (defn grouped-photos-in-parent-category [category]
   (group-by #(:category %)

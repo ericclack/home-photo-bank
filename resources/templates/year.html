@@ -12,15 +12,16 @@
 
 {% if category-photos-and-names|not-empty %}
 
-{% for p, month-name in category-photos-and-names %}
+{% for p, month-name, category in category-photos-and-names %}
 
 <div class="col-sm-3">
   <div class="thumbnail">
-    <a href="/photo/{{p.path}}{% if back %}?back={{back}}{% endif %}">
-      <img data-src="/{{p.path|thumb}}" alt="{{p.name}}" class="lazyload img-rounded img-thumbnail"/>
+    <a href="/photos/{{category}}">
+      <img data-src="/{{p.path|thumb}}" alt="{{p.name}}"
+           class="lazyload img-rounded img-thumbnail"/>
     </a>
     <div class="caption">
-      <a href="/photos/{{p.category}}"
+      <a href="/photos/{{category}}"
          class="btn btn-outline-primary btn-sm">{{month-name}}</a>
     </div>
   </div>

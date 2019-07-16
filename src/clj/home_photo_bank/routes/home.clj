@@ -112,7 +112,8 @@
         category-photos-and-names
         (map #(list
                (db/category-photo (str year "/" (first %)))
-               (second %))
+               (second %)
+               (str year "/" (first %)))
              categories-and-names)]
     (render
      "year.html"

@@ -74,6 +74,10 @@
   (with-db (q/find {:category {$regex (str "^" category "/")}})
     (q/sort {:datetime 1})))
 
+(defn category-photo [category]
+  "A photo that represents this category -- just the first for now"
+  (first (photos-in-parent-category category)))
+
 (defn grouped-photos-in-parent-category [category]
   (group-by #(:category %)
             (photos-in-parent-category category)))

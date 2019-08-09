@@ -105,6 +105,26 @@
        }
       req))))
 
+(defn year-page
+  [year req]
+  (let [category (ps/date-parts-to-category (list year nil nil))
+        categories-and-names (ps/categories-and-names category)
+        category-photos-and-names
+        (map #(list
+               (db/category-photo (str year "/" (first %)))
+               (second %)
+               (str year "/" (first %)))
+             categories-and-names)]
+    (render
+     "year.html"
+     {:top-level-categories (ps/top-level-categories)
+      :year year
+      :category category
+      :categories-and-names categories-and-names
+      :category-photos-and-names category-photos-and-names
+      }
+     req)))
+    
 (defn serve-file
   [file-path resize]
   (if (nil? resize)
@@ -232,7 +252,8 @@
   (ANY "/photos/_edit/:photo-path{.*}" [photo-path keywords back]
        (edit-photo photo-path keywords back))
   
-  (GET "/photos/:year" [year :as req] (category-page year req))
+  (GET "/photos/:year" [year :as req] (year-page year req))
+  
   (GET "/photos/:year/:month" [year month :as req]
        (category-page year month req))
   (GET "/photos/:year/:month/:day" [year month day :as req]

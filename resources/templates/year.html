@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}{{category-name}}{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-sm-12">
+    <h1>{{ year }}:</h1>
+    {% include "_category_nav.html" %}
+  </div>
+</div>
+
+{% if category-photos-and-names|not-empty %}
+
+<div class="row">
+  {% for p, month-name, category in category-photos-and-names %}
+
+  <div class="col-sm-3">
+    <div class="thumbnail">
+      <a href="/photos/{{category}}">
+        <img data-src="/{{p.path|thumb}}" alt="{{p.name}}"
+             class="lazyload img-rounded img-thumbnail"/>
+      </a>
+      <div class="caption">
+        <a href="/photos/{{category}}"
+           class="btn btn-outline-primary btn-sm">{{month-name}}</a>
+      </div>
+    </div>
+  </div>
+
+  {% endfor %}
+</div>
+
+<hr/>
+{% include "_category_nav.html" %}
+
+{% endif %}
+
+{% endblock %}

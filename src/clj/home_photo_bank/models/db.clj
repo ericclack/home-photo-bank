@@ -50,6 +50,25 @@
          (map set
               (map photos-with-keyword-starting stems))))
 
+(defn photo-search
+  "Find photos that have keywords specified. 
+
+  We search for photos with a single keyword that matches 
+  words, as well as photos that have individual keywords
+  that match each word. 
+
+  Matching is done on start of each word, so dog matches
+  dogs."
+  [words]
+
+  ;; At least two words? Then search for both
+  ;; separate words and combined phrase
+  (if (second words)
+    (concat 
+     (photos-with-keyword-starting (s/join " " words))
+     (photos-with-keywords-starting words))
+    (photos-with-keyword-starting (s/join " " words))))
+
 (def all-photo-keywords
   ;; "Return a list of (key, count) pairs"
   (memo/memo
@@ -65,6 +84,8 @@
   "Return the top scoring keywords"
   [n]
   (sort-by first (take n (reverse (sort-by second (all-photo-keywords))))))
+
+;; -------------------------------------------------
 
 (defn photos-in-category [category]
   (with-db (q/find {:category category})

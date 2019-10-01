@@ -145,14 +145,7 @@
         iyear (when year (Integer/parseInt year))
         
         ;; All photos that match the keywords
-        all-photos
-        ;; At least two words? Then search for both
-        ;; separate words and combined phrase
-        (if (second words)
-          (concat 
-           (db/photos-with-keyword-starting trimmed-word)
-           (db/photos-with-keywords-starting words))
-          (db/photos-with-keyword-starting trimmed-word))
+        all-photos (db/photo-search words)
 
         ;; Photos for year, if specified
         photos (if iyear

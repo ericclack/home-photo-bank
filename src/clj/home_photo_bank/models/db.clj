@@ -10,7 +10,9 @@
             [clojure.core.memoize :as memo]
             [clojure.pprint :refer [pprint pp]]
             [clj-time.core :as t]            
-            [clj-time.format :as tf]))
+            [clj-time.format :as tf]
+
+            [home-photo-bank.utils :as utils]))
 
 (def db
   (:db (mg/connect-via-uri (env :database-url))))
@@ -98,14 +100,14 @@
     (pred (second a-list)) (first a-list)
     :else (recur (rest a-list) pred)))
   
-(defn next-photo-in-category [category photo-path]
-  (let [photos (photos-in-category category)]
+(defn next-photo-by-category [category photo-path]
+  (let [photos (photos-in-parent-category (utils/parent-category category))]
     (following-item
      photos
      #(= photo-path (:path %)))))
 
-(defn prev-photo-in-category [category photo-path]
-  (let [photos (photos-in-category category)]
+(defn prev-photo-by-category [category photo-path]
+  (let [photos (photos-in-parent-category (utils/parent-category category))]
     (previous-item
      photos
      #(= photo-path (:path %)))))

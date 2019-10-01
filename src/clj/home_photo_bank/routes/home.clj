@@ -63,7 +63,6 @@
         :else
         (let [current-photo (db/photo-metadata photo-path)
               category (:category current-photo)
-              parent-category (ps/parent-category category)
               next-photo (find-fn category photo-path)]
           (if (nil? next-photo)
             (redirect (if (= "" from)
@@ -74,12 +73,12 @@
 (defn next-photo-page
   "Show the next photo after the one specified by photo-path"
   [photo-path from]
-  (adjacent-photo-page photo-path from db/next-photo-in-category))
+  (adjacent-photo-page photo-path from db/next-photo-by-category))
   
 (defn prev-photo-page
   "Show the next photo after the one specified by photo-path"
   [photo-path from]
-  (adjacent-photo-page photo-path from db/prev-photo-in-category))
+  (adjacent-photo-page photo-path from db/prev-photo-by-category))
 
 (defn category-page
   ([year req] (category-page year nil nil req))

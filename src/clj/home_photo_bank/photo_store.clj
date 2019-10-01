@@ -270,6 +270,9 @@
      (list (- year 1) 12)
      (list year (- month 1)))))
 
+(defn parent-category [category]
+  (s/join "/" (drop-last 1 (s/split category #"/"))))
+
 ;; -------------------------------------------------------
 
 (defn all-photos 

@@ -73,3 +73,12 @@
     
     ))
 
+(deftest parent-category
+  (testing "parent from y/m/d category"
+    (is (= "2019/09" (ps/parent-category "2019/09/30")))
+    (is (= "1972/12" (ps/parent-category "1972/12/06")))
+    (is (= "1980" (ps/parent-category "1980/01")))
+    (is (= "" (ps/parent-category "1980")))
+    ))
+
+

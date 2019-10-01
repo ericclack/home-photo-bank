@@ -63,6 +63,7 @@
         :else
         (let [current-photo (db/photo-metadata photo-path)
               category (:category current-photo)
+              parent-category (ps/parent-category category)
               next-photo (find-fn category photo-path)]
           (if (nil? next-photo)
             (redirect (if (= "" from)

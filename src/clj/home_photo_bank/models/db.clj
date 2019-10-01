@@ -86,12 +86,16 @@
   (sort-by first (take n (reverse (sort-by second (all-photo-keywords))))))
 
 (defn next-photo-by-search
-  [words]
-  )
+  [words photo-path]
+  (let [photos (photo-search words)]
+    (following-item photos
+                    #(= photo-path (:path %)))))
 
 (defn prev-photo-by-search
-  [words]
-  )
+  [words photo-path]
+  (let [photos (photo-search words)]
+    (previous-item photos
+                   #(= photo-path (:path %)))))
 
 ;; -------------------------------------------------
 

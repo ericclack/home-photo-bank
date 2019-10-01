@@ -7,6 +7,7 @@
             [clojure.java.io :as io]
             [home-photo-bank.photo-store :as ps]
             [home-photo-bank.models.db :as db]
+            [home-photo-bank.utils :as u]
             [clojure.tools.logging :as log]
             [clojure.string :as s]
             [clojure.set :as set]
@@ -64,7 +65,7 @@
   (let [search? (s/starts-with? from "/photos/_search")
         current-photo (db/photo-metadata photo-path)
         category (:category current-photo)
-        words (subs from (s/last-index-of from "?"))
+        words (u/search-words-from-photo-url from)
 
         find-fn
         (cond

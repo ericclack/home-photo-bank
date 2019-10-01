@@ -15,6 +15,7 @@
   (testing "get search word from URL containing from=..."
     (is (= ["apple" "banana"] (u/search-words-from-photo-url "http://0.0.0.0:3000/photo/_next/media/2012/6/16/spain-icecream-1.jpg?from=/photos/_search?word=apple%20banana")))
     (is (= [] (u/search-words-from-photo-url "")))
+    (is (= [] (u/search-words-from-photo-url "http://0.0.0.0:3000/photo/_next/media/2012/6/16/spain-icecream-1.jpg?from=/photos/_search?words=apple%20banana")))
   ))
 
 

@@ -13,10 +13,10 @@
 (defn search-words-from-photo-url [url]
   ;; The URL might contain a few ? since one of the
   ;; params is a from-url
-  (try
-    (let [pos (s/last-index-of url "?")
-          params (subs url (+ 1 pos))
-          dict (form-decode params)]
-      (s/split (get dict "word") #" "))
-    (catch Exception e
+  (let [pos (s/last-index-of url "?")
+        params (if pos (subs url (+ 1 pos)) "")
+        dict (form-decode params)
+        word (get dict "word")]
+    (if word
+      (s/split word #" ")
       [])))

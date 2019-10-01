@@ -1,6 +1,7 @@
 (ns home-photo-bank.test.models.db
   (:require [clojure.test :refer :all]
             [home-photo-bank.models.db :as db]
+            [home-photo-bank.utils :as u]            
             [clojure.string :as s]
             [clj-time.core :as t]
             [clj-time.format :as tf]))
@@ -16,18 +17,18 @@
                      {:name "James" :age 12}
                      {:name "Jane" :age 13})]
     (testing "simple next"
-      (is (= 3 (db/following-item (list 1 2 3 4 5) #(= 2 %))))
-      (is (nil? (db/following-item (list 1 2 3 4 5) #(= 5 %)))))
+      (is (= 3 (u/following-item (list 1 2 3 4 5) #(= 2 %))))
+      (is (nil? (u/following-item (list 1 2 3 4 5) #(= 5 %)))))
     (testing "dictionary next"
-      (let [item2 (db/following-item a-list
+      (let [item2 (u/following-item a-list
                                      #(= "Bill" (:name %)))]
         (is (= "James" (:name item2)))))
     (testing "simple prev"
-      (is (= 2 (db/previous-item (list 1 2 3 4 5) #(= 3 %)))))
+      (is (= 2 (u/previous-item (list 1 2 3 4 5) #(= 3 %)))))
     (testing "dictionary prev"
-      (let [item2 (db/previous-item a-list
+      (let [item2 (u/previous-item a-list
                                     #(= "Jane" (:name %)))
-            item3 (db/previous-item a-list
+            item3 (u/previous-item a-list
                                     #(= "Fred" (:name %)))]
         (is (= "James" (:name item2)))
         (is (nil? item3))))

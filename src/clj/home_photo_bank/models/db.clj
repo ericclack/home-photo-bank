@@ -12,7 +12,7 @@
             [clj-time.core :as t]            
             [clj-time.format :as tf]
 
-            [home-photo-bank.utils :as utils]))
+            [home-photo-bank.utils :as u]))
 
 (def db
   (:db (mg/connect-via-uri (env :database-url))))
@@ -88,13 +88,13 @@
 (defn next-photo-by-search
   [words photo-path]
   (let [photos (photo-search words)]
-    (following-item photos
+    (u/following-item photos
                     #(= photo-path (:path %)))))
 
 (defn prev-photo-by-search
   [words photo-path]
   (let [photos (photo-search words)]
-    (previous-item photos
+    (u/previous-item photos
                    #(= photo-path (:path %)))))
 
 ;; -------------------------------------------------
@@ -116,34 +116,16 @@
 (defn grouped-photos-in-parent-category [category]
   (group-by #(:category %)
             (photos-in-parent-category category)))
-
-(defn following-item
-  "Return the item after the item that satisfies pred"
-  [a-list pred]
-  (cond
-    (nil? (second a-list)) nil
-    (pred (first a-list)) (second a-list)
-    :else (recur (rest a-list) pred)))
-
-(defn previous-item
-  "Return the item before the item that satisfies pred"
-  [a-list pred]
-  (cond
-    (nil? (second a-list)) nil
-    (pred (second a-list)) (first a-list)
-    :else (recur (rest a-list) pred)))
   
 (defn next-photo-by-category [category photo-path]
-  (let [photos (photos-in-parent-category (utils/parent-category category))]
-    (following-item
-     photos
-     #(= photo-path (:path %)))))
+  (let [photos (photos-in-parent-category (u/parent-category category))]
+    (u/following-item photos
+                      #(= photo-path (:path %)))))
 
 (defn prev-photo-by-category [category photo-path]
-  (let [photos (photos-in-parent-category (utils/parent-category category))]
-    (previous-item
-     photos
-     #(= photo-path (:path %)))))
+  (let [photos (photos-in-parent-category (u/parent-category category))]
+    (u/previous-item photos
+                     #(= photo-path (:path %)))))
 
 ;; ----------------------------------------------------------
 

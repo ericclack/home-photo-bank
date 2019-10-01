@@ -20,3 +20,19 @@
     (if word
       (s/split word #" ")
       [])))
+
+(defn following-item
+  "Return the item after the item that satisfies pred"
+  [a-list pred]
+  (cond
+    (nil? (second a-list)) nil
+    (pred (first a-list)) (second a-list)
+    :else (recur (rest a-list) pred)))
+
+(defn previous-item
+  "Return the item before the item that satisfies pred"
+  [a-list pred]
+  (cond
+    (nil? (second a-list)) nil
+    (pred (second a-list)) (first a-list)
+    :else (recur (rest a-list) pred)))

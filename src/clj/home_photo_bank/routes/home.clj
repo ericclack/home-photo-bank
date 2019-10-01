@@ -57,28 +57,43 @@
                  :back back}))
 
 (defn adjacent-photo-page
-  [photo-path from find-fn]
-  (cond (s/starts-with? from "/photos/_search") (redirect from) ;todo
+  "Given photo identified by photo-path show the next/priv photo
+  using the find-fn"
+  [photo-path from direction]
 
-        :else
-        (let [current-photo (db/photo-metadata photo-path)
-              category (:category current-photo)
-              next-photo (find-fn category photo-path)]
-          (if (nil? next-photo)
-            (redirect (if (= "" from)
-                        (str "/photos/" category)
-                        from))
-            (redirect (str "/photo/" (:path next-photo) "?back=" from))))))
+  (let [search? (s/starts-with? from "/photos/_search")
+        current-photo (db/photo-metadata photo-path)
+        category (:category current-photo)
+        words (subs from (s/last-index-of from "?"))
+
+        find-fn
+        (cond
+          (and search? (= direction 'next)) db/next-photo-by-search 
+          (and search? (= direction 'prev)) db/prev-photo-by-search 
+          (= direction 'next) db/next-photo-by-category
+          (= direction 'prev) db/prev-photo-by-category)
+
+        next-photo (if search?
+                     (find-fn words photo-path)
+                     (find-fn category photo-path))]
+    
+    (if (nil? next-photo)
+      ;; No more photos, so return to where we came from
+      (redirect (if (= "" from)
+                  (str "/photos/" category)
+                  from))
+      ;; Redirect to the next photo
+      (redirect (str "/photo/" (:path next-photo) "?back=" from)))))
 
 (defn next-photo-page
   "Show the next photo after the one specified by photo-path"
   [photo-path from]
-  (adjacent-photo-page photo-path from db/next-photo-by-category))
+  (adjacent-photo-page photo-path from 'next))
   
 (defn prev-photo-page
   "Show the next photo after the one specified by photo-path"
   [photo-path from]
-  (adjacent-photo-page photo-path from db/prev-photo-by-category))
+  (adjacent-photo-page photo-path from 'prev))
 
 (defn category-page
   ([year req] (category-page year nil nil req))

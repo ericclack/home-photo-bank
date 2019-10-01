@@ -85,6 +85,14 @@
   [n]
   (sort-by first (take n (reverse (sort-by second (all-photo-keywords))))))
 
+(defn next-photo-by-search
+  [words]
+  )
+
+(defn prev-photo-by-search
+  [words]
+  )
+
 ;; -------------------------------------------------
 
 (defn photos-in-category [category]

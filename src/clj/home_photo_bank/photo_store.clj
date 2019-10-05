@@ -18,7 +18,8 @@
             [clojure.java.io    :as io]
             [clojure.string :as s]
             [clojure.pprint :refer [pprint pp]]
-            [clojure.tools.logging :as log]  
+            [clojure.tools.logging :as log]
+            [clojure.java.shell :refer [sh]]
             ;; -------
             [image-resizer.core :refer :all]
             [image-resizer.format :as format]
@@ -60,6 +61,7 @@
     (if metadata (exif/read metadata))))
 
 (def exif-date-format "yyyy:MM:dd HH:mm:ss")
+(def exif-formatter (tf/formatter exif-date-format))
 (def null-date "0000:00:00 00:00:00")
 
 (defn has-date-created? [metadata]
@@ -70,7 +72,7 @@
 (defn get-date-created
   "EXIF time is in format: 2003:12:14 12:01:44"
   [metadata]
-  (tf/parse (tf/formatter exif-date-format)
+  (tf/parse exif-formatter
             (get-in metadata ["Exif" "DateTimeOriginal"])))
 
 (defn get-exif-date-created [file]
@@ -79,6 +81,17 @@
 (defn get-orientation
   [metadata]
   (get-in metadata ["Root" "Orientation"]))
+
+(defn set-exif-date-created!
+  "Use exiftool to set date-created with a string in
+  format 2006-06-01T10:11"
+  [file date-created]
+  (log/info (sh "echo" "exiftool"
+                (str "-DateTimeOriginal=\""
+                     (tf/unparse exif-formatter
+                                 (tf/parse date-created))
+                     "\"")
+                (str file))))
 
 ;; -------------------------------------------------------
 

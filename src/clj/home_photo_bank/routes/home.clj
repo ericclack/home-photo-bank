@@ -234,14 +234,15 @@
        :all-photos-names (map #(.getName %) all-photos)}))))
 
 (defn process-photo!
-  "Add keywords to this photo"
+  "Add keywords to this photo and optionally set
+  creation date (format 2006-06-01T10:11)"
   [photo-path keywords date-created]
-  (when date-created (log/info date-created))
   
-  (ps/process-photo-add-keywords!
-   (io/file (ps/media-path "_process" photo-path))
-   (str->keywords keywords))
-  (process-photos))
+  (let [file (io/file (ps/media-path "_process" photo-path))]
+    (when date-created
+      (ps/set-exif-date-created! file date-created))
+    (ps/process-photo-add-keywords! file (str->keywords keywords))
+    (process-photos)))
 
 (defn processing-done!
   []

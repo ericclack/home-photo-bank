@@ -40,6 +40,20 @@ div.thumbnail {
     margin-bottom: 15px;
 }
 
+p#date-created {
+    display: block;
+    position: absolute;
+    right: 1.3em;
+    top: 0.3em;
+    font-size: 80%;    
+}
+
+p.no-date-created {
+    background-color: red;
+    color: white;
+    padding: 0 0.5em;
+}
+
 div#keyword-form {
     position: fixed;
     top: 16em;

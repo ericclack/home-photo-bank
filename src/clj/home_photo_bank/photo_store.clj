@@ -60,6 +60,12 @@
     (if metadata (exif/read metadata))))
 
 (def exif-date-format "yyyy:MM:dd HH:mm:ss")
+(def null-date "0000:00:00 00:00:00")
+
+(defn has-date-created? [metadata]
+  (let [date-created (get-in metadata ["Exif" "DateTimeOriginal"])]
+    (and (some? date-created)
+         (not= date-created null-date))))
 
 (defn get-date-created
   "EXIF time is in format: 2003:12:14 12:01:44"

@@ -219,13 +219,17 @@
                                               all-photos)))
          name (when-not done? (.getName photo))
          keywords (when-not done? (ps/file-name-to-keywords
-                                   (first (ps/split-extension photo))))]
+                                   (first (ps/split-extension photo))))
+         exif (ps/get-exif-metadata photo)
+         date-created (when (ps/has-date-created? exif)
+                        (ps/get-date-created exif))]
      (render
       "process.html"
       {:num-photos num-photos
        :photo photo
        :name name
        :keywords keywords
+       :date-created date-created
        :all-photos all-photos
        :all-photos-names (map #(.getName %) all-photos)}))))
 

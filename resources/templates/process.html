@@ -28,6 +28,19 @@
 
   <div class="col-sm-9">
     <h2>Add keywords to {{name}}</h2>
+
+    {% if date-created %}
+    <p id="date-created">
+      Date created:<br/>
+      {{date-created}}
+    </p>
+    {% else %}
+    <p id="date-created" class="no-date-created">
+      No date created!<br/>
+      Add one below to enable import.
+    </p>
+    {% endif %}
+
     <div class="thumbnail">
       <img src="/{{photo}}" alt="{{name}}" class="img-rounded img-thumbnail"/>
     </div>

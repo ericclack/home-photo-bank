@@ -19,7 +19,6 @@
             [clojure.string :as s]
             [clojure.pprint :refer [pprint pp]]
             [clojure.tools.logging :as log]
-            [clojure.java.shell :refer [sh]]
             ;; -------
             [image-resizer.core :refer :all]
             [image-resizer.format :as format]
@@ -27,7 +26,9 @@
             [clj-time.core :as t]
             [clj-time.format :as tf]
             ;; -------
-            [home-photo-bank.models.db :as db])
+            [home-photo-bank.models.db :as db]
+            [home-photo-bank.shell :as shell])
+  
   (:import [java.util.zip ZipEntry ZipOutputStream]))
 
 (def thumbnail-size 300) ;; bounding box 300x300
@@ -83,15 +84,13 @@
   (get-in metadata ["Root" "Orientation"]))
 
 (defn set-exif-date-created!
-  "Use exiftool to set date-created with a string in
+  "Set date-created with a string in
   format 2006-06-01T10:11"
   [file date-created]
-  (log/info (sh "echo" "exiftool"
-                (str "-DateTimeOriginal=\""
-                     (tf/unparse exif-formatter
-                                 (tf/parse date-created))
-                     "\"")
-                (str file))))
+  (shell/set-exif-date-created!
+   file
+   (tf/unparse exif-formatter
+               (tf/parse date-created))))
 
 ;; -------------------------------------------------------
 

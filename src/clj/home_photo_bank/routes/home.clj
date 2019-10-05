@@ -235,12 +235,13 @@
 
 (defn process-photo!
   "Add keywords to this photo and optionally set
-  creation date (format 2006-06-01T10:11)"
+  creation date (format 2006-06-01T10:11 from HTML)"
   [photo-path keywords date-created]
   
   (let [file (io/file (ps/media-path "_process" photo-path))]
     (when date-created
       (ps/set-exif-date-created! file date-created))
+    
     (ps/process-photo-add-keywords! file (str->keywords keywords))
     (process-photos)))
 

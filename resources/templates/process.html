@@ -53,6 +53,10 @@
       <textarea name="keywords" rows="5" autofocus>{% for word in keywords %}{{word}}
 {% endfor %}</textarea>
       <br/>
+      {% if not date-created %}
+      <input required type="datetime-local" name="date-created"
+             placeholder="Date Created"/><br/>
+      {% endif %}
 
       <input type="hidden" name="photo" value="{{photo}}"/>
       <input type="submit" name="Next" value="Next &gt"/>

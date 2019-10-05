@@ -220,7 +220,7 @@
          name (when-not done? (.getName photo))
          keywords (when-not done? (ps/file-name-to-keywords
                                    (first (ps/split-extension photo))))
-         exif (ps/get-exif-metadata photo)
+         exif (when-not done? (ps/get-exif-metadata photo))
          date-created (when (ps/has-date-created? exif)
                         (ps/get-date-created exif))]
      (render
@@ -235,11 +235,13 @@
 
 (defn process-photo!
   "Add keywords to this photo"
-  [photo-path keywords]
-   (ps/process-photo-add-keywords!
-    (io/file (ps/media-path "_process" photo-path))
-    (str->keywords keywords))
-   (process-photos))
+  [photo-path keywords date-created]
+  (when date-created (log/info date-created))
+  
+  (ps/process-photo-add-keywords!
+   (io/file (ps/media-path "_process" photo-path))
+   (str->keywords keywords))
+  (process-photos))
 
 (defn processing-done!
   []
@@ -258,8 +260,8 @@
   (GET "/photos/_process/:photo-path{.*}" [photo-path]
         (process-photos photo-path))
   
-  (POST "/photos/_process/:photo-path{.*}" [photo-path keywords]
-        (process-photo! photo-path keywords))
+  (POST "/photos/_process/:photo-path{.*}" [photo-path keywords date-created]
+        (process-photo! photo-path keywords date-created))
   (POST "/photos/_processing-done" [] (processing-done!))
 
   (ANY "/photos/_edit/:photo-path{.*}" [photo-path keywords back]

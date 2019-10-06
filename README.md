@@ -22,6 +22,14 @@ MongoDB.
 
 [1]: https://github.com/technomancy/leiningen
 
+If you want to add photos with no date (e.g. scans or images created
+by PhotoShop / GIMP) then you'll need `exiftool`, which can be installed
+on Debian with:
+
+```
+sudo apt-get install libimage-exiftool-perl
+```
+
 ## Set up
 
 Start up MongoDB, or run it as a service.

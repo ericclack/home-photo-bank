@@ -176,12 +176,7 @@
 
 (defn import-photos!
   "Process photos and store them away.
-  FIX: what about photos that have the same name (already imported?)
-  
-  FIX: what about photos that have no EXIF data? These fail and
-  currently the only fix is to use something like exiftool:
-  exiftool -DateTimeOriginal='1973:06:01 00:00:00' *.jpg"
-  
+  FIX: what about photos that have the same name (already imported?)"  
   []
   (map import-photo! (photos-to-import)))
 

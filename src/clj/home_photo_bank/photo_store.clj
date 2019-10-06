@@ -65,7 +65,7 @@
 (defn has-date-created? [metadata]
   (let [date-created (get-in metadata ["Exif" "DateTimeOriginal"])]
     (and (some? date-created)
-         (not= date-created null-date))))
+         (not= date-created const/exif-null-date))))
 
 (defn get-date-created
   "EXIF time is in format: 2003:12:14 12:01:44"

@@ -5,13 +5,15 @@
             [ring.util.response :refer [file-response content-type redirect]]
             [ring.util.io :refer [piped-input-stream]]
             [clojure.java.io :as io]
-            [home-photo-bank.photo-store :as ps]
-            [home-photo-bank.models.db :as db]
-            [home-photo-bank.utils :as u]
-            [clojure.tools.logging :as log]
+            [clojure.tools.logging :as log]            
             [clojure.string :as s]
             [clojure.set :as set]
             [clj-time.core :as t]
+            [clj-time.format :as tf]
+            
+            [home-photo-bank.photo-store :as ps]
+            [home-photo-bank.models.db :as db]
+            [home-photo-bank.utils :as u]
             ))
 
 (defn render
@@ -240,7 +242,7 @@
   
   (let [file (io/file (ps/media-path "_process" photo-path))]
     (when date-created
-      (ps/set-exif-date-created! file date-created))
+      (ps/set-exif-date-created! file (tf/parse date-created)))
     
     (ps/process-photo-add-keywords! file (str->keywords keywords))
     (process-photos)))

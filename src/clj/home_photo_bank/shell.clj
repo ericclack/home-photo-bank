@@ -3,12 +3,14 @@
   
   (:require [clojure.java.shell :refer [sh]]
             [clojure.tools.logging :as log]
+            [clj-time.format :as tf]
+            [home-photo-bank.constants :as const]
             ))
 
 (defn set-exif-date-created! [file date-created]
   (log/info "set-exif-date-created!")
   (log/info (sh "exiftool"
                 (str "-DateTimeOriginal=\""
-                     date-created
+                     (tf/unparse const/exif-formatter date-created)
                      "\"")
                 (str file))))

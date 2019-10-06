@@ -26,6 +26,7 @@
             [clj-time.core :as t]
             [clj-time.format :as tf]
             ;; -------
+            [home-photo-bank.constants :as const]
             [home-photo-bank.models.db :as db]
             [home-photo-bank.shell :as shell])
   
@@ -61,10 +62,6 @@
   (let [metadata (exif/get-metadata file)]
     (if metadata (exif/read metadata))))
 
-(def exif-date-format "yyyy:MM:dd HH:mm:ss")
-(def exif-formatter (tf/formatter exif-date-format))
-(def null-date "0000:00:00 00:00:00")
-
 (defn has-date-created? [metadata]
   (let [date-created (get-in metadata ["Exif" "DateTimeOriginal"])]
     (and (some? date-created)
@@ -73,7 +70,7 @@
 (defn get-date-created
   "EXIF time is in format: 2003:12:14 12:01:44"
   [metadata]
-  (tf/parse exif-formatter
+  (tf/parse const/exif-formatter
             (get-in metadata ["Exif" "DateTimeOriginal"])))
 
 (defn get-exif-date-created [file]
@@ -87,10 +84,7 @@
   "Set date-created with a string in
   format 2006-06-01T10:11"
   [file date-created]
-  (shell/set-exif-date-created!
-   file
-   (tf/unparse exif-formatter
-               (tf/parse date-created))))
+  (shell/set-exif-date-created! file date-created))
 
 ;; -------------------------------------------------------
 

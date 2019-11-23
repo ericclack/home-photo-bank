@@ -9,6 +9,15 @@ Philosophy:
 * Home network is fast
 * Never modify photo files, except moving them into their category folders
 
+Features:
+
+* Auto generated thumbnails
+* Photos stored on the file system in year/month/day folders
+* Tags & search
+* Dowload for email
+* Favourites & download ZIP
+* Basic duplicate detection (with SHA-256 hash).
+
 ## Screen shots
 
 ![Search Screen Shot](home-photo-bank-search.jpg?raw=true)
@@ -112,7 +121,7 @@ Review and modify the script [resources/tools/copy-photos-to-bank](/resources/to
 
 ## To Do
 
-Lots!
+Take a look at the [Issues Page](/issues)
 
 ## License
 

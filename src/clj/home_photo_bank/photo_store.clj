@@ -87,9 +87,17 @@
   [file date-created]
   (shell/set-exif-date-created! file date-created))
 
-(defn md5-digest
+;; -------------------------------------------------------
+
+(defn get-digest
   [file]
-  (digest/md5 file))
+  (digest/sha-256 file))
+
+(defn maybe-duplicate?
+  "Check to see if we have seen this digest before"
+  [file]
+  (let [digest (get-digest file)]
+    (db/photos-with-digest digest)))
 
 ;; -------------------------------------------------------
 
@@ -373,13 +381,15 @@
 
 ;; -------------------------------------------------------
 
-(defn fix-1000-photos-without-metadatum!
+(defn fix-photos-without-metadatum!
   "Find and fix photos without this metadata, value-getter takes a media-path file and returns the appropriate value"
   [metadata-key value-getter]
   
   ;; To fix missing datetime, run with
-  ;; (fix-1000-photos-without-metadatum! "datetime" get-exif-date-created)
-
+  ;; (fix-photos-without-metadatum! "datetime" get-exif-date-created)
+  ;; To fix missing digest run with
+  ;; (fix-photos-without-metadatum! "digest" get-digest)
+  
   (defn fix-photo-without-metadatum!
     [photo-path]
     (try
@@ -398,6 +408,6 @@
   
   (map fix-photo-without-metadatum!
        (map :path
-            (take 1000
+            (take 100
                   (db/photos-without-metadatum metadata-key)))))
 

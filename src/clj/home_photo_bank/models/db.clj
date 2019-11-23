@@ -127,6 +127,9 @@
     (u/previous-item photos
                      #(= photo-path (:path %)))))
 
+(defn photos-with-digest [digest]
+  (with-db (q/find {:digest digest})))
+  
 ;; ----------------------------------------------------------
 
 (defn keywords-across-photos [photos]

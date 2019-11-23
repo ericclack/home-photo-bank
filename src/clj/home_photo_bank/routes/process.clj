@@ -34,7 +34,7 @@
          exif (when-not done? (ps/get-exif-metadata photo))
          date-created (when (ps/has-date-created? exif)
                         (ps/get-date-created exif))
-         md5-digest (when-not done? (ps/md5-digest photo))]
+         duplicates (when-not done? (ps/maybe-duplicate? photo))]
      (render
       "process.html"
       {:num-photos num-photos
@@ -42,11 +42,11 @@
        :name name
        :keywords keywords
        :date-created date-created
-       :md5-digest md5-digest
+       :duplicates duplicates
        :all-photos all-photos
        :all-photos-names (map #(.getName %) all-photos)}))))
 
-(defn process-photo!
+(defn process-photo!`
   "Add keywords to this photo and optionally set
   creation date (format 2006-06-01T10:11 from HTML)"
   [photo-path keywords date-created]

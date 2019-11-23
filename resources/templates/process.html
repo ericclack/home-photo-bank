@@ -27,14 +27,21 @@
 {% if photo %}
 
   <div class="col-sm-9">
+    {% if duplicates|not-empty %}
+      <h2>We already have this photo!</h2>
+
+      {% with photos=duplicates %}
+      {% include "_photos.html" %}
+      {% endwith %}
+
+    {% endif %}
+    
     <h2>Add keywords to {{name}}</h2>
 
     {% if date-created %}
     <p id="date-created">
       Date created:<br/>
-      {{date-created}}<br/>
-      MD5 Digest:<br/>
-      {{md5-digest}}      
+      {{date-created}}      
     </p>
     {% else %}
     <p id="date-created" class="no-date-created">

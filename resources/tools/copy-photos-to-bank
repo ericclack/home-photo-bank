@@ -12,6 +12,6 @@ shopt -s nullglob # Make no JPGs a no-op
 
 for f in *.jpg *.JPG *.jpeg
 do
-    scp $f photo-uploader@saturn:_process
-    mv $f __done/
+    scp "$f" photo-uploader@saturn:_process
+    mv "$f" __done/
 done

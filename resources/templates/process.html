@@ -32,7 +32,9 @@
     {% if date-created %}
     <p id="date-created">
       Date created:<br/>
-      {{date-created}}
+      {{date-created}}<br/>
+      MD5 Digest:<br/>
+      {{md5-digest}}      
     </p>
     {% else %}
     <p id="date-created" class="no-date-created">

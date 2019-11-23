@@ -15,7 +15,7 @@
             ))
 
 (defn process-photos
-  "Display the next photo for processing"
+  "Display the next photo for processing, or the All Done message"
   ([]
    (let [next (first (ps/process-photos-with-no-keywords))
          name (when next (.getName next))]
@@ -33,7 +33,8 @@
                                    (first (ps/split-extension photo))))
          exif (when-not done? (ps/get-exif-metadata photo))
          date-created (when (ps/has-date-created? exif)
-                        (ps/get-date-created exif))]
+                        (ps/get-date-created exif))
+         md5-digest (when-not done? (ps/md5-digest photo))]
      (render
       "process.html"
       {:num-photos num-photos
@@ -41,6 +42,7 @@
        :name name
        :keywords keywords
        :date-created date-created
+       :md5-digest md5-digest
        :all-photos all-photos
        :all-photos-names (map #(.getName %) all-photos)}))))
 

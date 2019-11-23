@@ -25,6 +25,7 @@
             [clj-exif.core :as exif]
             [clj-time.core :as t]
             [clj-time.format :as tf]
+            [digest :as digest]
             ;; -------
             [home-photo-bank.constants :as const]
             [home-photo-bank.models.db :as db]
@@ -85,6 +86,10 @@
   format 2006-06-01T10:11"
   [file date-created]
   (shell/set-exif-date-created! file date-created))
+
+(defn md5-digest
+  [file]
+  (digest/md5 file))
 
 ;; -------------------------------------------------------
 

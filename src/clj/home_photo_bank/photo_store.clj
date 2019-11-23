@@ -146,6 +146,7 @@
                           (str (env :media-path) "/")
                           "")
      :keywords (file-name-to-keywords name)
+     :digest (get-digest photo)
      }))
 
 (defn move-photo-into-store!
@@ -188,8 +189,7 @@
       (move-photo-into-failed! photo-file))))
 
 (defn import-photos!
-  "Process photos and store them away.
-  FIX: what about photos that have the same name (already imported?)"  
+  "Process photos and store them away."  
   []
   (map import-photo! (photos-to-import)))
 

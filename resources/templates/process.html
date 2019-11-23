@@ -28,12 +28,25 @@
 
   <div class="col-sm-9">
     {% if duplicates|not-empty %}
-      <h2>We already have this photo!</h2>
+    <div id="duplicate-form">
+      <h2>Is this a duplicate?</h2>
+      <form method="POST" action="/photos/_process/_delete/{{name}}" class="form-inline">
+         {% csrf-field %}
+        <p>It looks like this photo is already in the photo bank. <br/>
+          Check the picture below and if it matches
+          <button type="submit" value="delete"
+                  class="btn btn-secondary btn-sm">don't
+            import it again</button>.
+        </p>
+      </form>
 
       {% with photos=duplicates %}
-      {% include "_photos.html" %}
+      {% include "_just_photos.html" %}
       {% endwith %}
+    </div>
 
+    <hr/>
+    
     {% endif %}
     
     <h2>Add keywords to {{name}}</h2>
@@ -81,7 +94,7 @@
 
     <p style="padding-top: 1em;">You can add or change keywords by
       clicking a link on the left, or... </p>
-    <form method="POST" action="/photos/_process/done">
+    <form method="POST" action="/photos/_process/_done">
       {% csrf-field %}
       <input type="submit" class="btn btn-primary" name="done"
              value="Start photo import" />

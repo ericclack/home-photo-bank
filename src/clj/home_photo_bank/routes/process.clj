@@ -46,7 +46,15 @@
        :all-photos all-photos
        :all-photos-names (map #(.getName %) all-photos)}))))
 
-(defn process-photo!`
+(defn process-delete-photo!
+  "Remove this photo from import process by moving it to failed"
+  [photo-path]
+  (let [file (io/file (ps/media-path "_process" photo-path))]
+    (log/info
+     (ps/move-photo-into-failed! file))
+    (process-photos)))
+
+(defn process-photo!
   "Add keywords to this photo and optionally set
   creation date (format 2006-06-01T10:11 from HTML)"
   [photo-path keywords date-created]
@@ -73,7 +81,9 @@
            (GET "/:photo-path{.*}" [photo-path]
                 (process-photos photo-path))
   
-           (POST "/done" [] (processing-done!))
+           (POST "/_done" [] (processing-done!))
+           (POST "/_delete/:photo-path{.*}" [photo-path]
+                 (process-delete-photo! photo-path))
            (POST "/:photo-path{.*}" [photo-path keywords date-created]
                  (process-photo! photo-path keywords date-created))
            ))

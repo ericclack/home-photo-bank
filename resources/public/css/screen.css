@@ -62,6 +62,15 @@ div#keyword-form {
     padding: 9px 15px;
 }
 
+div#duplicate-form {
+    position: fixed;
+    top: 18em;
+    left: 6em;
+    background-color: rgba(255, 0, 0, 0.75);
+    padding: 9px 15px;
+    color: white;
+}
+
 div#full-size-photo {
     height: 100vh;
     background-position: center;

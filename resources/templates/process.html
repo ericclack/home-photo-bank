@@ -72,7 +72,7 @@
 
     <p style="padding-top: 1em;">You can add or change keywords by
       clicking a link on the left, or... </p>
-    <form method="POST" action="/photos/_processing-done">
+    <form method="POST" action="/photos/_process/done">
       {% csrf-field %}
       <input type="submit" class="btn btn-primary" name="done"
              value="Start photo import" />

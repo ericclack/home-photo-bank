@@ -14,21 +14,8 @@
             [home-photo-bank.photo-store :as ps]
             [home-photo-bank.models.db :as db]
             [home-photo-bank.utils :as u]
+            [home-photo-bank.routes.utils :refer [render]]
             ))
-
-(defn render
-  "render this template adding in request and back
-  link if not already included in the data"
-  ([template] (render template {} nil))
-  ([template data] (render template data nil))
-  ([template data request]
-   (let [back (or (:back data)
-                  (when (some? request)
-                    (str (:uri request) "?" (:query-string request))))]
-     (layout/render template
-                    (assoc data
-                           :request request
-                           :back back)))))
 
 (defn month-photos
   "A list of lists of photos for this month
@@ -191,13 +178,9 @@
             {:top-level-categories (ps/top-level-categories)
              :all-keywords all-keywords})))
 
-(defn str->keywords
-  [s]
-  (map s/trim (s/split-lines s)))
-
 (defn edit-photo [photo-path keywords back]
   (when keywords
-    (db/set-photo-keywords! photo-path (str->keywords keywords)))
+    (db/set-photo-keywords! photo-path (u/str->keywords keywords)))
   (render
    "edit.html"
    {:photo (db/photo-metadata photo-path)
@@ -205,68 +188,12 @@
     :back back
     }))
 
-(defn process-photos
-  "Display the next photo for processing"
-  ([]
-   (let [next (first (ps/process-photos-with-no-keywords))
-         name (when next (.getName next))]
-     (process-photos name)))
-  
-  ([photo-path]
-   (let [all-photos (ps/photos-to-process)
-         num-photos (count all-photos)
-         done? (nil? photo-path)
-         photo (when-not done? (first (filter #(= photo-path
-                                                  (.getName %))
-                                              all-photos)))
-         name (when-not done? (.getName photo))
-         keywords (when-not done? (ps/file-name-to-keywords
-                                   (first (ps/split-extension photo))))
-         exif (when-not done? (ps/get-exif-metadata photo))
-         date-created (when (ps/has-date-created? exif)
-                        (ps/get-date-created exif))]
-     (render
-      "process.html"
-      {:num-photos num-photos
-       :photo photo
-       :name name
-       :keywords keywords
-       :date-created date-created
-       :all-photos all-photos
-       :all-photos-names (map #(.getName %) all-photos)}))))
-
-(defn process-photo!
-  "Add keywords to this photo and optionally set
-  creation date (format 2006-06-01T10:11 from HTML)"
-  [photo-path keywords date-created]
-  
-  (let [file (io/file (ps/media-path "_process" photo-path))]
-    (when date-created
-      (ps/set-exif-date-created! file (tf/parse date-created)))
-    
-    (ps/process-photo-add-keywords! file (str->keywords keywords))
-    (process-photos)))
-
-(defn processing-done!
-  []
-  (log/info
-   (ps/move-processed-to-import!))
-  (process-photos))
-
 ;; ----------------------------------------------------
 
 (defroutes home-routes
   (GET "/" [] (home-page))
   (GET "/photos/_search" [word year :as req] (photo-search word year req))
   (GET "/photos/_keywords" [] (all-keywords))
-       
-  (GET "/photos/_process" [] (process-photos))
-  (GET "/photos/_process/:photo-path{.*}" [photo-path]
-        (process-photos photo-path))
-  
-  (POST "/photos/_process/:photo-path{.*}" [photo-path keywords date-created]
-        (process-photo! photo-path keywords date-created))
-  (POST "/photos/_processing-done" [] (processing-done!))
 
   (ANY "/photos/_edit/:photo-path{.*}" [photo-path keywords back]
        (edit-photo photo-path keywords back))

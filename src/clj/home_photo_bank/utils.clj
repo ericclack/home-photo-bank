@@ -36,3 +36,7 @@
     (nil? (second a-list)) nil
     (pred (second a-list)) (first a-list)
     :else (recur (rest a-list) pred)))
+
+(defn str->keywords
+  [s]
+  (map s/trim (s/split-lines s)))

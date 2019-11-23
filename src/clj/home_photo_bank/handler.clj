@@ -3,6 +3,7 @@
             [home-photo-bank.layout :refer [error-page]]
             [home-photo-bank.routes.home :refer [home-routes]]
             [home-photo-bank.routes.selection :refer [selection-routes]]
+            [home-photo-bank.routes.process :refer [process-routes]]
             [compojure.route :as route]
             [home-photo-bank.env :refer [defaults]]
             [mount.core :as mount]
@@ -16,7 +17,12 @@
   (routes
    (-> #'selection-routes
         (wrap-routes middleware/wrap-csrf)
-        (wrap-routes middleware/wrap-formats))       
+        (wrap-routes middleware/wrap-formats))
+   
+   (-> #'process-routes
+        (wrap-routes middleware/wrap-csrf)
+        (wrap-routes middleware/wrap-formats))
+   
    (-> #'home-routes
         (wrap-routes middleware/wrap-csrf)
         (wrap-routes middleware/wrap-formats))

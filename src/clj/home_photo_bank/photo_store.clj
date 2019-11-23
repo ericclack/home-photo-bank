@@ -94,7 +94,7 @@
   (digest/sha-256 file))
 
 (defn maybe-duplicate?
-  "Check to see if we have seen this digest before"
+  "Check to see if we have seen this digest before. If we have this photo is likely to be a duplicate."
   [file]
   (let [digest (get-digest file)]
     (db/photos-with-digest digest)))

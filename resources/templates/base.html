@@ -93,8 +93,8 @@
     {% script "/assets/jquery/jquery.min.js" %}
     {% script "/assets/tether/dist/js/tether.min.js" %}
     {% script "/assets/bootstrap/js/bootstrap.min.js" %}
+    {% script "/assets/vanilla-lazyload/dist/lazyload.min.js" %}
 
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script type="text/javascript">
       var context = "{{servlet-context}}";
     </script>
@@ -120,9 +120,10 @@
       });
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-beta.2/lazyload.js"></script>
     <script type="text/javascript">
-      lazyload();
+      var lazyLoadInstance = new LazyLoad({
+        elements_selector: ".lazyload"
+      });
     </script>
     
     {% block page-scripts %}

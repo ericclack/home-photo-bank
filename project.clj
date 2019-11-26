@@ -19,10 +19,13 @@
                  [org.clojure/clojure "1.9.0"]
                  [org.clojure/tools.cli "0.3.5"]
                  [org.clojure/tools.logging "0.4.0"]
+                 
                  [org.webjars.bower/tether "1.4.3"]
                  [org.webjars/bootstrap "4.0.0-beta.3"]
                  [org.webjars/font-awesome "5.0.2"]
                  [org.webjars/jquery "3.2.1"]
+                 [org.webjars.npm/vanilla-lazyload "10.19.0"]
+                 
                  [ring-webjars "0.2.0"]
                  [ring/ring-core "1.6.3"]
                  [ring/ring-defaults "0.3.1"]

@@ -127,3 +127,11 @@ div#prev-photo {
     background-color: rgba(0, 0, 0, 0.5);        
     padding: 9px 15px;
 }
+
+p#download-for {
+    position: absolute;
+    right: 1em;
+    bottom: 1.7em;
+    color: #ccc;
+    font-size: 90%;
+}    

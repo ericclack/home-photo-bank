@@ -32,8 +32,11 @@
       {% endif %}
       >&#9734;</button>    
 
-    <a href="/{{photo.path}}?resize=1000" class="btn btn-outline-primary btn-sm"
-       download="{{photo.name}}" >Download for email</a>
+    <p id="download-for">Download for:</p>
+    <a href="/{{photo.path}}?resize=1000" class="btn btn-outline-info btn-sm"
+       download="{{photo.name}}" >Email</a>
+    <a href="/{{photo.path}}" class="btn btn-outline-info btn-sm"
+       download="{{photo.name}}" >Print</a>
   </div>
 
   <div id="next-photo">

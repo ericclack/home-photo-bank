@@ -102,7 +102,8 @@
 ;; -------------------------------------------------------
 
 (defn is-jpeg [file]
-  (s/ends-with? (s/lower-case file) ".jpg"))
+  (or (s/ends-with? (s/lower-case file) ".jpg")
+      (s/ends-with? (s/lower-case file) ".jpeg")))
 
 (defn photos-to-import
   "JPG photo files in the media/_import directory"

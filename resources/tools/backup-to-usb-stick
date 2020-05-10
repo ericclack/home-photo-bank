@@ -4,9 +4,9 @@ APPDIR=code/clojure/clojure-photo-bank
 BACKUPDIR=/Volumes/CLACKPHOTO2
 
 # Backup database first
-ssh -A pi@saturn $APPDIR/resources/tools/backup-mongodb
-rsync -va pi@saturn:$APPDIR/resources/backup $BACKUPDIR/
+ssh -A pi@saturn3.local $APPDIR/resources/tools/backup-mongodb
+rsync -va pi@saturn3.local:$APPDIR/resources/backup $BACKUPDIR/
 
 # Now fetch media
-rsync -va pi@saturn:$APPDIR/media $BACKUPDIR/
+rsync -va pi@saturn3.local:$APPDIR/media $BACKUPDIR/
 

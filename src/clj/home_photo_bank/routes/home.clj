@@ -32,7 +32,8 @@
 (defn home-page []
   (let [all-keywords (db/all-photo-keywords)
         pop-keywords (db/popular-photo-keywords 100)
-        random-keyword (first (rand-nth all-keywords))
+        random-keyword (if (seq all-keywords)
+                         (first (rand-nth all-keywords)))
         keyword-photos (db/photos-with-keyword random-keyword)]
     (render
      "home.html" {:top-level-categories (ps/top-level-categories)

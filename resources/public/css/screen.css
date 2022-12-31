@@ -135,3 +135,11 @@ p#download-for {
     color: #ccc;
     font-size: 90%;
 }    
+
+div.button-list {
+    width: 100%;
+}
+
+div.button-list .rhs-button {
+    float: right;
+}

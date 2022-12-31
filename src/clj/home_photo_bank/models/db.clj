@@ -78,7 +78,8 @@
                         [{ $project {:keywords 1 :_id 0}}
                          { $unwind "$keywords" }
                          { $group {:_id "$keywords" :count {$sum 1}}}
-                         { $sort {:_id 1}} ])))))
+                         { $sort {:_id 1}} ]
+			 :cursor {:batch-size 0})))))
 
 (defn popular-photo-keywords
   "Return the top scoring keywords"

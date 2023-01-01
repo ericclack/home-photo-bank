@@ -22,12 +22,12 @@
   (testing "resize"
     (let [file (ps/media-path "_test" "boat.jpg")
           thumbnail (resize file 100 100)
-          outfilepath (format/as-file thumbnail (ps/media-path-string "out.jpg"))]
-      (is (s/ends-with? outfilepath (ps/media-path-string "out_100x100.jpg"))))))
+          outfilepath (format/as-file thumbnail (ps/media-path "out.jpg"))]
+      (is (s/ends-with? outfilepath (ps/media-path "out_100x100.jpg"))))))
 
 (deftest test-exif
   (testing "Exif data from images"
     (let [file (ps/media-path "_test" "flower_exiv2.jpg")
           metadata (ps/get-exif-metadata file)]
       (is (= 1 (ps/get-orientation metadata)))
-      (is (= 2003 (t/year (ps/get-date-time metadata)))))))
+      (is (= 2003 (t/year (ps/get-date-created metadata)))))))

@@ -53,8 +53,7 @@
   :main home-photo-bank.core
 
   :plugins [[lein-cprop "1.0.1"]
-            [lein-immutant "2.1.0"]
-            [cider/cider-nrepl "0.15.1"]]
+            [lein-immutant "2.1.0"]]
 
   :profiles
   {:uberjar {:omit-source true

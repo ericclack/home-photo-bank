@@ -1,4 +1,4 @@
-    <p class="button-list">
+    <div class="button-list">
       {% if month %}
       <a class="btn btn-outline-secondary btn-sm" href="/photos/{{prev-month-category}}">&lt; Prev month</a>
       {% endif %}
@@ -12,6 +12,6 @@
       {% endfor %}
       
       {% if month %}
-      <a class="btn btn-outline-secondary btn-sm" href="/photos/{{next-month-category}}">Next month &gt;</a>
+      <a class="btn btn-outline-secondary btn-sm rhs-button" href="/photos/{{next-month-category}}">Next month &gt;</a>
       {% endif %}      
-     </p>
+     </div>

@@ -138,6 +138,7 @@ p#download-for {
 
 div.button-list {
     width: 100%;
+    margin-botton: 1rem;
 }
 
 div.button-list .rhs-button {

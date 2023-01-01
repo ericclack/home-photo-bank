@@ -1,0 +1,13 @@
+<div class="button-list">Choose a year:
+  <a href="/photos/_search?word={{word}}"
+     class="btn btn-outline-secondary btn-sm">All</a>
+  {% for y in years-across-photos %}
+  <a href="/photos/_search?word={{word}}&amp;year={{y}}"
+     {% ifequal y year %}
+     class="btn btn-secondary btn-sm"
+     {% else %}
+     class="btn btn-outline-secondary btn-sm"
+     {% endifequal %}
+     >{{y}}</a>
+  {% endfor %}
+</div>

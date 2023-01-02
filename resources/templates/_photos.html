@@ -2,7 +2,7 @@
   {% for p in photos|take:200 %}
   <div class="col-sm-3">
     <div class="thumbnail">
-      <a href="/photo/{{p.path}}{% if back %}?back={{back}}{% endif %}">
+      <a href="/photo/{{p.path}}{% if back %}?back={{back|urlescape}}{% endif %}">
         <img data-src="/{{p.path|thumb}}" alt="{{p.name}}" class="lazyload img-rounded img-thumbnail"/>
       </a>
       <div class="caption">
@@ -14,7 +14,7 @@
         <a href="/photos/{{p.category}}"
            class="btn btn-outline-primary btn-sm">{{p.category}}</a>
         {% endif %}
-        <a href="/photos/_edit/{{p.path}}{% if back %}?back={{back}}{% endif %}"
+        <a href="/photos/_edit/{{p.path}}{% if back %}?back={{back|urlescape}}{% endif %}"
            class="btn btn-warning btn-sm">edit</a>
         
         <button data="/photos/_select/{{p.path}}"

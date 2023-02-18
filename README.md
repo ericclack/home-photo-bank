@@ -121,7 +121,7 @@ Review and modify the script [resources/tools/copy-photos-to-bank](/resources/to
 
 ## To Do
 
-Take a look at the [Issues Page](/issues)
+Take a look at the Issues Page.
 
 ## License
 

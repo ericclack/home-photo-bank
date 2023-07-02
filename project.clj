@@ -38,7 +38,6 @@
                  [clj-time "0.13.0"]
                  [image-resizer "0.1.9"]
                  [io.joshmiller/exif-processor "0.2.0"]
-                 [clj-exif "0.2"]
                  [com.novemberain/monger "3.1.0"]
                  [digest "1.4.9"]
                  ]

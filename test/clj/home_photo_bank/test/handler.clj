@@ -17,10 +17,10 @@
 (deftest test-home
   (testing "home page contains folders"
     (let [response ((app) (request :get "/"))]
-      (is (s/includes? response "2017"))))
+      (is (s/includes? response "2015"))))
 
-  (testing "browse inside 2017"
-    (let [response ((app) (request :get "/photos/2017"))]
+  (testing "browse inside 2015"
+    (let [response ((app) (request :get "/photos/2015"))]
       (log/info response)
       (is (s/includes? response "January")))))
           

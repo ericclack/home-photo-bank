@@ -10,13 +10,12 @@
             [environ.core :refer [env]]
             [image-resizer.core :refer :all]
             [image-resizer.format :as format]
-            [clj-exif.core :as exif]
             [clj-time.core :as t]
-            [clj-time.format :as tf]
-            [exif-processor.core :as exifp]))
+            [clj-time.format :as tf]))
 
 
 ;; -----------------------------------------------------
+;; In Cider run tests with C-c C-t C-t
 
 (deftest test-image
   (testing "resize"
@@ -29,5 +28,4 @@
   (testing "Exif data from images"
     (let [file (ps/media-path "_test" "flower_exiv2.jpg")
           metadata (ps/get-exif-metadata file)]
-      (is (= 1 (ps/get-orientation metadata)))
       (is (= 2003 (t/year (ps/get-date-created metadata)))))))

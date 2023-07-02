@@ -22,7 +22,7 @@
             ;; -------
             [image-resizer.core :refer :all]
             [image-resizer.format :as format]
-            [clj-exif.core :as exif]
+            [exif-processor.core :as exif]
             [clj-time.core :as t]
             [clj-time.format :as tf]
             [digest :as digest]
@@ -60,11 +60,10 @@
 
 (defn get-exif-metadata
   [file]
-  (let [metadata (exif/get-metadata file)]
-    (if metadata (exif/read metadata))))
+  (exif/exif-for-file file))
 
 (defn has-date-created? [metadata]
-  (let [date-created (get-in metadata ["Exif" "DateTimeOriginal"])]
+  (let [date-created (get metadata "Date/Time Original")]
     (and (some? date-created)
          (not= date-created const/exif-null-date))))
 
@@ -72,14 +71,10 @@
   "EXIF time is in format: 2003:12:14 12:01:44"
   [metadata]
   (tf/parse const/exif-formatter
-            (get-in metadata ["Exif" "DateTimeOriginal"])))
+            (get metadata "Date/Time Original")))
 
 (defn get-exif-date-created [file]
   (get-date-created (get-exif-metadata file)))
-
-(defn get-orientation
-  [metadata]
-  (get-in metadata ["Root" "Orientation"]))
 
 (defn set-exif-date-created!
   "Set date-created with a string in

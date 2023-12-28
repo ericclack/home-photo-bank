@@ -84,7 +84,7 @@
 (defn popular-photo-keywords
   "Return the top scoring keywords"
   [n]
-  (sort-by first (take n (reverse (sort-by second (all-photo-keywords))))))
+  (sort-by first (take n (sort-by second > (all-photo-keywords)))))
 
 (defn next-photo-by-search
   [words photo-path]

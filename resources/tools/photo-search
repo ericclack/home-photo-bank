@@ -1,0 +1,7 @@
+#!/bin/sh
+
+keywords=$*
+matches=`find media -path "media/[0-9]*" -name "*${keywords}*"`
+echo $matches
+open $matches
+

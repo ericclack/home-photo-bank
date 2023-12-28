@@ -8,7 +8,7 @@
      data-target="#full-size-photo-info"
      data-toggle="collapse">
 
-  <div id="full-size-photo-info" class="collapse show">
+  <div id="full-size-photo-info" class="collapse hide">
     <h1>{{photo.name}}</h1>
     <p id="datetime">{{photo.datetime|date:mediumDateTime}}</p>
 
@@ -40,12 +40,16 @@
   </div>
 
   <div id="next-photo">
-    <a href="/photo/_next/{{photo.path}}?from={{back}}" class="btn btn-outline-secondary btn-sm">&gt;</a>
+    <a href="/photo/_next/{{photo.path}}?from={{back}}" class="btn btn-outline-dark btn-sm">&gt;</a>
   </div>
 
   <div id="prev-photo">
-    <a href="/photo/_prev/{{photo.path}}?from={{back}}" class="btn btn-outline-secondary btn-sm">&lt;</a>
+    <a href="/photo/_prev/{{photo.path}}?from={{back}}" class="btn btn-outline-dark btn-sm">&lt;</a>
   </div>
 
+  <div id="photo-info">
+    <a href="#" class="btn btn-outline-dark btn-sm">info</a>
+  </div>
+  
 </div>
 {% endblock %}

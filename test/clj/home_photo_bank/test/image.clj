@@ -21,8 +21,8 @@
   (testing "resize"
     (let [file (ps/media-path "_test" "boat.jpg")
           thumbnail (resize file 100 100)
-          outfilepath (format/as-file thumbnail (ps/media-path "out.jpg"))]
-      (is (s/ends-with? outfilepath (ps/media-path "out_100x100.jpg"))))))
+          outfilepath (format/as-file thumbnail (.getPath (ps/media-path "out.jpg")))]
+      (is (s/ends-with? outfilepath (.getPath (ps/media-path "out_100x100.jpg")))))))
 
 (deftest test-exif
   (testing "Exif data from images"

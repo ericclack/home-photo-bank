@@ -12,10 +12,6 @@
     <h1>{{photo.name}}</h1>
     <p id="datetime">{{photo.datetime|date:mediumDateTime}}</p>
 
-    {% if back %}
-    <a href="{{back}}" id="back">Back to photos</a>
-    {% endif %}
-
     {% for word in photo.keywords %}
     <a href="/photos/_search?word={{word}}"
        class="btn btn-outline-secondary btn-sm">{{word}}</a>
@@ -39,16 +35,25 @@
        download="{{photo.name}}" >Print</a>
   </div>
 
-  <div id="next-photo">
-    <a href="/photo/_next/{{photo.path}}?from={{back}}" class="btn btn-outline-dark btn-sm">&gt;</a>
+  {% if back %}
+  <div id="back-to-photos" class="side-button">
+    <a href="{{back}}" class="btn btn-outline-dark btn-sm" id="back"
+       title="Back to photos">Back</a>
+  </div>
+  {% endif %}
+
+  <div id="next-photo" class="side-button">
+    <a href="/photo/_next/{{photo.path}}?from={{back}}" class="btn btn-outline-dark btn-sm"
+       title="Next photo">&gt;</a>
   </div>
 
-  <div id="prev-photo">
-    <a href="/photo/_prev/{{photo.path}}?from={{back}}" class="btn btn-outline-dark btn-sm">&lt;</a>
+  <div id="prev-photo" class="side-button">
+    <a href="/photo/_prev/{{photo.path}}?from={{back}}" class="btn btn-outline-dark btn-sm"
+       title="Previous photo">&lt;</a>
   </div>
 
-  <div id="photo-info">
-    <a href="#" class="btn btn-outline-dark btn-sm">info</a>
+  <div id="photo-info" class="side-button">
+    <a href="#" class="btn btn-outline-dark btn-sm">Info</a>
   </div>
   
 </div>

@@ -113,28 +113,30 @@ div#full-size-photo-info a#back {
     top: 9px;
 }
 
-div#next-photo {
+div.side-button {
     position: fixed;
+    background-color: rgba(255, 255, 255, 0.3);
+    padding: 7px 12px;
+}
+
+div#next-photo {
     right: 0;
     top: 10em;
-    background-color: rgba(255, 255, 255, 0.3);
-    padding: 9px 15px;
 }
 
 div#prev-photo {
-    position: fixed;
     left: 0;
     top: 10em;
-    background-color: rgba(255, 255, 255, 0.3);  
-    padding: 9px 15px;
 }
 
 div#photo-info {
-    position: fixed;
     right: 0;
     bottom: 5em;
-    background-color: rgba(255, 255, 255, 0.3);        
-    padding: 9px 15px;
+}
+
+div#back-to-photos {
+    left: 0;
+    top: 2em;
 }
 
 p#download-for {

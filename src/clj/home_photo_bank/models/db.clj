@@ -177,7 +177,10 @@
 (defn set-photo-selection! [photo-path selections]
   (update-photo-metadata! photo-path "selections"
                           (map s/lower-case selections)))
-  
+
+(defn set-photo-notes! [photo-path notes]
+  (update-photo-metadata! photo-path "notes" notes))
+
 ;; ----------------------------------------------------------
 
 (defn photos-without-metadatum

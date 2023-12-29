@@ -179,14 +179,17 @@
             {:top-level-categories (ps/top-level-categories)
              :all-keywords all-keywords})))
 
-(defn edit-photo [photo-path keywords back]
+(defn edit-photo [photo-path keywords back notes]
   (when keywords
     (db/set-photo-keywords! photo-path (u/str->keywords keywords)))
+  (when notes
+    (db/set-photo-notes! photo-path notes))
   (render
    "edit.html"
    {:photo (db/photo-metadata photo-path)
     :keywords keywords
     :back back
+    :notes notes
     }))
 
 ;; ----------------------------------------------------
@@ -196,8 +199,8 @@
   (GET "/photos/_search" [word year :as req] (photo-search word year req))
   (GET "/photos/_keywords" [] (all-keywords))
 
-  (ANY "/photos/_edit/:photo-path{.*}" [photo-path keywords back]
-       (edit-photo photo-path keywords back))
+  (ANY "/photos/_edit/:photo-path{.*}" [photo-path keywords back notes]
+       (edit-photo photo-path keywords back notes))
   
   (GET "/photos/:year" [year :as req] (year-page year req))
   

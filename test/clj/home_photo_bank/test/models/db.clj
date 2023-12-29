@@ -46,8 +46,20 @@
       (is (= #{"hat" "scarf" "glove"}
              (db/keywords-across-photos photos-mock-1))))))
 
-(deftest read-keywords
+(deftest keywords-get
   (is (some? (:keywords (first (db/all-photos))))))
 
-(deftest notes
-  (is (some? (:notes (first (db/all-photos))))))
+(deftest keywords-set
+  (let [photo (first (db/all-photos))
+        photo-path (:path photo)]
+    (is (some? (db/set-photo-keywords! photo-path ["test" "keywords"])))))
+
+(deftest notes-get
+  ;; Many photos won't have notes, need a fixture to solve this
+  (is (some? (:notes (second (db/all-photos))))))
+
+(deftest notes-set
+  (let [photo (first (db/all-photos))
+        photo-path (:path photo)]
+    (is (some? (db/set-photo-notes! photo-path "Some notes about this photo")))))
+

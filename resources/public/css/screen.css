@@ -107,10 +107,14 @@ div#full-size-photo-info p#datetime {
     top: -1.3em;
 }
 
-div#full-size-photo-info a#back {
-    position: absolute;
-    right: 15px;
-    top: 9px;
+div#full-size-photo-info p#notes {
+    color: #ccc;
+    font-size: 80%;
+    padding: 0px;
+    margin: 0;
+    position: relative;
+    top: -1em;
+    max-width: 30em; 
 }
 
 div.side-button {

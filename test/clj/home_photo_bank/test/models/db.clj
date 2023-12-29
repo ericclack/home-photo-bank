@@ -4,7 +4,8 @@
             [home-photo-bank.utils :as u]            
             [clojure.string :as s]
             [clj-time.core :as t]
-            [clj-time.format :as tf]))
+            [clj-time.format :as tf]
+            [clojure.tools.logging :as log]))
 
 (deftest test-1
   (testing "can access db"
@@ -42,3 +43,5 @@
       (is (= #{"hat" "scarf" "glove"}
              (db/keywords-across-photos photos-mock-1))))))
 
+(deftest notes
+  (is (some? (:notes (first (db/all-photos))))))

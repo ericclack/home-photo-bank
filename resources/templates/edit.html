@@ -20,31 +20,38 @@
   </div>
 </div>
 
-<div class="row">
-  <div class="col-sm-6">
-    <div class="thumbnail">
-      <img src="/{{photo.path|thumb}}" alt="{{photo.name}}" class="img-rounded img-thumbnail"/>
-    </div>
-    <div class="info">
-      {% if photo.datetime %}
-      {{photo.datetime|date:mediumDateTime}}
-      {% else %}
-      {{photo.category}}
-      {% endif %}
-    </div>
-  </div>
-  <div class="col-sm-6">
-    <form method="POST">
-      {% csrf-field %}
-      Add, edit or remove keywords:<br/>
-      <textarea name="keywords" rows="10" autofocus>{% for word in photo.keywords %}{{word}}
-{% endfor %}</textarea>
-      <br/>
+<form method="POST">
+  {% csrf-field %}
 
+  <div class="row">
+    <div class="col-sm-5">
+      <div class="thumbnail">
+	<img src="/{{photo.path|thumb}}" alt="{{photo.name}}" class="img-rounded img-thumbnail"/>
+      </div>
+      <div class="info">
+	{% if photo.datetime %}
+	{{photo.datetime|date:mediumDateTime}}
+	{% else %}
+	{{photo.category}}
+	{% endif %}
+      </div>
+    </div>
+  
+    <div class="col-sm-2">
+      Keywords:<br/>
+      <textarea name="keywords" rows="10" cols="18" autofocus>{% for word in photo.keywords %}{{word}}
+{% endfor %}</textarea>
+    </div>
+    
+    <div class="col-sm-5">
+      Notes:<br/>
+      <textarea name="notes" rows="5" style="width: 100%;">...</textarea>
+      <br/>
+      
       <input type="hidden" name="back" value="{{back}}"/>
       <input type="submit" name="Save" value="Save"/>
-    </form>
+    </div>
   </div>
-</div>
+</form>
 
 {% endblock %}

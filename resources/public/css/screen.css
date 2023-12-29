@@ -1,6 +1,6 @@
 html,
 body {
-	  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     height: 100%;
 }
 .navbar {
@@ -80,6 +80,7 @@ div#full-size-photo {
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
+    background-color: rgb(0, 0, 0);
 }
 
 div#full-size-photo-info {
@@ -116,7 +117,7 @@ div#next-photo {
     position: fixed;
     right: 0;
     top: 10em;
-    background-color: rgba(0, 0, 0, 0.5);        
+    background-color: rgba(255, 255, 255, 0.3);
     padding: 9px 15px;
 }
 
@@ -124,7 +125,7 @@ div#prev-photo {
     position: fixed;
     left: 0;
     top: 10em;
-    background-color: rgba(0, 0, 0, 0.5);        
+    background-color: rgba(255, 255, 255, 0.3);  
     padding: 9px 15px;
 }
 
@@ -132,7 +133,7 @@ div#photo-info {
     position: fixed;
     right: 0;
     bottom: 5em;
-    background-color: rgba(0, 0, 0, 0.5);        
+    background-color: rgba(255, 255, 255, 0.3);        
     padding: 9px 15px;
 }
 

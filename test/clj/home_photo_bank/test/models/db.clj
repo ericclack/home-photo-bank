@@ -7,6 +7,9 @@
             [clj-time.format :as tf]
             [clojure.tools.logging :as log]))
 
+;; TODO: We need some fixtures so that these tests can run against a
+;; known set of photos
+
 (deftest test-1
   (testing "can access db"
     (is (some? (db/all-photos)))))
@@ -42,6 +45,9 @@
     (testing "simple case"
       (is (= #{"hat" "scarf" "glove"}
              (db/keywords-across-photos photos-mock-1))))))
+
+(deftest read-keywords
+  (is (some? (:keywords (first (db/all-photos))))))
 
 (deftest notes
   (is (some? (:notes (first (db/all-photos))))))

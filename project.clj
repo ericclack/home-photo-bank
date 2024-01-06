@@ -38,7 +38,7 @@
                  [clj-time "0.13.0"]
                  [image-resizer "0.1.9"]
                  [io.joshmiller/exif-processor "0.2.0"]
-                 [com.novemberain/monger "3.1.0"]
+                 [com.novemberain/monger "3.6.0"]
                  [digest "1.4.9"]
                  ]
 

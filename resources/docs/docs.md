@@ -12,7 +12,8 @@ sudo apt install default-jdk
 
 ## MongoDB set up
 
-
+$ sudo mkdir /var/local/log/
+$ sudo chown pi:pi /var/local/log
 
 ## Bugs seen
 

@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# Specify the backup file as first param
+mongoimport -db photo-bank --collection photos $1

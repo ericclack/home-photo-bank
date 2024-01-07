@@ -1,4 +1,4 @@
 #!/bin/sh
 
 DIR="$(dirname "$0")"/../backup
-mongoexport -db photo-bank2 --collection photos --out $DIR/photo-bank`date +%F_%R`.json
+mongoexport -db photo-bank --collection photos --out $DIR/photo-bank`date +%F_%R`.json

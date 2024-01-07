@@ -1,12 +1,13 @@
 #!/bin/sh
 
-APPDIR=code/clojure/home-photo-bank
+APPDIR=code/home-photo-bank
 BACKUPDIR=/Volumes/CLACKPHOTO2
-HOST=192.168.1.103
+HOST=saturn4.local
 
-# Backup database first
-#ssh -A pi@$HOST $APPDIR/resources/tools/backup-couchdb
-#rsync -va pi@$HOST:$APPDIR/resources/backup $BACKUPDIR/
+# TODO: Restore database first
+rsync -va $BACKUPDIR/backup pi@$HOST:$APPDIR/resources/ 
+# Run this by hand on the server
+# ssh -A pi@$HOST $APPDIR/resources/tools/restore-mongodb
 
 # Now sync media, thumbs first
 rsync -va $BACKUPDIR/media/_thumbs pi@$HOST:$APPDIR/media/ 

@@ -12,10 +12,18 @@ sudo apt install default-jdk
 
 ## MongoDB set up
 
+$ sudo chown pi:pi /data/db/
+$ mkdir /data/db/photobank_db
+
 $ sudo mkdir /var/local/log/
 $ sudo chown pi:pi /var/local/log
 
 ## Bugs seen
+
+lein test
+- media-test/_test/flower_exiv2.jpg does not exist
+
+### Fixed
 
 monger version 3.6.0 required?
 

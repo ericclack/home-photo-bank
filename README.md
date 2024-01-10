@@ -29,7 +29,7 @@ Features:
 You will need a Java JVM, Leiningen 2.0 or above installed, plus
 MongoDB.
 
-Read  [resources/docs/pi5-install.md](install instructions for Raspberri Pi 5)
+Read [install instructions for Raspberri Pi 5](resources/docs/pi5-install.md).
 
 If you want to add photos with no date (e.g. scans or images created
 by PhotoShop / GIMP) then you'll need `exiftool`, which can be installed

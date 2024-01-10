@@ -12,11 +12,21 @@ sudo apt install default-jdk
 
 ## MongoDB set up
 
+```
 $ sudo chown pi:pi /data/db/
 $ mkdir /data/db/photobank_db
 
 $ sudo mkdir /var/local/log/
 $ sudo chown pi:pi /var/local/log
+```
+
+## Server start-up
+
+```
+crontab -l
+@reboot bin/start_mongodb
+@reboot bin/start_photobank
+```
 
 ## Bugs seen
 

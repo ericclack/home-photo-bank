@@ -1,7 +1,7 @@
 # Set up on Raspberry Pi 5
 
 You will need a Java JVM, [Leiningen][1] 2.0 or above installed, plus
-[MongoDB][2] (link for Raspberry Pi 5).
+[MongoDB][2].
 
 ```
 sudo apt install default-jdk
@@ -20,10 +20,13 @@ $ sudo chown pi:pi /var/local/log
 
 ## Bugs seen
 
+### Open
+
+```
 lein test
 - media-test/_test/flower_exiv2.jpg does not exist
+```
 
 ### Fixed
 
-monger version 3.6.0 required?
-
+monger version 3.6.0 required? Yes.

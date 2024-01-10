@@ -26,16 +26,10 @@ Features:
 
 ## Prerequisites
 
-You will need a Java JVM, [Leiningen][1] 2.0 or above installed, plus
-[MongoDB][2] (link for Raspberry Pi 5).
+You will need a Java JVM, Leiningen 2.0 or above installed, plus
+MongoDB.
 
-```
-# On a Rasberry Pi
-sudo apt install default-jdk
-```
-
-[1]: https://github.com/technomancy/leiningen
-[2]: https://github.com/themattman/mongodb-raspberrypi-binaries
+Read  [resources/docs/pi5-install.md](install instructions for Raspberri Pi 5)
 
 If you want to add photos with no date (e.g. scans or images created
 by PhotoShop / GIMP) then you'll need `exiftool`, which can be installed

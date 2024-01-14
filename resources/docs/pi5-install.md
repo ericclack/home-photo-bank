@@ -13,11 +13,11 @@ sudo apt install default-jdk
 ## MongoDB set up
 
 ```
-$ sudo chown pi:pi /data/db/
-$ mkdir /data/db/photobank_db
+sudo chown pi:pi /data/db/
+mkdir /data/db/photobank_db
 
-$ sudo mkdir /var/local/log/
-$ sudo chown pi:pi /var/local/log
+sudo mkdir /var/local/log/
+sudo chown pi:pi /var/local/log
 ```
 
 ## Server start-up
@@ -26,6 +26,41 @@ $ sudo chown pi:pi /var/local/log
 crontab -l
 @reboot bin/start_mongodb
 @reboot bin/start_photobank
+```
+
+## Photo uploader
+
+Create user and enable SSH login for your user: 
+
+```
+sudo adduser photo-uploader --disabled-password
+sudo usermod -G pi photo-uploader
+sudo -u photo-uploader -g photo-uploader mkdir ~photo-uploader/.ssh
+sudo -u photo-uploader -g photo-uploader touch ~photo-uploader/.ssh/authorized_keys
+```
+
+Add your SSH public key:
+
+```
+sudo -u photo-uploader -g photo-uploader mkdir ~photo-uploader/.ssh
+sudo -u photo-uploader -g photo-uploader touch ~photo-uploader/.ssh/authorized_keys
+sudo -u photo-uploader -g photo-uploader nano ~photo-uploader/.ssh/authorized_keys
+# Enter your key and save file
+```
+
+Pemissions for uploader to upload files
+
+As pi user: allow group access: 
+
+```
+cd ~pi
+chmod g+rx .
+```
+
+As photo-uploader user: symlink for photo-uploader:
+
+```
+ln -s /home/pi/code/home-photo-bank/media/_process 
 ```
 
 ## Bugs seen

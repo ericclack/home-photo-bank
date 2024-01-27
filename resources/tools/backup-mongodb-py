@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+# Experimental MongoDB using https://github.com/ericclack/python-mongodb
+
+BACKUP_DIR=~/code/home-photo-bank/resources/backup
+
+cd ~/code/python-mongodb
+source env-python-mongodb/bin/activate
+python test_export.py > $BACKUP_DIR/photo-bank`date +%F_%R`.json

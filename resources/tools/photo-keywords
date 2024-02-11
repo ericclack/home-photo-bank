@@ -1,0 +1,5 @@
+#!/bin/sh
+
+keywords=$*
+find media -path "media/[0-9]*" -name "*.jp*g" | resources/tools/photo-keywords.py 
+

@@ -3,7 +3,7 @@
 import fileinput, re
 from pprint import pprint
 
-remove_path = r"^media/\d+/\d+/\d+/(.*).jpeg"
+remove_path = r"^media/\d+/\d+/\d+/(.*)\d+.jpe?g"
 keywords = {}
 
 for line in fileinput.input():
@@ -11,5 +11,6 @@ for line in fileinput.input():
     for k in image_keywords:
         keywords[k] = keywords.get(k, 0) + 1
 
-pprint(keywords)
+for k in keywords:
+    print(k, "\t", "x", keywords[k])
     

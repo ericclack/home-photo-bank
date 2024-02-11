@@ -4,6 +4,10 @@ keywords=$*
 matches=`find media -path "media/[0-9]*" -name "*${keywords}*"`
 echo $matches
 
-# This probably only works on a Mac
-open $matches
-
+if [ -n "$matches" ]
+then
+    # This probably only works on a Mac
+    open $matches
+else
+   echo "No results found for '$keywords'"    
+fi

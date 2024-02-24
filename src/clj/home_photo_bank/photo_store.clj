@@ -82,6 +82,10 @@
   [file date-created]
   (shell/set-exif-date-created! file date-created))
 
+(defn get-artist
+  [metadata]
+  (get metadata "Artist"))
+
 ;; -------------------------------------------------------
 
 (defn get-digest
@@ -132,17 +136,19 @@
 (defn make-photo-metadata [photo]
   (let [path (str photo)
         filename (.getName photo)
-        name (first (split-extension photo))]
+        name (first (split-extension photo))
+        exif-data (get-exif-metadata photo)]
     {:_id path
      :path path
      :filename filename
      :name name
-     :datetime (get-date-created (get-exif-metadata photo))
+     :datetime (get-date-created exif-data)
      :category (s/replace (.getParent photo)
                           (str (env :media-path) "/")
                           "")
      :keywords (file-name-to-keywords name)
      :digest (get-digest photo)
+     :artist (get-artist exif-data)
      }))
 
 (defn move-photo-into-store!

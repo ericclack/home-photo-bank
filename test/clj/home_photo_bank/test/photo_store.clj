@@ -73,3 +73,16 @@
     
     ))
 
+(deftest metadata
+  (testing "date-metadata"
+    (let [file (ps/media-path "_test" "flower_exiv2.jpg")
+          metadata (ps/make-photo-metadata file)]
+      (is (some? (metadata :datetime)))))
+  (testing "artist-metadata"
+    (let [file1 (ps/media-path "_test" "sky.jpeg")
+          metadata1 (ps/make-photo-metadata file1)
+          file2 (ps/media-path "_test" "flower_exiv2.jpg")
+          metadata2 (ps/make-photo-metadata file2)]
+      (is (some? (metadata1 :artist)))
+      (is (nil? (metadata2 :artist)))))
+  )

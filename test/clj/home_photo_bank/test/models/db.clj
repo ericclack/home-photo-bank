@@ -63,3 +63,6 @@
         photo-path (:path photo)]
     (is (some? (db/set-photo-notes! photo-path "Some notes about this photo")))))
 
+(deftest artist-get
+  ;; Many photos won't have an artist, need a fixture to solve this
+  (is (some? (:artist (first (db/all-photos))))))

@@ -1,17 +1,24 @@
 #!/bin/bash
 
-# 1. Edit line 9 for your local photo export directory
+# 1. Edit the variables for your local photo export directory etc
 # 2. Add your SSH key to the photo-uploader user on your
 #    photo bank server
 # 3. Run each time you want to do an import, or run
 #    as a cron job every few minutes
 
-cd ~/ForPhotoBank
+LOCALPHOTODIR=~/ForPhotoBank
+REMOTEHOST=photo-uploader@saturn4.local
+ARTIST="Your Name"
+
+cd $LOCALPHOTODIR
 mkdir -p __done
 shopt -s nullglob # Make no JPGs a no-op
 
+# Mark these photos with photographer
+exiftool -Artist="$ARTIST" *.jpg *.JPG *.jpeg
+
 for f in *.jpg *.JPG *.jpeg
 do
-    scp "$f" photo-uploader@saturn3.local:_process
+    scp "$f" $REMOTEHOST:_process
     mv "$f" __done/
 done

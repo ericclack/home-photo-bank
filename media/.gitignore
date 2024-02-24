@@ -1,4 +1,6 @@
 # Ignore everything here except the test directory and .gitignore
 *
+!_test
 !_test/*
 !.gitignore
+

@@ -10,11 +10,14 @@
 
   <div id="full-size-photo-info" class="collapse hide">
     <h1>{{photo.name}}</h1>
+    {% if photo.artist %}
+      <p id="artist">Creator: {{photo.artist}}</p>
+    {% endif %}
     <p id="datetime">{{photo.datetime|date:mediumDateTime}}</p>
     {% if photo.notes %}
       <p id="notes">{{photo.notes}}</p>
     {% endif %}
-    
+      
     {% for word in photo.keywords %}
     <a href="/photos/_search?word={{word}}"
        class="btn btn-outline-secondary btn-sm">{{word}}</a>

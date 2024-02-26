@@ -72,25 +72,3 @@
             (list "2017/12/12" "2017/12/5" "2017/5/9" "2017/5/7"))))
     
     ))
-
-(deftest metadata
-  (testing "date-metadata"
-    (let [file (ps/media-path "_test" "flower_exiv2.jpg")
-          metadata (ps/make-photo-metadata file)]
-      (is (some? (metadata :datetime)))))
-  (testing "artist-metadata"
-    (let [file1 (ps/media-path "_test" "sky.jpeg")
-          metadata1 (ps/make-photo-metadata file1)
-          file2 (ps/media-path "_test" "flower_exiv2.jpg")
-          metadata2 (ps/make-photo-metadata file2)]
-      (is (some? (metadata1 :artist)))
-      (is (nil? (metadata2 :artist)))))
-  )
-
-(deftest exif-metadata
-  (testing "gps-metadata"
-    (let [file (ps/media-path "_test" "sky.jpeg")
-          metadata (ps/get-exif-metadata file)]
-         (is (s/starts-with? (metadata "GPS Longitude") "0° 4' 15.64"))
-         (is (s/starts-with? (metadata "GPS Latitude") "50° 53' 53.67"))
-         )))

@@ -29,3 +29,35 @@
     (let [file (ps/media-path "_test" "flower_exiv2.jpg")
           metadata (ps/get-exif-metadata file)]
       (is (= 2003 (t/year (ps/get-date-created metadata)))))))
+
+(deftest metadata
+  (testing "date-metadata"
+    (let [file (ps/media-path "_test" "flower_exiv2.jpg")
+          metadata (ps/make-photo-metadata file)]
+      (is (some? (metadata :datetime)))))
+  (testing "artist-metadata"
+    (let [file1 (ps/media-path "_test" "sky.jpeg")
+          metadata1 (ps/make-photo-metadata file1)
+          file2 (ps/media-path "_test" "flower_exiv2.jpg")
+          metadata2 (ps/make-photo-metadata file2)]
+      (is (some? (metadata1 :artist)))
+      (is (nil? (metadata2 :artist)))))
+  )
+
+(deftest exif-metadata
+  (testing "gps-exif-metadata"
+    (let [file (ps/media-path "_test" "sky.jpeg")
+          metadata (ps/get-exif-metadata file)]
+      (is (= (metadata "GPS Latitude") "50° 53' 53.67\""))
+      (is (= (metadata "GPS Latitude Ref") "N"))
+      (is (= (metadata "GPS Longitude") "0° 4' 15.64\""))
+      (is (= (metadata "GPS Longitude Ref") "W"))
+         )))
+
+(deftest gps-metadata
+  (testing "gps-metadata"
+    (let [file (ps/media-path "_test" "sky.jpeg")
+          dms-pair (ps/get-gps-location-dms file)]
+      (is (= (first dms-pair) '(50 53 53.67 "N"))
+      (is (= (second dms-pair) '(0 4 15.64 "W"))
+      ))))

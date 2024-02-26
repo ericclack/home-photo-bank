@@ -19,6 +19,7 @@
             [clojure.string :as s]
             [clojure.pprint :refer [pprint pp]]
             [clojure.tools.logging :as log]
+            [clojure.edn :as edn]
             ;; -------
             [image-resizer.core :refer :all]
             [image-resizer.format :as format]
@@ -85,6 +86,19 @@
 (defn get-artist
   [metadata]
   (get metadata "Artist"))
+
+(defn get-gps-location-dms [file]
+  (let [metadata (get-exif-metadata file)
+        lats (metadata "GPS Latitude")
+        longs (metadata "GPS Longitude")
+        lat-ref (metadata "GPS Latitude Ref")
+        long-ref (metadata "GPS Longitude Ref")
+
+        del-chars #"[°'\"]"
+        lat-list (map edn/read-string (s/split (s/replace lats del-chars "") #" "))
+        long-list (map edn/read-string (s/split (s/replace longs del-chars "") #" "))]
+    (list (concat lat-list (list lat-ref))
+          (concat long-list (list long-ref)))))
 
 ;; -------------------------------------------------------
 

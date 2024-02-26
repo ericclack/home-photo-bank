@@ -86,3 +86,11 @@
       (is (some? (metadata1 :artist)))
       (is (nil? (metadata2 :artist)))))
   )
+
+(deftest exif-metadata
+  (testing "gps-metadata"
+    (let [file (ps/media-path "_test" "sky.jpeg")
+          metadata (ps/get-exif-metadata file)]
+         (is (s/starts-with? (metadata "GPS Longitude") "0° 4' 15.64"))
+         (is (s/starts-with? (metadata "GPS Latitude") "50° 53' 53.67"))
+         )))

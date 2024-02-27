@@ -55,9 +55,17 @@
          )))
 
 (deftest gps-metadata
-  (testing "gps-metadata"
+  (testing "gps-metadata-dms"
     (let [file (ps/media-path "_test" "sky.jpeg")
           dms-pair (ps/get-gps-location-dms file)]
-      (is (= (first dms-pair) '(50 53 53.67 "N"))
-      (is (= (second dms-pair) '(0 4 15.64 "W"))
-      ))))
+      (is (= (first dms-pair) '(50 53 53.67 "N")))
+      (is (= (second dms-pair) '(0 4 15.64 "W")))
+          ))
+  (testing "gps-metadata-coords"
+    (let [file (ps/media-path "_test" "sky.jpeg")
+          coord-pair (ps/get-gps-location file)]
+      (is (some? (first coord-pair))) ; 50.89824167))
+      (is (some? (second coord-pair))) ; 0.07101111))
+          )))
+
+

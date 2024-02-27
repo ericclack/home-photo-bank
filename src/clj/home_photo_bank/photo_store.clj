@@ -30,6 +30,7 @@
             ;; -------
             [home-photo-bank.constants :as const]
             [home-photo-bank.models.db :as db]
+            [home-photo-bank.utils :as u]
             [home-photo-bank.shell :as shell])
   
   (:import [java.util.zip ZipEntry ZipOutputStream]))
@@ -99,6 +100,11 @@
         long-list (map edn/read-string (s/split (s/replace longs del-chars "") #" "))]
     (list (concat lat-list (list lat-ref))
           (concat long-list (list long-ref)))))
+
+(defn get-gps-location [file]
+  (let [dms-pair (get-gps-location-dms file)]
+    (list (apply u/dms->coord (first dms-pair))
+          (apply u/dms->coord (second dms-pair)))))
 
 ;; -------------------------------------------------------
 

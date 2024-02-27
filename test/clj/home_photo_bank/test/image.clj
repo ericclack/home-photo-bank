@@ -64,8 +64,8 @@
   (testing "gps-metadata-coords"
     (let [file (ps/media-path "_test" "sky.jpeg")
           coord-pair (ps/get-gps-location file)]
-      (is (some? (first coord-pair))) ; 50.89824167))
-      (is (some? (second coord-pair))) ; 0.07101111))
+      (is (<= 51.032 (first coord-pair) 51.033))
+      (is (<= -0.1102 (second coord-pair) -0.1100))
           )))
 
 

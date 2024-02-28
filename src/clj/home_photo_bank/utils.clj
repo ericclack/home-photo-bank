@@ -45,5 +45,5 @@
   "Convert (deg minutes seconds N/S/E/W) into a coordinate"
   [d m s nsew]
   (float (* (if (some #{nsew} ["N" "E"]) 1 -1)
-          (+ d (/ m 60) (/ s 3600)))))
+          (+ (Math/abs d) (/ m 60) (/ s 3600)))))
   

@@ -23,5 +23,7 @@
     (is (= 0.0 (u/dms->coord 0 0 0 "N")))
     (is (= 50.5 (u/dms->coord 50 30 0 "E")))
     (is (= -50.25 (u/dms->coord 50 15 0 "S")))
-    (is (= (float -50.76) (u/dms->coord 50 45 36 "W"))) 
+    (is (= (float -50.76) (u/dms->coord 50 45 36 "W")))
+    ;; Some GPS data has neg degrees and S or W!
+    (is (= -50.5 (u/dms->coord -50 30 0 "W")))
     ))

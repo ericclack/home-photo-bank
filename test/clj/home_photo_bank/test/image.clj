@@ -63,13 +63,15 @@
     (let [file (ps/media-path "_test" "sky.jpeg")
           dms-pair (ps/get-gps-location-dms file)]
       (is (= (first dms-pair) '(50 53 53.67 "N")))
-      (is (= (second dms-pair) '(0 4 15.64 "W")))
-          ))
+      (is (= (second dms-pair) '(0 4 15.64 "W")))))
   (testing "gps-metadata-coords"
     (let [file (ps/media-path "_test" "sky.jpeg")
           coord-pair (ps/get-gps-location file)]
       (is (<= 50.898 (first coord-pair) 50.899))
-      (is (<= -0.0711 (second coord-pair) -0.071))
-      )))
-
+      (is (<= -0.0711 (second coord-pair) -0.071))))
+  (testing "gps-metadata-coords-double-neg"
+    (let [file (ps/media-path "_test" "sunset.jpeg")
+          coord-pair (ps/get-gps-location file)]
+      (is (<= 51.175 (first coord-pair) 51.176))
+      (is (<= -4.214 (second coord-pair) -4.213)))))
 

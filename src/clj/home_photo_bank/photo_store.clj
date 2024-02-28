@@ -93,18 +93,19 @@
         lats (metadata "GPS Latitude")
         longs (metadata "GPS Longitude")
         lat-ref (metadata "GPS Latitude Ref")
-        long-ref (metadata "GPS Longitude Ref")
-
-        del-chars #"[°'\"]"
-        lat-list (map edn/read-string (s/split (s/replace lats del-chars "") #" "))
-        long-list (map edn/read-string (s/split (s/replace longs del-chars "") #" "))]
-    (list (concat lat-list (list lat-ref))
-          (concat long-list (list long-ref)))))
+        long-ref (metadata "GPS Longitude Ref")]
+    (if (and lats longs)
+      (let [del-chars #"[°'\"]"
+            lat-list (map edn/read-string (s/split (s/replace lats del-chars "") #" "))
+            long-list (map edn/read-string (s/split (s/replace longs del-chars "") #" "))]
+        (list (concat lat-list (list lat-ref))
+              (concat long-list (list long-ref)))))))
 
 (defn get-gps-location [file]
   (let [dms-pair (get-gps-location-dms file)]
-    (list (apply u/dms->coord (first dms-pair))
-          (apply u/dms->coord (second dms-pair)))))
+    (if (some? dms-pair)
+      (list (apply u/dms->coord (first dms-pair))
+            (apply u/dms->coord (second dms-pair))))))
 
 ;; -------------------------------------------------------
 

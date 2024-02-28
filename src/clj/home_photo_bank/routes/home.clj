@@ -197,8 +197,10 @@
         coord-pair (ps/get-gps-location file)
         lat (first coord-pair)
         long (second coord-pair)]
-  (redirect (str
-   "https://www.google.com/maps/search/?api=1&query=" lat "%2C" long))))
+    (if (and lat long)
+      (redirect (str
+                 "https://www.google.com/maps/search/?api=1&query=" lat "%2C" long))
+      (render "no_location.html"))))
 
 ;; ----------------------------------------------------
 

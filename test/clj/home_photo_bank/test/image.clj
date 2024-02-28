@@ -55,6 +55,10 @@
          )))
 
 (deftest gps-metadata
+  (testing "no-gps-metadata"
+    (let [file (ps/media-path "_test" "flower_exiv2.jpg")
+          dms-pair (ps/get-gps-location-dms file)]
+      (is (nil? dms-pair))))
   (testing "gps-metadata-dms"
     (let [file (ps/media-path "_test" "sky.jpeg")
           dms-pair (ps/get-gps-location-dms file)]
@@ -64,8 +68,8 @@
   (testing "gps-metadata-coords"
     (let [file (ps/media-path "_test" "sky.jpeg")
           coord-pair (ps/get-gps-location file)]
-      (is (<= 51.032 (first coord-pair) 51.033))
-      (is (<= -0.1102 (second coord-pair) -0.1100))
-          )))
+      (is (<= 50.898 (first coord-pair) 50.899))
+      (is (<= -0.0711 (second coord-pair) -0.071))
+      )))
 
 

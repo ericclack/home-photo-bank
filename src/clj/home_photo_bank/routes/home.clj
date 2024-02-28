@@ -193,8 +193,12 @@
     }))
 
 (defn photo-location [photo-path]
-  (redirect
-   "https://www.google.com/maps/search/?api=1&query=47.5951518%2C-122.3316393"))
+  (let [file (ps/media-path photo-path)
+        coord-pair (ps/get-gps-location file)
+        lat (first coord-pair)
+        long (second coord-pair)]
+  (redirect (str
+   "https://www.google.com/maps/search/?api=1&query=" lat "%2C" long))))
 
 ;; ----------------------------------------------------
 
@@ -215,7 +219,7 @@
 
   (GET "/photo/_next/:photo-path{.*}" [photo-path from] (next-photo-page photo-path from))
   (GET "/photo/_prev/:photo-path{.*}" [photo-path from] (prev-photo-page photo-path from))
-  (GET "/photo/_location/:photo-path{.*}" [photo-path] (photo-location photo-path))
+  (GET "/photo/_location/media/:photo-path{.*}" [photo-path] (photo-location photo-path))
   (GET "/photo/:photo-path{.*}" [photo-path back] (photo-page photo-path back))
   
   (GET "/media/:file-path{.*}" [file-path resize] (serve-file file-path resize))

@@ -14,6 +14,7 @@
             [home-photo-bank.photo-store :as ps]
             [home-photo-bank.models.db :as db]
             [home-photo-bank.utils :as u]
+            [home-photo-bank.exif :as ex]
             [home-photo-bank.routes.utils :refer [render]]
             ))
 
@@ -194,7 +195,7 @@
 
 (defn photo-location [photo-path]
   (let [file (ps/media-path photo-path)
-        coord-pair (ps/get-gps-location file)
+        coord-pair (ex/get-gps-location file)
         lat (first coord-pair)
         long (second coord-pair)]
     (if (and lat long)

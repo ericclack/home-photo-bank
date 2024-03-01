@@ -22,7 +22,6 @@
             ;; -------
             [image-resizer.core :refer :all]
             [image-resizer.format :as format]
-            [exif-processor.core :as exif]
             [clj-time.core :as t]
             [clj-time.format :as tf]
             [digest :as digest]
@@ -83,7 +82,7 @@
 (defn media-path-for-photo
   "Photo path is Year/Month/Day/Filename based on DateTime in EXIF data"
   [photo-file]
-  (let [d (get-date-created (ex/get-metadata photo-file))]
+  (let [d (ex/get-date-created (ex/get-metadata photo-file))]
     (media-path (str (t/year d))
                 (str (t/month d))
                 (str (t/day d))
@@ -113,13 +112,13 @@
      :path path
      :filename filename
      :name name
-     :datetime (get-date-created exif-data)
+     :datetime (ex/get-date-created exif-data)
      :category (s/replace (.getParent photo)
                           (str (env :media-path) "/")
                           "")
      :keywords (file-name-to-keywords name)
      :digest (get-digest photo)
-     :artist (get-artist exif-data)
+     :artist (ex/get-artist exif-data)
      }))
 
 (defn move-photo-into-store!

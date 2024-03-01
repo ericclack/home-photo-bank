@@ -3,6 +3,7 @@
             [ring.mock.request :refer :all]
             [home-photo-bank.handler :refer :all]
             [home-photo-bank.photo-store :as ps]
+            [home-photo-bank.exif :as ex]            
             [clojure.tools.logging :as log]
             ;;---
             [clojure.java.io    :as io]
@@ -27,8 +28,8 @@
 (deftest test-exif
   (testing "Exif data from images"
     (let [file (ps/media-path "_test" "flower_exiv2.jpg")
-          metadata (ps/get-exif-metadata file)]
-      (is (= 2003 (t/year (ps/get-date-created metadata)))))))
+          metadata (ex/get-metadata file)]
+      (is (= 2003 (t/year (ex/get-date-created metadata)))))))
 
 (deftest metadata
   (testing "date-metadata"
@@ -47,7 +48,7 @@
 (deftest exif-metadata
   (testing "gps-exif-metadata"
     (let [file (ps/media-path "_test" "sky.jpeg")
-          metadata (ps/get-exif-metadata file)]
+          metadata (ex/get-metadata file)]
       (is (= (metadata "GPS Latitude") "50° 53' 53.67\""))
       (is (= (metadata "GPS Latitude Ref") "N"))
       (is (= (metadata "GPS Longitude") "0° 4' 15.64\""))
@@ -57,21 +58,21 @@
 (deftest gps-metadata
   (testing "no-gps-metadata"
     (let [file (ps/media-path "_test" "flower_exiv2.jpg")
-          dms-pair (ps/get-gps-location-dms file)]
+          dms-pair (ex/get-gps-location-dms file)]
       (is (nil? dms-pair))))
   (testing "gps-metadata-dms"
     (let [file (ps/media-path "_test" "sky.jpeg")
-          dms-pair (ps/get-gps-location-dms file)]
+          dms-pair (ex/get-gps-location-dms file)]
       (is (= (first dms-pair) '(50 53 53.67 "N")))
       (is (= (second dms-pair) '(0 4 15.64 "W")))))
   (testing "gps-metadata-coords"
     (let [file (ps/media-path "_test" "sky.jpeg")
-          coord-pair (ps/get-gps-location file)]
+          coord-pair (ex/get-gps-location file)]
       (is (<= 50.898 (first coord-pair) 50.899))
       (is (<= -0.0711 (second coord-pair) -0.071))))
   (testing "gps-metadata-coords-double-neg"
     (let [file (ps/media-path "_test" "sunset.jpeg")
-          coord-pair (ps/get-gps-location file)]
+          coord-pair (ex/get-gps-location file)]
       (is (<= 51.175 (first coord-pair) 51.176))
       (is (<= -4.214 (second coord-pair) -4.213)))))
 

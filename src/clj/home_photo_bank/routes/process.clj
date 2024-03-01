@@ -10,7 +10,8 @@
 
             [home-photo-bank.photo-store :as ps]
             [home-photo-bank.models.db :as db]
-            [home-photo-bank.utils :as u]            
+            [home-photo-bank.utils :as u]
+            [home-photo-bank.exif :as ex]            
             [home-photo-bank.routes.utils :refer [render]]
             ))
 
@@ -31,9 +32,9 @@
          name (when-not done? (.getName photo))
          keywords (when-not done? (ps/file-name-to-keywords
                                    (first (ps/split-extension photo))))
-         exif (when-not done? (ps/get-exif-metadata photo))
-         date-created (when (ps/has-date-created? exif)
-                        (ps/get-date-created exif))
+         exif (when-not done? (ex/get-metadata photo))
+         date-created (when (ex/has-date-created? exif)
+                        (ex/get-date-created exif))
          duplicates (when-not done? (ps/maybe-duplicate? photo))]
      (render
       "process.html"
@@ -61,7 +62,7 @@
   
   (let [file (io/file (ps/media-path "_process" photo-path))]
     (when date-created
-      (ps/set-exif-date-created! file (tf/parse date-created)))
+      (ex/set-exif-date-created! file (tf/parse date-created)))
     
     (ps/process-photo-add-keywords! file (u/str->keywords keywords))
     (process-photos)))

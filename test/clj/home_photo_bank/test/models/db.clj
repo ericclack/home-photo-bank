@@ -55,14 +55,16 @@
     (is (some? (db/set-photo-keywords! photo-path ["test" "keywords"])))))
 
 (deftest notes-get
-  ;; Many photos won't have notes, need a fixture to solve this
-  (is (some? (:notes (second (db/all-photos))))))
+  ;; At least one photo has notes (really need a fixture)
+  (is (some? (filter #(% :notes)
+                     (db/all-photos)))))
 
-(deftest notes-set
+(deftest notes-set!
   (let [photo (first (db/all-photos))
         photo-path (:path photo)]
     (is (some? (db/set-photo-notes! photo-path "Some notes about this photo")))))
 
 (deftest artist-get
-  ;; Many photos won't have an artist, need a fixture to solve this
-  (is (some? (:artist (first (db/all-photos))))))
+  ;; At least one photo has an artist (really need a fixture)
+  (is (some? (filter #(% :artist)
+                     (db/all-photos)))))

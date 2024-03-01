@@ -19,7 +19,6 @@
             [clojure.string :as s]
             [clojure.pprint :refer [pprint pp]]
             [clojure.tools.logging :as log]
-            [clojure.edn :as edn]
             ;; -------
             [image-resizer.core :refer :all]
             [image-resizer.format :as format]
@@ -31,7 +30,7 @@
             [home-photo-bank.constants :as const]
             [home-photo-bank.models.db :as db]
             [home-photo-bank.utils :as u]
-            [home-photo-bank.shell :as shell])
+            [home-photo-bank.exif :as ex])
   
   (:import [java.util.zip ZipEntry ZipOutputStream]))
 
@@ -60,55 +59,6 @@
 
 ;; -------------------------------------------------------
 
-(defn get-exif-metadata
-  [file]
-  (exif/exif-for-file file))
-
-(defn has-date-created? [metadata]
-  (let [date-created (get metadata "Date/Time Original")]
-    (and (some? date-created)
-         (not= date-created const/exif-null-date))))
-
-(defn get-date-created
-  "EXIF time is in format: 2003:12:14 12:01:44"
-  [metadata]
-  (tf/parse const/exif-formatter
-            (get metadata "Date/Time Original")))
-
-(defn get-exif-date-created [file]
-  (get-date-created (get-exif-metadata file)))
-
-(defn set-exif-date-created!
-  "Set date-created with a string in
-  format 2006-06-01T10:11"
-  [file date-created]
-  (shell/set-exif-date-created! file date-created))
-
-(defn get-artist
-  [metadata]
-  (get metadata "Artist"))
-
-(defn get-gps-location-dms [file]
-  (let [metadata (get-exif-metadata file)
-        lats (metadata "GPS Latitude")
-        longs (metadata "GPS Longitude")
-        lat-ref (metadata "GPS Latitude Ref")
-        long-ref (metadata "GPS Longitude Ref")]
-    (if (and lats longs)
-      (let [del-chars #"[°'\"]"
-            lat-list (map edn/read-string (s/split (s/replace lats del-chars "") #" "))
-            long-list (map edn/read-string (s/split (s/replace longs del-chars "") #" "))]
-        (list (concat lat-list (list lat-ref))
-              (concat long-list (list long-ref)))))))
-
-(defn get-gps-location [file]
-  (let [dms-pair (get-gps-location-dms file)]
-    (if (some? dms-pair)
-      (list (apply u/dms->coord (first dms-pair))
-            (apply u/dms->coord (second dms-pair))))))
-
-;; -------------------------------------------------------
-
 (defn get-digest
   [file]
   (digest/sha-256 file))
@@ -133,7 +83,7 @@
 (defn media-path-for-photo
   "Photo path is Year/Month/Day/Filename based on DateTime in EXIF data"
   [photo-file]
-  (let [d (get-date-created (get-exif-metadata photo-file))]
+  (let [d (get-date-created (ex/get-metadata photo-file))]
     (media-path (str (t/year d))
                 (str (t/month d))
                 (str (t/day d))
@@ -158,7 +108,7 @@
   (let [path (str photo)
         filename (.getName photo)
         name (first (split-extension photo))
-        exif-data (get-exif-metadata photo)]
+        exif-data (ex/get-metadata photo)]
     {:_id path
      :path path
      :filename filename

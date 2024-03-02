@@ -34,7 +34,13 @@
   [json]
   (content-type
    (ok json)
-   "application/json; charset=utf-8"))   
+   "application/json; charset=utf-8"))
+
+(defn render-html
+  [html]
+  (content-type
+   (ok html)
+    "text/html; charset=utf-8"))   
 
 (defn error-page
   "error-details should be a map containing the following keys:

@@ -10,8 +10,13 @@
 
   <div id="full-size-photo-info" class="collapse hide">
     <h1>{{photo.name}}</h1>
-    <a id="location" class="btn btn-outline-info btn-sm" href="" target="">map</a>
-    <!-- <a id="location" class="btn btn-outline-info btn-sm" href="/photo/_location/{{photo.path}}" target="_blank">map</a> -->
+
+    <object data="/photo/_location_button/{{photo.path}}"
+	    width="200"
+	    height="50"
+	    type="text/html">
+      <!-- <a id="location" class="btn btn-outline-info btn-sm" href="/photo/_location/{{photo.path}}" target="_blank">map</a> -->
+    </object>
     
     {% if photo.artist %}
       <p id="artist">Creator: {{photo.artist}}</p>
@@ -71,21 +76,4 @@
   </div>
   
 </div>
-{% endblock %}
-
-{% block page-scripts %}
-<script type="text/javascript">
-  $("a#location").click(function(a) {
-      const this_a = this;
-      $.get({
-	  headers: { 'x-csrf-token': '{{csrf-token}}' },
-          url: '/photo/_location_url/{{photo.path}}',
-	  dataType: 'text',
-          success: function(data) {
-	      alert(data);
-	  },
-	  error: function(o, s) { alert("Oops: " + s); }
-      });
-  });
-</script>
 {% endblock %}

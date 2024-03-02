@@ -193,26 +193,33 @@
     :notes notes
     }))
 
-(defn photo-location [photo-path]
+(defn maps-url [photo-path]
   (let [file (ps/media-path photo-path)
         coord-pair (ex/get-gps-location file)
         lat (first coord-pair)
         long (second coord-pair)]
     (if (and lat long)
-      (redirect (str
-                 "https://www.google.com/maps/search/?api=1&query=" lat "%2C" long))
+      (str "https://www.google.com/maps/search/?api=1&query=" lat "%2C" long))))
+
+(defn photo-location [photo-path]
+  (let [url (maps-url  photo-path)]
+    (if url
+      (redirect url)
       (render "no_location.html"))))
 
 (defn photo-location-url [photo-path]
-  (let [file (ps/media-path photo-path)
-        coord-pair (ex/get-gps-location file)
-        lat (first coord-pair)
-        long (second coord-pair)]
-    (if (and lat long)
-      (layout/render-json (str
-                           "https://www.google.com/maps/search/?api=1&query=" lat "%2C" long))
+  (let [url (maps-url photo-path)]
+    (if url
+      (layout/render-json url) 
       (layout/render-json "false"))))
 
+(defn photo-location-button [photo-path]
+  (let [url (maps-url photo-path)]
+    (layout/render-html
+     (if url
+       (str "<a id='location' class='btn btn-outline-info btn-sm' href='" url "' target='_blank'>map</a>")
+       "-"))))
+   
 ;; ----------------------------------------------------
 
 (defroutes home-routes
@@ -232,8 +239,10 @@
 
   (GET "/photo/_next/:photo-path{.*}" [photo-path from] (next-photo-page photo-path from))
   (GET "/photo/_prev/:photo-path{.*}" [photo-path from] (prev-photo-page photo-path from))
+
   (GET "/photo/_location/media/:photo-path{.*}" [photo-path] (photo-location photo-path))
-  (GET "/photo/_location_url/media/:photo-path{.*}" [photo-path] (photo-location-url photo-path))  
+  (GET "/photo/_location_url/media/:photo-path{.*}" [photo-path] (photo-location-url photo-path))
+  (GET "/photo/_location_button/media/:photo-path{.*}" [photo-path] (photo-location-button photo-path))  
 
   (GET "/photo/:photo-path{.*}" [photo-path back] (photo-page photo-path back))
   

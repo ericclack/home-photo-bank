@@ -11,9 +11,8 @@
   <div id="full-size-photo-info" class="collapse hide">
     <h1>{{photo.name}}</h1>
 
-    <object data="/photo/_location_button/{{photo.path}}"
-	    width="200"
-	    height="50"
+    <object id="location" data="/photo/_location_button/{{photo.path}}"
+	    class="btn btn-outline-info btn-sm"
 	    type="text/html">
       <!-- <a id="location" class="btn btn-outline-info btn-sm" href="/photo/_location/{{photo.path}}" target="_blank">map</a> -->
     </object>

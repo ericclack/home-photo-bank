@@ -168,15 +168,6 @@ a#location {
     font-size: 70%;
 }
 
-object#location {
-    position: absolute;
-    top: 0.5em;
-    right: 1.8em;
-    width: 3.5em;
-    height: 2em;
-    font-size: 70%;
-}
-
 div.button-list {
     width: 100%;
     margin-bottom: 1rem;

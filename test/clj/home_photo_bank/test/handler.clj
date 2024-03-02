@@ -24,3 +24,14 @@
       (log/info response)
       (is (s/includes? response "January")))))
           
+(deftest test-location-url
+  (testing "test no location url"
+    (let [response ((app) (request :get "/photo/_location_url/media/2024/2/19/non-existant.jpeg"))]
+      (log/info response)
+      (is (s/includes? response "false"))
+      ))
+  (testing "test location url"
+    (let [response ((app) (request :get "/photo/_location_url/media/2024/2/19/sky-downs-1.jpeg"))]
+      (log/info response)
+      (is (s/includes? response "google.com/maps"))
+      )))

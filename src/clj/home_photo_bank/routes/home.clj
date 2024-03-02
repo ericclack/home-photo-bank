@@ -203,6 +203,9 @@
                  "https://www.google.com/maps/search/?api=1&query=" lat "%2C" long))
       (render "no_location.html"))))
 
+(defn photo-location-url [photo-path]
+  (layout/render-json "false"))
+
 ;; ----------------------------------------------------
 
 (defroutes home-routes
@@ -223,6 +226,8 @@
   (GET "/photo/_next/:photo-path{.*}" [photo-path from] (next-photo-page photo-path from))
   (GET "/photo/_prev/:photo-path{.*}" [photo-path from] (prev-photo-page photo-path from))
   (GET "/photo/_location/media/:photo-path{.*}" [photo-path] (photo-location photo-path))
+  (GET "/photo/_location_url/media/:photo-path{.*}" [photo-path] (photo-location-url photo-path))  
+
   (GET "/photo/:photo-path{.*}" [photo-path back] (photo-page photo-path back))
   
   (GET "/media/:file-path{.*}" [file-path resize] (serve-file file-path resize))

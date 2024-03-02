@@ -204,7 +204,14 @@
       (render "no_location.html"))))
 
 (defn photo-location-url [photo-path]
-  (layout/render-json "false"))
+  (let [file (ps/media-path photo-path)
+        coord-pair (ex/get-gps-location file)
+        lat (first coord-pair)
+        long (second coord-pair)]
+    (if (and lat long)
+      (layout/render-json (str
+                           "https://www.google.com/maps/search/?api=1&query=" lat "%2C" long))
+      (layout/render-json "false"))))
 
 ;; ----------------------------------------------------
 

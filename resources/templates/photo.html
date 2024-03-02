@@ -11,11 +11,7 @@
   <div id="full-size-photo-info" class="collapse hide">
     <h1>{{photo.name}}</h1>
 
-    <object id="location" data="/photo/_location_button/{{photo.path}}"
-	    class="btn btn-outline-info btn-sm"
-	    type="text/html">
-      <!-- <a id="location" class="btn btn-outline-info btn-sm" href="/photo/_location/{{photo.path}}" target="_blank">map</a> -->
-    </object>
+    <div id="location"></div>
     
     {% if photo.artist %}
       <p id="artist">Creator: {{photo.artist}}</p>
@@ -75,4 +71,12 @@
   </div>
   
 </div>
+{% endblock %}
+
+{% block page-scripts %}
+<script type="text/javascript">
+  $(document).ready(function() {
+      $("div#location").load("/photo/_location_button/{{photo.path}}");
+  });
+</script>
 {% endblock %}

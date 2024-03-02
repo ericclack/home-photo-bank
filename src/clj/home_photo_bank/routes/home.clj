@@ -217,8 +217,7 @@
   (let [url (maps-url photo-path)]
     (layout/render-html
      (if url
-       (str "<a id='location' class='btn btn-outline-info btn-sm' href='" url "' target='_blank'>map</a>")
-       "-"))))
+       (str "<a id='location' class='btn btn-outline-info btn-sm' href='" url "' target='_blank'>map</a>")))))
    
 ;; ----------------------------------------------------
 

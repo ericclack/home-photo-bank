@@ -25,11 +25,11 @@
           
 (deftest test-location-url
   (testing "test no location url"
-    (let [response ((app) (request :get "/photo/_location_url/media/2003/12/14/flower-green-1.jpg"))]
+    (let [response ((app) (request :get "/photo/_location_url/media/_test/flower_exif2.jpg"))]
       (is (= (response :body) "false"))
       ))
   (testing "test location url"
-    (let [response ((app) (request :get "/photo/_location_url/media/2024/2/19/sky-downs-1.jpeg"))]
+    (let [response ((app) (request :get "/photo/_location_url/media/_test/sky.jpeg"))]
       (is (s/includes? response "google.com/maps"))
       (is (s/includes? response "50.898243"))
       )))

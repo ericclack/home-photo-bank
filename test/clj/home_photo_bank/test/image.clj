@@ -27,19 +27,19 @@
 
 (deftest test-exif
   (testing "Exif data from images"
-    (let [file (ps/media-path "_test" "flower_exiv2.jpg")
+    (let [file (ps/media-path "_test" "flower_exif2.jpg")
           metadata (ex/get-metadata file)]
       (is (= 2003 (t/year (ex/get-date-created metadata)))))))
 
 (deftest metadata
   (testing "date-metadata"
-    (let [file (ps/media-path "_test" "flower_exiv2.jpg")
+    (let [file (ps/media-path "_test" "flower_exif2.jpg")
           metadata (ps/make-photo-metadata file)]
       (is (some? (metadata :datetime)))))
   (testing "artist-metadata"
     (let [file1 (ps/media-path "_test" "sky.jpeg")
           metadata1 (ps/make-photo-metadata file1)
-          file2 (ps/media-path "_test" "flower_exiv2.jpg")
+          file2 (ps/media-path "_test" "flower_exif2.jpg")
           metadata2 (ps/make-photo-metadata file2)]
       (is (some? (metadata1 :artist)))
       (is (nil? (metadata2 :artist)))))
@@ -57,7 +57,7 @@
 
 (deftest gps-metadata
   (testing "no-gps-metadata"
-    (let [file (ps/media-path "_test" "flower_exiv2.jpg")
+    (let [file (ps/media-path "_test" "flower_exif2.jpg")
           dms-pair (ex/get-gps-location-dms file)]
       (is (nil? dms-pair))))
   (testing "gps-metadata-dms"

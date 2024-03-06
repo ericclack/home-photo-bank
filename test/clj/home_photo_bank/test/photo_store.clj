@@ -1,7 +1,8 @@
 (ns home-photo-bank.test.photo-store
   (:require [clojure.test :refer :all]
             [home-photo-bank.photo-store :as ps]
-            [clojure.string :as s]))
+            [clojure.string :as s]
+            [clojure.tools.logging :as log]))
 
 ;; These tests are hard-coded to my data, that needs to be
 ;; changed!
@@ -9,6 +10,7 @@
 (deftest test-1
   (testing "get years"
     (let [years (ps/top-level-categories)]
+      (log/debug years)
       (is (re-find #"^\d\d\d\d$" (first years))))))
 
 (deftest category-names

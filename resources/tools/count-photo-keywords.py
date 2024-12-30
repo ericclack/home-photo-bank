@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import fileinput, re
-from pprint import pprint
 
 remove_path = r"^media/\d+/\d+/\d+/(.*)\d+.jpe?g"
 keywords = {}

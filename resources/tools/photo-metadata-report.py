@@ -16,4 +16,10 @@ for line in fileinput.input():
             keyword_to_photos[k] = []
         keyword_to_photos[k].append(photo)
         
-pprint(keyword_to_photos)
+while True:
+    k = input("Enter single keyword to search: " )
+    photos = keyword_to_photos[k]
+    print("%s results:" % len(photos))
+    pprint(photos)
+           
+    

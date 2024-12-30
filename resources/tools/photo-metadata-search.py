@@ -4,11 +4,12 @@ import os
 import json
 import fileinput
 import re
+from collections import defaultdict
 from pprint import pprint
 
 MAX_PHOTOS = 25
-keyword_to_photos = {}
-yearmonth_to_photos = {}
+keyword_to_photos = defaultdict(list)
+yearmonth_to_photos = defaultdict(list)
 
 def open_photos_that_exist(photos):
     # This probably only works on a Mac
@@ -24,14 +25,10 @@ def load_json():
     for line in fileinput.input():
         photo = json.loads(line)
         for k in photo['keywords']:
-            if k not in keyword_to_photos:
-                keyword_to_photos[k] = []
             keyword_to_photos[k].append(photo)
 
         r = re.compile('/\d+$') #Match day number incl final /
         ym = r.sub('', photo['category'])
-        if ym not in yearmonth_to_photos:
-            yearmonth_to_photos[ym] = []
         yearmonth_to_photos[ym].append(photo)
         
 load_json()

@@ -127,4 +127,4 @@ Take a look at the Issues Page.
 
 GNU General Public License v3.0
 
-Copyright © 2017/18 Eric Clack
+Copyright © 2017-2025 Eric Clack

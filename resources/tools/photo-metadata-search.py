@@ -13,7 +13,7 @@ def open_photos_that_exist(photos):
     # This probably only works on a Mac
     files = " ".join([p['path']
                       for p in photos
-                      if os.path.isfile(p['path'])])
+                      if os.path.isfile(p['path'])][:MAX_PHOTOS])
     if files:
         os.system("open %s" % files)
     else:
@@ -32,7 +32,7 @@ while True:
     try:
         photos = keyword_to_photos[k]
         print("%s results:" % len(photos))
-        pprint(photos)
+        #pprint(photos)
         
         open_photos_that_exist(photos)
         

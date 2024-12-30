@@ -2,10 +2,11 @@
 
 keywords=$*
 matches=`find media -path "media/[0-9]*" -name "*${keywords}*"`
-echo $matches
 
 if [ -n "$matches" ]
 then
+    echo "Photos with keywords:" $keywords "..."
+    echo $matches
     # This probably only works on a Mac
     open $matches
 else

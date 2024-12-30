@@ -9,6 +9,16 @@ MAX_PHOTOS = 5
 counter = 0
 keyword_to_photos = {}
 
+def open_photos_that_exist(photos):
+    # This probably only works on a Mac
+    files = " ".join([p['path']
+                      for p in photos
+                      if os.path.isfile(p['path'])])
+    if files:
+        os.system("open %s" % files)
+    else:
+        print("No files exist")
+
 for line in fileinput.input():
     counter += 1
     photo = json.loads(line)
@@ -19,12 +29,12 @@ for line in fileinput.input():
         
 while True:
     k = input("Enter single keyword to search: " )
-    photos = keyword_to_photos[k]
-    print("%s results:" % len(photos))
-    pprint(photos)
-
-    # This probably only works on a Mac
-    files = " ".join([p['path'] for p in photos])
-    os.system("open %s" % files)
-           
-    
+    try:
+        photos = keyword_to_photos[k]
+        print("%s results:" % len(photos))
+        pprint(photos)
+        
+        open_photos_that_exist(photos)
+        
+    except KeyError:
+        print("No match for %s" % k)

@@ -15,7 +15,8 @@ def open_photos_that_exist(photos):
     # This probably only works on a Mac
     files = " ".join([p['path']
                       for p in photos
-                      if os.path.isfile(p['path'])][:MAX_PHOTOS])
+                      if os.path.isfile(p['path'])]
+                     [:MAX_PHOTOS])
     if files:
         os.system("open %s" % files)
     else:
@@ -34,7 +35,7 @@ def load_json():
 load_json()
             
 while True:
-    k = input("Enter single keyword to search or year/month: " )
+    k = input("Enter keyword to search or year/month: " )
     try:
         if re.match('\d\d\d\d/\d+', k):
             photos = yearmonth_to_photos[k]

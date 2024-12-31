@@ -35,13 +35,22 @@ def load_json():
 load_json()
             
 while True:
-    k = input("Enter keyword to search or year/month: " )
+    i = input("Enter keyword to search or year/month: " )
+    terms = i.split(" ")
+    first = terms[0]
+    second = terms[1] if len(terms) > 1 else None
+    if len(terms) > 2: print("Sorry, only one or two keywords supported")
+    
     try:
-        if re.match('\d\d\d\d/\d+', k):
-            photos = yearmonth_to_photos[k]
+        if re.match('\d\d\d\d/\d+', first):
+            photos = yearmonth_to_photos[first]
         else: 
-            photos = keyword_to_photos[k]
+            photos = keyword_to_photos[first]
 
+        if second:
+            photos = [p for p in photos
+                      if second in p['keywords']]
+            
         print("%s results:" % len(photos))
         #pprint(photos)
         

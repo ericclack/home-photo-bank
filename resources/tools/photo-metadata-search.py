@@ -1,5 +1,23 @@
 #!/usr/bin/env python3
 
+"""Somewhat interactive photo search by year/date and keywords.
+
+Usage:
+
+    > cd folder-containing-media-etc
+    > ls
+    backup	media	resources
+    > ./resources/tools/photo-metadata-search.py backup/photo-bank2024-12-31_11:34.json
+    Enter keyword to search or year/month: sky
+    160 results:
+    (First 25 are opened)
+
+    Enter keyword to search or year/month: sky view
+    27 results:
+    (First 25 are opened)
+
+"""
+
 import os
 import json
 import fileinput
@@ -18,6 +36,7 @@ def open_photos_that_exist(photos):
                       if os.path.isfile(p['path'])]
                      [:MAX_PHOTOS])
     if files:
+        print("Opening %s" % files)
         os.system("open %s" % files)
     else:
         print("No files exist")

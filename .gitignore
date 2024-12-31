@@ -10,6 +10,7 @@ profiles.clj
 /.env
 .nrepl-port
 /log
+/resources/backup
 .DS_Store
 *~
 \#*#

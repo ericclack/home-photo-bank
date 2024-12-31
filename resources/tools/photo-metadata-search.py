@@ -23,6 +23,7 @@ import json
 import fileinput
 import re
 from collections import defaultdict
+import shlex
 from pprint import pprint
 
 MAX_PHOTOS = 25
@@ -31,7 +32,7 @@ yearmonth_to_photos = defaultdict(list)
 
 def open_photos_that_exist(photos):
     # This probably only works on a Mac
-    files = " ".join([p['path']
+    files = " ".join([shlex.quote(p['path'])
                       for p in photos
                       if os.path.isfile(p['path'])]
                      [:MAX_PHOTOS])

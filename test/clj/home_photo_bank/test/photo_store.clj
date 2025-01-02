@@ -38,7 +38,7 @@
     (is (= "apple_pie-pear"
            (ps/keywords-to-file-name (list "apple pie" "pear")))))
   (testing "keywords with special characters to file name"
-    (is (= "apple-pear-oranges"
+    (is (= "apple-pear!-orange's"
            (ps/keywords-to-file-name (list "apple?" "pear!" "orange's"))))))
 
 

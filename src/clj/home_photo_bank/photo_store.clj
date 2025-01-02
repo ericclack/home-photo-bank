@@ -98,10 +98,18 @@
                (s/split (s/lower-case name) #"[ \-,]"))))
 
 (defn keywords-to-file-name
-  "Turn a list of keywords into a file name (without extension)"
+  "Turn a list of keywords into a file name (without extension)
+
+  TO-DO: What do we want to happen for special chars? On import,
+  keywords are input *via the filename* into the database. Once in
+  the database they can be amended to include all kinds of
+  chars.
+  "
   [keywords]
-  (s/lower-case (s/replace (s/join "-" keywords)
-                           " " "_")))
+  (let [f (s/lower-case (s/join "-" keywords))]
+        (s/replace
+         (s/replace f " " "_")
+         "?" "")))
 
 (defn make-photo-metadata [photo]
   (let [path (str photo)

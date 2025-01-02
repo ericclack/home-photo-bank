@@ -36,7 +36,10 @@
     (is (= "apple-pear-orange"
            (ps/keywords-to-file-name (list "apple" "peaR" "ORANGE"))))
     (is (= "apple_pie-pear"
-           (ps/keywords-to-file-name (list "apple pie" "pear"))))))
+           (ps/keywords-to-file-name (list "apple pie" "pear")))))
+  (testing "keywords with special characters to file name"
+    (is (= "apple-pear!-orange's"
+           (ps/keywords-to-file-name (list "apple?" "pear!" "orange's"))))))
 
 
 (deftest dates-and-categories

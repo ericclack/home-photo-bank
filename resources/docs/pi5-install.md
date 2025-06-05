@@ -7,6 +7,12 @@ You will need a Java JVM, [Leiningen][1] 2.0 or above installed, plus
 sudo apt install default-jdk
 ```
 
+You may also need to install libssl1.1 for MongoDB: 
+
+```
+sudo apt install libssl1.1
+```
+
 [1]: https://github.com/technomancy/leiningen
 [2]: https://github.com/themattman/mongodb-raspberrypi-binaries
 

@@ -1,3 +1,3 @@
 #!/bin/sh
 
-~/mdb-binaries/mongod --config /var/local/etc/mongodb.conf
+~/mdb-binaries/mongod --config ~/code/home-photo-bank/resources/tools/pi/mongodb.conf

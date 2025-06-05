@@ -1,0 +1,3 @@
+#!/bin/sh
+
+~/mdb-binaries/mongod --config /var/local/etc/mongodb.conf

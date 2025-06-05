@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd ~/code/home-photo-bank
+NREPL_BIND=0.0.0.0 ~/bin/lein run 2>&1 | logger -t photobank

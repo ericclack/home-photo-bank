@@ -30,7 +30,7 @@ sudo chown pi:pi /var/local/log
 
 ```
 crontab -l
-@reboot bin/start_mongodb
+@reboot bin/start_mongod
 @reboot bin/start_photobank
 ```
 

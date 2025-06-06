@@ -3,7 +3,7 @@
 Install Raspberry Pi OS using Raspberry Pi Imager https://www.raspberrypi.com/software/
 
 You will need a Java JVM, [Leiningen][1] 2.0 or above installed, plus
-[MongoDB][2].
+[MongoDB][2] (a build for the Pi).
 
 ```
 sudo apt install default-jdk

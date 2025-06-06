@@ -1,5 +1,7 @@
 # Set up on Raspberry Pi 5
 
+Install Raspberry Pi OS using Raspberry Pi Imager https://www.raspberrypi.com/software/
+
 You will need a Java JVM, [Leiningen][1] 2.0 or above installed, plus
 [MongoDB][2].
 

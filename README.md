@@ -47,10 +47,10 @@ Now add its name to profiles.clj, here's an example:
 
 ```
 {:profiles/dev  {:env {:media-path "media"
-                       :database-url "mongodb://localhost/photo-bank" }}
+                       :database-url "mongodb://localhost/photobank" }}
  
  :profiles/test {:env {:media-path "media-test"
-                       :database-url "mongodb://localhost/photo-bank-test" }}}
+                       :database-url "mongodb://localhost/photobank-test" }}}
 ```
 
 Create the  `media/_import`, `media/_process` and `media/_failed`

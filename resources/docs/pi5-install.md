@@ -56,6 +56,13 @@ crontab -e
 @reboot bin/start_photobank
 ```
 
+## Need to import data from a previous export?
+
+See:
+
+- https://github.com/ericclack/python-mongodb/blob/main/test_import.py
+- https://github.com/ericclack/home-photo-bank/blob/master/resources/tools/restore-from-usb-stick
+
 ## Photo uploader
 
 Create user and enable SSH login for your user: 

@@ -18,6 +18,15 @@ sudo apt install libssl1.1
 [1]: https://github.com/technomancy/leiningen
 [2]: https://github.com/themattman/mongodb-raspberrypi-binaries
 
+## Get the code
+
+```
+cd
+mkdir code
+cd code
+git clone https://github.com/ericclack/home-photo-bank.git
+```
+
 ## MongoDB set up
 
 ```
@@ -30,8 +39,19 @@ sudo chown pi:pi /var/local/log
 
 ## Server start-up
 
+Link up utilities:
+
 ```
-crontab -l
+cd
+mkdir bin
+cd bin
+ln -s /usr/local/bin/lein .
+ln -s ~/code/home-photo-bank/resources/tools/pi/start_* .
+```
+
+```
+crontab -e
+...
 @reboot bin/start_mongod
 @reboot bin/start_photobank
 ```

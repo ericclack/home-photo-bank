@@ -94,7 +94,7 @@ automatically.
 
 ```
 server> sudo adduser --disabled-password photo-uploader 
-server> su - photo-uploader
+server> sudo su - photo-uploader
 server> ln -s path-to-media-process-directory ~photo-uploader/
 server> ssh-keygen
 ```
@@ -103,8 +103,10 @@ Now add your own SSH key to photo-uploader's authorized_keys file:
 
 ```
 your-computer> cat .ssh/id_rsa.pub
-server> emacs .ssh/authorized_keys
+server> nano .ssh/authorized_keys
 ```
+
+Ctrl-D to sign out of this user. 
 
 2. Now set permissions on the _process directory:
 

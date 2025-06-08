@@ -18,6 +18,15 @@ sudo apt install libssl1.1
 [1]: https://github.com/technomancy/leiningen
 [2]: https://github.com/themattman/mongodb-raspberrypi-binaries
 
+## Get the code
+
+```
+cd
+mkdir code
+cd code
+git clone https://github.com/ericclack/home-photo-bank.git
+```
+
 ## MongoDB set up
 
 ```
@@ -30,11 +39,29 @@ sudo chown pi:pi /var/local/log
 
 ## Server start-up
 
+Link up utilities:
+
 ```
-crontab -l
+cd
+mkdir bin
+cd bin
+ln -s /usr/local/bin/lein .
+ln -s ~/code/home-photo-bank/resources/tools/pi/start_* .
+```
+
+```
+crontab -e
+...
 @reboot bin/start_mongod
 @reboot bin/start_photobank
 ```
+
+## Need to import data from a previous export?
+
+See:
+
+- https://github.com/ericclack/python-mongodb/blob/main/test_import.py
+- https://github.com/ericclack/home-photo-bank/blob/master/resources/tools/restore-from-usb-stick
 
 ## Photo uploader
 
@@ -50,8 +77,6 @@ sudo -u photo-uploader -g photo-uploader touch ~photo-uploader/.ssh/authorized_k
 Add your SSH public key:
 
 ```
-sudo -u photo-uploader -g photo-uploader mkdir ~photo-uploader/.ssh
-sudo -u photo-uploader -g photo-uploader touch ~photo-uploader/.ssh/authorized_keys
 sudo -u photo-uploader -g photo-uploader nano ~photo-uploader/.ssh/authorized_keys
 # Enter your key and save file
 ```
@@ -63,6 +88,8 @@ As pi user: allow group access:
 ```
 cd ~pi
 chmod g+rx .
+chmod g+wx /home/pi/code/home-photo-bank/media/_process
+chmod +t /home/pi/code/home-photo-bank/media/_process
 ```
 
 As photo-uploader user: symlink for photo-uploader:

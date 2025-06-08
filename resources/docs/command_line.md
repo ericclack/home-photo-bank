@@ -29,3 +29,5 @@ Only needs Python 3.
 Mirror your media folder and include a backup database JSON file. See script
 for example of how to do this:
 
+https://github.com/ericclack/home-photo-bank/blob/master/resources/tools/mirror-photo-bank
+

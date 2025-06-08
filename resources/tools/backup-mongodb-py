@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Experimental MongoDB using https://github.com/ericclack/python-mongodb
+# Experimental MongoDB backup using https://github.com/ericclack/python-mongodb
 
 BACKUP_DIR=~/code/home-photo-bank/resources/backup
 

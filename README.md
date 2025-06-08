@@ -88,9 +88,7 @@ Create some keys and scripts so that you can just drop photos into
 a ForPhotoBank folder on your computer and have them appear in the app
 automatically.
 
-1. Set up a new user on your server and generate keys for copy scripts:
-
-(needs testing)
+1. Set up a new uploader user on your server and generate SSH keys:
 
 ```
 server> sudo adduser --disabled-password photo-uploader 

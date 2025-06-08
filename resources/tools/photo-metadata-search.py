@@ -51,9 +51,28 @@ def load_json():
         r = re.compile('/\d+$') #Match day number incl final /
         ym = r.sub('', photo['category'])
         yearmonth_to_photos[ym].append(photo)
+
+def popular_keywords(number=None):
+    keys_and_freqs = [(k, len(keyword_to_photos[k])) for k in keyword_to_photos]
+    s = sorted(keys_and_freqs, key=lambda i: i[1], reverse=True)
+    k = [k for k, f in s]
+    
+    if number:
+        return k[:number]
+    else:
+        return k
+
+def print_3_columns(items):
+    for a, b, c in zip(items[::3], items[1::3], items[2::3]):
+        print('{:<30}{:<30}{:<}'.format(a,b,c))
+
         
 load_json()
-            
+
+print("Most popoular keywords: ")
+print_3_columns(popular_keywords(50))
+print()
+
 while True:
     i = input("Enter keyword to search or year/month: " )
     terms = i.split(" ")

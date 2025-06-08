@@ -1,0 +1,13 @@
+#!/bin/sh
+
+HOST=saturn4.local
+APPDIR=code/home-photo-bank
+BACKUPDIR=~/Desktop/photo-bank-mirror
+
+# Backup database first
+ssh -A pi@$HOST bin/backup-mongodb-py
+rsync -va pi@$HOST:$APPDIR/resources/backup $BACKUPDIR/
+
+# Now fetch media
+rsync -va pi@$HOST:$APPDIR/media $BACKUPDIR/
+

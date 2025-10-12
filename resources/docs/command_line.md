@@ -29,3 +29,4 @@ Only needs Python 3.
 Mirror your media folder and include a backup database JSON file. See script
 for example of how to do this:
 
+[resources/tools/mirror-photo-bank](/resources/tools/mirror-photo-bank)

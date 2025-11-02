@@ -4,6 +4,7 @@
             [ring.util.http-response :as response]
             [ring.util.response :refer [file-response content-type redirect]]
             [ring.util.io :refer [piped-input-stream]]
+            [ring.util.codec :as codec]
             [clojure.java.io :as io]
             [clojure.tools.logging :as log]            
             [clojure.string :as s]
@@ -75,7 +76,9 @@
                   (str "/photos/" category)
                   from))
       ;; Redirect to the next photo
-      (redirect (str "/photo/" (:path next-photo) "?back=" from)))))
+      (redirect (str "/photo/"
+                     (codec/url-encode (:path next-photo))
+                     "?back=" from)))))
 
 (defn next-photo-page
   "Show the next photo after the one specified by photo-path"

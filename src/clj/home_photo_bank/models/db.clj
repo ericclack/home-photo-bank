@@ -81,6 +81,12 @@
                          { $sort {:_id 1}} ]
 			 :cursor {:batch-size 0})))))
 
+(defn all-visible-photo-keywords
+  "Like all-photo-keywords but don't include anything starting with a period."
+  []
+  ;; todo!
+  (all-photo-keywords))
+
 (defn popular-photo-keywords
   "Return the top scoring keywords"
   [n]

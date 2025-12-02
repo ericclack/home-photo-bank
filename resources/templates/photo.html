@@ -16,7 +16,7 @@
     {% if photo.artist %}
       <p id="artist">Creator: {{photo.artist}}</p>
     {% endif %}
-    <p id="datetime">{{photo.datetime|date:mediumDateTime}}</p>
+    <p id="datetime">{{photo.datetime}}</p>
     {% if photo.notes %}
       <p id="notes">{{photo.notes}}</p>
     {% endif %}

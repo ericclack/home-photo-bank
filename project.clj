@@ -30,7 +30,7 @@
                  [ring/ring-core "1.6.3"]
                  [ring/ring-defaults "0.3.1"]
                  [ring-middleware-format "0.7.2"]
-                 [selmer "1.11.5"]
+                 [selmer "1.12.69"]
 
                  ;; ----
                  [org.clojure/core.memoize "0.5.8"]

@@ -176,3 +176,9 @@ div.button-list {
 div.button-list .rhs-button {
     float: right;
 }
+
+img.hidden-photo {    
+    -webkit-filter: blur(10px);
+
+}
+

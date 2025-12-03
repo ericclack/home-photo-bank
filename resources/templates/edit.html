@@ -30,8 +30,7 @@
       </div>
       <div class="info">
 	{% if photo.datetime %}
-	{*{photo.datetime|date:mediumDateTime}*}
-	{{photo.datetime}}
+	{{photo.datetime|date:mediumDateTime}}
 	{% else %}
 	{{photo.category}}
 	{% endif %}

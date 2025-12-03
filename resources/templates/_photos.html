@@ -6,7 +6,7 @@
         <img data-src="/{{p.path|thumb}}" alt="{{p.name}}"
 	     class="lazyload img-rounded img-thumbnail
 		    {% for k in p.keywords %}
-		      {% if k = ".hidden" %}hidden-photo{% endif %}
+		      {% ifequal k ".hidden" %}hidden-photo{% endifequal %}
 	            {% endfor %}" />
       </a>
       <div class="caption">

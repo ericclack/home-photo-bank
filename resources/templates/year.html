@@ -19,7 +19,10 @@
     <div class="thumbnail">
       <a href="/photos/{{category}}">
         <img data-src="/{{p.path|thumb}}" alt="{{p.name}}"
-             class="lazyload img-rounded img-thumbnail"/>
+             class="lazyload img-rounded img-thumbnail
+		    {% for k in p.keywords %}
+		      {% if k = ".hidden" %}hidden-photo{% endif %}
+		    {% endfor %} "/>
       </a>
       <div class="caption">
         <a href="/photos/{{category}}"

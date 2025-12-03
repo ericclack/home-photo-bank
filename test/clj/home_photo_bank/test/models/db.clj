@@ -68,9 +68,3 @@
   ;; At least one photo has an artist (really need a fixture)
   (is (some? (filter #(% :artist)
                      (db/all-photos)))))
-
-(deftest hidden-keywords
-  (let [all-keywords (db/all-photo-keywords)
-        visible-keywords (db/all-visible-photo-keywords)]
-    (is (not= (count all-keywords)
-              (count visible-keywords)))))

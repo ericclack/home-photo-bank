@@ -24,7 +24,6 @@
                  [org.webjars/bootstrap "4.0.0-beta.3"]
                  [org.webjars/font-awesome "5.0.2"]
                  [org.webjars/jquery "3.2.1"]
-                 [org.webjars.npm/vanilla-lazyload "10.19.0"]
                  
                  [ring-webjars "0.2.0"]
                  [ring/ring-core "1.6.3"]
